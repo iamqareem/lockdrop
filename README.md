@@ -119,7 +119,7 @@ lockdrop/
 
 ## Getting started
 
-**Prerequisites:** Node.js 18+ (the repo ships a `bun.lock`; npm works fine too).
+**Prerequisites:** Node.js 18+ (npm — `package-lock.json` is the lockfile of record).
 
 ```bash
 # 1. Install dependencies
@@ -252,6 +252,7 @@ for rather than discovered later:
    contract has to be compiled and deployed manually.
 7. **Unused dependencies.** `react`, `react-dom`, `lucide-react`, `motion`, `express`,
    `dotenv`, and `@google/genai` are declared but unused — the UI is vanilla JS.
+   The stale `bun.lock` was replaced by `package-lock.json`.
 8. **Ads are advisory.** The rewarded-ad path is a client-side countdown; without Adsgram
    verification there is no cryptographic proof a task was completed.
 
