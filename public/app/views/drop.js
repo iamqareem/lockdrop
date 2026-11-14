@@ -34,7 +34,7 @@ function detailHtml(drop) {
       <div class="panel panel-lg stack">
         <div>
           <div class="row" style="align-items:flex-start;gap:12px">
-            <span class="brand-mark" style="width:34px;height:34px;border-radius:9px;background:var(--surface-2)">
+            <span class="drop-brand">
               ${brandMark(drop.categoryId, "", 18)}
             </span>
             <div style="min-width:0;flex:1">

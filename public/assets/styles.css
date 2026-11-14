@@ -161,6 +161,19 @@ a {
   color: var(--inverse-fg);
 }
 
+/* A brand mark on a plain surface — the inverse foreground would be
+   invisible here, so the colour is set explicitly. */
+.drop-brand {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: var(--surface-2);
+  color: var(--text);
+  flex-shrink: 0;
+}
+
 .topnav {
   display: flex;
   align-items: center;
