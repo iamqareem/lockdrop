@@ -1,0 +1,742 @@
+{
+  "generated": "2026-11-14T18:14:44Z",
+  "parts": [
+    {
+      "id": "linux-01",
+      "file": "linux/01-linux-origins-and-open-source.md",
+      "title": "Linux Origins and the Open Source Application Landscape",
+      "summary": "How Linux came to be, the distributions that shaped it, and the open source applications that run the world's desktops and servers.",
+      "tags": [
+        "linux",
+        "lpic-1",
+        "linux-origins",
+        "distributions",
+        "open-source-apps"
+      ],
+      "category": "document",
+      "words": 7656
+    },
+    {
+      "id": "linux-02",
+      "file": "linux/02-open-source-licensing-and-ict-skills.md",
+      "title": "Open Source Licensing, ICT Skills and Working in Linux",
+      "summary": "Free versus open source, the licences that govern reuse, and the practical ICT skills an open source professional needs on the job.",
+      "tags": [
+        "linux",
+        "lpic-1",
+        "licensing",
+        "open-source",
+        "ict-skills"
+      ],
+      "category": "document",
+      "words": 9987
+    },
+    {
+      "id": "linux-03",
+      "file": "linux/03-command-line-basics-and-help.md",
+      "title": "Command Line Basics and Getting Help",
+      "summary": "The anatomy of a shell command, variables, quoting, and the several ways to find help for any command you meet.",
+      "tags": [
+        "linux",
+        "lpic-1",
+        "shell",
+        "command-line",
+        "help"
+      ],
+      "category": "document",
+      "words": 5976
+    },
+    {
+      "id": "linux-04",
+      "file": "linux/04-directories-listing-and-file-manipulation.md",
+      "title": "Directories, Listing Files and Creating, Moving and Deleting Files",
+      "summary": "Navigate the filesystem with ls and cd, then create, rename, move, copy and delete files and directories with confidence.",
+      "tags": [
+        "linux",
+        "lpic-1",
+        "filesystem",
+        "directories",
+        "files"
+      ],
+      "category": "document",
+      "words": 8703
+    },
+    {
+      "id": "linux-05",
+      "file": "linux/05-archiving-and-searching-data.md",
+      "title": "Archiving Files and Searching and Extracting Data",
+      "summary": "Compress, archive and unzip data, then redirect and pipe command output and search files with grep and regular expressions.",
+      "tags": [
+        "linux",
+        "lpic-1",
+        "archiving",
+        "grep",
+        "pipes"
+      ],
+      "category": "document",
+      "words": 7021
+    },
+    {
+      "id": "linux-06",
+      "file": "linux/06-scripts-and-choosing-an-operating-system.md",
+      "title": "Turning Commands into Scripts and Choosing an Operating System",
+      "summary": "Turn command lines into executable shell scripts with arguments and exit codes, then weigh the operating system choices available to you.",
+      "tags": [
+        "linux",
+        "lpic-1",
+        "shell-scripting",
+        "exit-codes",
+        "operating-systems"
+      ],
+      "category": "document",
+      "words": 8800
+    },
+    {
+      "id": "linux-07",
+      "file": "linux/07-hardware-and-where-data-is-stored.md",
+      "title": "Understanding Computer Hardware and Where Data Is Stored",
+      "summary": "Power supplies, motherboards, memory, processors and storage devices, plus the Linux kernel, device files, processes and system logging.",
+      "tags": [
+        "linux",
+        "lpic-1",
+        "hardware",
+        "kernel",
+        "system-logging"
+      ],
+      "category": "document",
+      "words": 12173
+    },
+    {
+      "id": "linux-08",
+      "file": "linux/08-networking-and-basic-security.md",
+      "title": "Your Computer on the Network and Basic Security",
+      "summary": "IPv4, IPv6, DNS and sockets on the wire, then the account types and privilege model that keep a Linux system safe.",
+      "tags": [
+        "linux",
+        "lpic-1",
+        "networking",
+        "ipv4",
+        "ipv6",
+        "dns",
+        "security"
+      ],
+      "category": "document",
+      "words": 9876
+    },
+    {
+      "id": "linux-09",
+      "file": "linux/09-users-groups-and-file-permissions.md",
+      "title": "Creating Users and Groups, and Managing Permissions and Ownership",
+      "summary": "Create and manage accounts and groups with the passwd family of tools, and control access with symbolic and numeric file permission modes.",
+      "tags": [
+        "linux",
+        "lpic-1",
+        "users",
+        "groups",
+        "chmod",
+        "permissions"
+      ],
+      "category": "document",
+      "words": 9281
+    },
+    {
+      "id": "linux-10",
+      "file": "linux/10-special-directories-and-files.md",
+      "title": "Special Directories and Files",
+      "summary": "Temporary directories, hidden files, hard links and symbolic links: the special places a Linux filesystem uses to keep itself tidy.",
+      "tags": [
+        "linux",
+        "lpic-1",
+        "temporary-files",
+        "links",
+        "symlinks"
+      ],
+      "category": "document",
+      "words": 3851
+    },
+    {
+      "id": "freebsd-01",
+      "file": "freebsd/01-introduction.md",
+      "title": "Introduction to FreeBSD",
+      "summary": "What FreeBSD is, where it came from, the goals of the project and how its open source development model works.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "history",
+        "open-source"
+      ],
+      "category": "document",
+      "words": 3256
+    },
+    {
+      "id": "freebsd-02",
+      "file": "freebsd/02-installing-freebsd.md",
+      "title": "Installing FreeBSD",
+      "summary": "A complete walkthrough of the bsdinstall installer: media, disk layout, firmware, networking, users and hardening.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "installation",
+        "bsdinstall"
+      ],
+      "category": "document",
+      "words": 9203
+    },
+    {
+      "id": "freebsd-03",
+      "file": "freebsd/03-freebsd-basics.md",
+      "title": "FreeBSD Basics",
+      "summary": "The day-to-day fundamentals: consoles, users and groups, file permissions, the filesystem tree, processes and shells.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "shell",
+        "permissions",
+        "filesystem"
+      ],
+      "category": "document",
+      "words": 12113
+    },
+    {
+      "id": "freebsd-04",
+      "file": "freebsd/04-packages-and-ports.md",
+      "title": "Installing Applications: Packages and Ports",
+      "summary": "Two ways to install third-party software on FreeBSD: the binary pkg system and building from the Ports Collection.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "pkg",
+        "ports",
+        "packages"
+      ],
+      "category": "document",
+      "words": 6974
+    },
+    {
+      "id": "freebsd-05",
+      "file": "freebsd/05-the-x-window-system.md",
+      "title": "The X Window System",
+      "summary": "Installing and configuring X11 and Xorg on FreeBSD, including syncing, startx, xfce4 and desktop setup.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "x11",
+        "xorg",
+        "graphics"
+      ],
+      "category": "document",
+      "words": 2777
+    },
+    {
+      "id": "freebsd-06",
+      "file": "freebsd/06-wayland-on-freebsd.md",
+      "title": "Wayland on FreeBSD",
+      "summary": "Running the Wayland display server on FreeBSD with compositors such as Wayfire, Hikari and Sway.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "wayland",
+        "compositor",
+        "graphics"
+      ],
+      "category": "document",
+      "words": 4272
+    },
+    {
+      "id": "freebsd-07",
+      "file": "freebsd/07-network.md",
+      "title": "Network",
+      "summary": "Basic wired and wireless networking on FreeBSD: hostnames, DNS, DHCP, IPv6 and how to troubleshoot a connection.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "networking",
+        "dns",
+        "wireless"
+      ],
+      "category": "document",
+      "words": 4202
+    },
+    {
+      "id": "freebsd-08",
+      "file": "freebsd/08-desktop-environments.md",
+      "title": "Desktop Environments",
+      "summary": "Installing and configuring KDE Plasma, GNOME, Xfce, MATE, Cinnamon and LXQt, plus the usual desktop applications.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "desktop",
+        "kde",
+        "gnome"
+      ],
+      "category": "document",
+      "words": 3885
+    },
+    {
+      "id": "freebsd-09",
+      "file": "freebsd/09-multimedia.md",
+      "title": "Multimedia",
+      "summary": "Sound and video on FreeBSD: sound cards, mixers, audio and video players, conferencing and image scanners.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "audio",
+        "video",
+        "multimedia"
+      ],
+      "category": "document",
+      "words": 2570
+    },
+    {
+      "id": "freebsd-10",
+      "file": "freebsd/10-configuring-the-freebsd-kernel.md",
+      "title": "Configuring the FreeBSD Kernel",
+      "summary": "When and how to build a custom kernel, what the kernel configuration file controls, and tuning the running kernel.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "kernel",
+        "build",
+        "sysctl"
+      ],
+      "category": "document",
+      "words": 2134
+    },
+    {
+      "id": "freebsd-11",
+      "file": "freebsd/11-printing.md",
+      "title": "Printing",
+      "summary": "Setting up and managing printers on FreeBSD, including the print spool, the printcap database and filters.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "printing",
+        "lpd",
+        "cups"
+      ],
+      "category": "document",
+      "words": 3668
+    },
+    {
+      "id": "freebsd-12",
+      "file": "freebsd/12-linux-binary-compatibility.md",
+      "title": "Linux Binary Compatibility",
+      "summary": "Running Linux binaries on FreeBSD with the Linux compatibility layer, and the caveats that come with it.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "linux",
+        "compatibility"
+      ],
+      "category": "document",
+      "words": 2045
+    },
+    {
+      "id": "freebsd-13",
+      "file": "freebsd/13-wine.md",
+      "title": "WINE",
+      "summary": "Running Windows applications on FreeBSD with WINE, installing it and driving it with winecfg and the file manager.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "wine",
+        "windows",
+        "compatibility"
+      ],
+      "category": "document",
+      "words": 6578
+    },
+    {
+      "id": "freebsd-14",
+      "file": "freebsd/14-configuration-services-and-power.md",
+      "title": "Configuration, Services, Logging and Power Management",
+      "summary": "System configuration files, enabling and managing services, cron and periodic, system logging and power management.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "rc.conf",
+        "services",
+        "syslog",
+        "power"
+      ],
+      "category": "document",
+      "words": 7818
+    },
+    {
+      "id": "freebsd-15",
+      "file": "freebsd/15-the-freebsd-booting-process.md",
+      "title": "The FreeBSD Booting Process",
+      "summary": "How FreeBSD boots: the loader, kernel and init, the boot menu options and controlling the process.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "boot",
+        "loader",
+        "kernel"
+      ],
+      "category": "document",
+      "words": 2888
+    },
+    {
+      "id": "freebsd-16",
+      "file": "freebsd/16-security.md",
+      "title": "Security",
+      "summary": "Securing a FreeBSD system: accounts and password hashes, sudo and doas, OpenSSH and OpenSSL, IDS and Capsicum.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "security",
+        "openssl",
+        "sudo",
+        "ssh"
+      ],
+      "category": "document",
+      "words": 12921
+    },
+    {
+      "id": "freebsd-17",
+      "file": "freebsd/17-jails-and-containers.md",
+      "title": "Jails and Containers",
+      "summary": "The jail framework in depth: thick, thin, VNET and Linux jails, networking, configuration files and jail managers.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "jails",
+        "containers",
+        "vnet"
+      ],
+      "category": "document",
+      "words": 6006
+    },
+    {
+      "id": "freebsd-18",
+      "file": "freebsd/18-mandatory-access-control.md",
+      "title": "Mandatory Access Control",
+      "summary": "Mandatory Access Control on FreeBSD: the framework, the available policies and how labels protect sensitive data.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "mac",
+        "security",
+        "labels"
+      ],
+      "category": "document",
+      "words": 7279
+    },
+    {
+      "id": "freebsd-19",
+      "file": "freebsd/19-security-event-auditing.md",
+      "title": "Security Event Auditing",
+      "summary": "Auditing security-relevant events on FreeBSD, installing and configuring the audit trail and reviewing the results.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "audit",
+        "security",
+        "trails"
+      ],
+      "category": "document",
+      "words": 2720
+    },
+    {
+      "id": "freebsd-20",
+      "file": "freebsd/20-storage.md",
+      "title": "Storage",
+      "summary": "Managing storage on FreeBSD: disks, RAID, optical and tape media, memory-backed disks, network filesystems and backups.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "storage",
+        "raid",
+        "backup",
+        "zfs"
+      ],
+      "category": "document",
+      "words": 14707
+    },
+    {
+      "id": "freebsd-21",
+      "file": "freebsd/21-geom-disk-transformation-framework.md",
+      "title": "GEOM: Modular Disk Transformation Framework",
+      "summary": "The GEOM framework: providers, consumers, labels and the software RAID levels FreeBSD can build from it.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "geom",
+        "raid",
+        "gpt"
+      ],
+      "category": "document",
+      "words": 7229
+    },
+    {
+      "id": "freebsd-22",
+      "file": "freebsd/22-the-z-file-system-zfs.md",
+      "title": "The Z File System (ZFS)",
+      "summary": "ZFS on FreeBSD in depth: pools, datasets, snapshots, quotas, scrubs, boot environments and the command reference.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "zfs",
+        "openzfs",
+        "storage"
+      ],
+      "category": "document",
+      "words": 20489
+    },
+    {
+      "id": "freebsd-23",
+      "file": "freebsd/23-other-file-systems.md",
+      "title": "Other File Systems",
+      "summary": "Non-native file systems on FreeBSD: ext2/ext3/ext4, FAT, NTFS, CD9660, FUSE and how to mount them.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "filesystems",
+        "ext2",
+        "fusefs"
+      ],
+      "category": "document",
+      "words": 833
+    },
+    {
+      "id": "freebsd-24",
+      "file": "freebsd/24-virtualization.md",
+      "title": "Virtualization",
+      "summary": "Running virtual machines on FreeBSD with bhyve, QEMU and Xen, and the bhyve management tools.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "virtualization",
+        "bhyve",
+        "qemu",
+        "xen"
+      ],
+      "category": "document",
+      "words": 13223
+    },
+    {
+      "id": "freebsd-25",
+      "file": "freebsd/25-localization-i18n-l10n.md",
+      "title": "Localization: i18n and L10n Usage and Setup",
+      "summary": "Using FreeBSD in languages other than English: locale classes, UTF-8, fonts, input methods and translated messages.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "i18n",
+        "l10n",
+        "locale"
+      ],
+      "category": "document",
+      "words": 2277
+    },
+    {
+      "id": "freebsd-26",
+      "file": "freebsd/26-updating-and-upgrading-freebsd.md",
+      "title": "Updating and Upgrading FreeBSD",
+      "summary": "The difference between FreeBSD-STABLE and FreeBSD-CURRENT, using freebsd-update and the source and binary upgrade paths.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "upgrade",
+        "freebsd-update",
+        "portsnap"
+      ],
+      "category": "document",
+      "words": 7330
+    },
+    {
+      "id": "freebsd-27",
+      "file": "freebsd/27-dtrace.md",
+      "title": "DTrace",
+      "summary": "Dynamic tracing on FreeBSD with DTrace: enabling it, writing scripts and using it to find performance problems.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "dtrace",
+        "tracing",
+        "performance"
+      ],
+      "category": "document",
+      "words": 1463
+    },
+    {
+      "id": "freebsd-28",
+      "file": "freebsd/28-usb-device-mode-and-otg.md",
+      "title": "USB Device Mode and USB OTG",
+      "summary": "Turning a FreeBSD system into a USB device: device mode, USB On-The-Go and the config knobs that drive them.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "usb",
+        "otg",
+        "device-mode"
+      ],
+      "category": "document",
+      "words": 1659
+    },
+    {
+      "id": "freebsd-29",
+      "file": "freebsd/29-serial-communications.md",
+      "title": "Serial Communications",
+      "summary": "Serial ports and terminals on FreeBSD: the uart driver, configuration files, modems and troubleshooting.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "serial",
+        "uart",
+        "modem"
+      ],
+      "category": "document",
+      "words": 7443
+    },
+    {
+      "id": "freebsd-30",
+      "file": "freebsd/30-ppp.md",
+      "title": "PPP",
+      "summary": "Connecting FreeBSD to remote systems over PPP, with dial-up and point-to-point link configuration.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "ppp",
+        "dialup",
+        "networking"
+      ],
+      "category": "document",
+      "words": 4478
+    },
+    {
+      "id": "freebsd-31",
+      "file": "freebsd/31-electronic-mail.md",
+      "title": "Electronic Mail",
+      "summary": "Running a mail server on FreeBSD: Postfix and Sendmail, the components of an MTA and how the pieces fit together.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "mail",
+        "sendmail",
+        "smtp"
+      ],
+      "category": "document",
+      "words": 5264
+    },
+    {
+      "id": "freebsd-32",
+      "file": "freebsd/32-network-servers.md",
+      "title": "Network Servers",
+      "summary": "Setting up FreeBSD as a network server: Apache, ftpd, Samba, NFS, DNS, NIS and time servers.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "networking",
+        "apache",
+        "samba",
+        "dns",
+        "nfs"
+      ],
+      "category": "document",
+      "words": 17418
+    },
+    {
+      "id": "freebsd-33",
+      "file": "freebsd/33-firewalls.md",
+      "title": "Firewalls",
+      "summary": "Firewalls on FreeBSD: the philosophy, pf, IPFW and IPFilter, rulesets, NAT, tables and logging.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "firewall",
+        "pf",
+        "ipfw",
+        "ipfilter"
+      ],
+      "category": "document",
+      "words": 19160
+    },
+    {
+      "id": "freebsd-34",
+      "file": "freebsd/34-advanced-networking.md",
+      "title": "Advanced Networking",
+      "summary": "Advanced networking topics: routing, wireless, Bluetooth, ATM, IPv6, VLANs, carrier-grade NAT and tunnelling.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "networking",
+        "routing",
+        "wifi",
+        "ipv6",
+        "bluetooth"
+      ],
+      "category": "document",
+      "words": 14285
+    },
+    {
+      "id": "freebsd-35",
+      "file": "freebsd/35-appendices-and-back-matter.md",
+      "title": "Appendices and Back Matter",
+      "summary": "Where to get FreeBSD, the bibliography, community resources, the OpenPGP keys of the officers and the glossary.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "reference",
+        "mirrors",
+        "bibliography",
+        "glossary"
+      ],
+      "category": "document",
+      "words": 6644
+    },
+    {
+      "id": "note-core-basics",
+      "file": "notes/core-basics.md",
+      "title": "Linux Permissions and Core Facts",
+      "summary": "Curated ground truth on chmod modes, the BSD vs GPL licence split, common licence examples and cloud computing models.",
+      "tags": [
+        "linux",
+        "permissions",
+        "chmod",
+        "licensing",
+        "gpl",
+        "bsd",
+        "cloud"
+      ],
+      "category": "document",
+      "words": 328
+    },
+    {
+      "id": "note-freebsd-basics",
+      "file": "notes/freebsd-basics.md",
+      "title": "FreeBSD Basics and How It Differs from Linux",
+      "summary": "What FreeBSD is, how it differs from Linux, how to install software with pkg and ports, and which firewall it actually ships.",
+      "tags": [
+        "freebsd",
+        "unix",
+        "pkg",
+        "ports",
+        "pf",
+        "networking"
+      ],
+      "category": "document",
+      "words": 358
+    },
+    {
+      "id": "note-pkg-managers",
+      "file": "notes/pkg-managers.md",
+      "title": "Package Manager Comparison Across Linux, BSD and Windows",
+      "summary": "Which package manager each platform ships, what the low-level tool underneath is, and the one-line version of each answer.",
+      "tags": [
+        "packaging",
+        "dnf",
+        "yum",
+        "rpm",
+        "apt",
+        "dpkg",
+        "pkg",
+        "windows"
+      ],
+      "category": "document",
+      "words": 226
+    }
+  ],
+  "note": "Only publishable content pieces. The READMEs are indexes, not drops."
+}

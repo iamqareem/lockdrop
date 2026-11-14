@@ -430,7 +430,33 @@ FreeBSD Handbook, and a set of curated notes — all split into pieces, cleaned
 into markdown, and given YAML front matter so they can be ingested by an AI
 index or a RAG pipeline.
 
-To publish it as drops:
+| Path | Source | Pieces |
+| --- | --- | --- |
+| `kb/linux/` | LPI *Learning Material* for LPIC-1 (exam 010-160) | 10 |
+| `kb/freebsd/` | The *FreeBSD Handbook*, split by chapter | 35 |
+| `kb/notes/` | Curated reference notes | 3 |
+
+**48 pieces, 331,000 words.** Every piece has YAML front matter, the exercise
+answers are kept, and the source text is preserved — the conversion re-flows
+the prose into markdown, it does not summarise it. `npm run check` validates
+the front matter, the manifest and the absence of table-of-contents furniture.
+
+The ten Linux pieces follow the exam structure, two objectives each:
+
+| Piece | Title | Objectives |
+| --- | --- | --- |
+| `linux-01` | Linux Origins and the Open Source Application Landscape | 1.1, 1.2 |
+| `linux-02` | Open Source Licensing, ICT Skills and Working in Linux | 1.3, 1.4 |
+| `linux-03` | Command Line Basics and Getting Help | 2.1, 2.2 |
+| `linux-04` | Directories, Listing Files and Creating, Moving and Deleting Files | 2.3, 2.4 |
+| `linux-05` | Archiving Files and Searching and Extracting Data | 3.1, 3.2 |
+| `linux-06` | Turning Commands into Scripts and Choosing an Operating System | 3.3, 4.1 |
+| `linux-07` | Understanding Computer Hardware and Where Data Is Stored | 4.2, 4.3 |
+| `linux-08` | Your Computer on the Network and Basic Security | 4.4, 5.1 |
+| `linux-09` | Creating Users and Groups, and Managing Permissions and Ownership | 5.2, 5.3 |
+| `linux-10` | Special Directories and Files | 5.4 |
+
+### Publishing
 
 1. **Upload to Drive.** Put each piece somewhere readable on Google Drive.
 2. **Record the links.** Paste them into `kb/drive-links.json`, keyed by the
@@ -448,6 +474,7 @@ To publish it as drops:
    ```bash
    node scripts/publish-kb.mjs --api https://lock.ugaplex.com --mode free_ad
    node scripts/publish-kb.mjs --mode paid_ad --price 1.5
+   node scripts/publish-kb.mjs --only linux-01 --dry-run
    ```
 
 Every link goes through the same verification engine as a user-created drop,
