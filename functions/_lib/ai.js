@@ -1,13 +1,21 @@
 import { query, execute } from "./turso.js";
+/**
+ * The models to try, cheapest first.
+ *
+ * Every entry here was confirmed to exist in the Workers AI catalogue — a
+ * stale name in this list silently costs you the whole AI judgement, because
+ * the chain falls through to the next model and then gives up.
+ */
 const MODEL_CHAIN = [
-  "@cf/meta/llama-3.1-8b-instruct",
-  "@cf/meta/llama-3.2-1b-instruct",
-  "@cf/ibm-granite/granite-4.0-h-micro",
-  "@cf/google/gemma-3-12b-it"
+  "@cf/meta/llama-3.1-8b-instruct-fp8",
+  "@cf/meta/llama-3.2-3b-instruct",
+  "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+  "@cf/meta/llama-3.2-11b-vision-instruct"
 ];
 const OPENROUTER_DAILY_LIMIT = 40;
 const DEFAULT_NEURON_BUDGET = 8e3;
-const ESTIMATED_NEURONS_PER_CALL = 6;
+/** A verdict call measured at ~1.3 neurons; round up generously. */
+const ESTIMATED_NEURONS_PER_CALL = 3;
 function today() {
   return (/* @__PURE__ */ new Date()).toISOString().slice(0, 10);
 }
@@ -73,6 +81,27 @@ function buildPrompt(input) {
     `url=${input.url.slice(0, 200)}`
   ].join("\n");
 }
+/**
+ * Pulls the generated text out of a Workers AI response.
+ *
+ * The binding returns different shapes depending on the model: most return
+ * `{ response: "..." }`, but the newer chat models return an OpenAI-style
+ * `{ choices: [{ message: { content: "..." } }] }`.
+ */
+function extractText(raw) {
+  if (typeof raw === "string") return raw;
+  if (!raw || typeof raw !== "object") return "";
+  if (typeof raw.response === "string") return raw.response;
+  const choice = raw.choices?.[0];
+  if (typeof choice === "string") return choice;
+  if (choice?.message?.content) {
+    return Array.isArray(choice.message.content)
+      ? choice.message.content.map((part) => part?.text ?? "").join("")
+      : String(choice.message.content);
+  }
+  if (typeof choice?.text === "string") return choice.text;
+  return "";
+}
 async function runWorkersAi(env, input) {
   if (!env.AI) return null;
   const configured = (env.AI_MODEL || "").trim();
@@ -87,7 +116,7 @@ async function runWorkersAi(env, input) {
         max_tokens: 90,
         temperature: 0.1
       });
-      const text = typeof raw === "string" ? raw : raw?.response ?? "";
+      const text = extractText(raw);
       const parsed = extractJson(text);
       if (!parsed) continue;
       const risk = normaliseRisk(parsed.risk ?? parsed.verdict);

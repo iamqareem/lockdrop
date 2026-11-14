@@ -1,5 +1,5 @@
 import { json, fail } from "../../_lib/http.js";
-import { isAdmin } from "../../_lib/auth.js";
+import { isAdmin, rateLimit } from "../../_lib/auth.js";
 import { query, execute } from "../../_lib/turso.js";
 import { PUBLIC_DROP_COLUMNS, toPublicDrop } from "../../_lib/drops.js";
 const onRequestGet = async ({
@@ -26,6 +26,12 @@ const onRequestDelete = async ({
   params,
   env
 }) => {
+  const limit = rateLimit(request, env, "admin-delete", 60, 60 * 60 * 1000);
+  if (!limit.ok) {
+    return fail("Too many requests. Try again later.", 429, {
+      retryAfter: limit.retryAfter
+    });
+  }
   if (!isAdmin(request, env)) {
     return fail("Admin authorisation required.", 401);
   }

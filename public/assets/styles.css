@@ -240,6 +240,10 @@ a {
 
 /* ------------------------------------------------------------ bottom nav */
 
+/*
+ * A transparent bar with the buttons floating on it. The container never
+ * catches a tap — only the pills do — so the content behind stays usable.
+ */
 .bottomnav {
   position: fixed;
   left: 0;
@@ -248,11 +252,11 @@ a {
   z-index: 40;
   display: flex;
   justify-content: center;
-  gap: 10px;
-  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
-  background: color-mix(in srgb, var(--surface) 88%, transparent);
-  backdrop-filter: blur(16px);
-  border-top: 1px solid var(--border);
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px calc(18px + env(safe-area-inset-bottom));
+  background: transparent;
+  pointer-events: none;
 }
 
 @media (min-width: 1024px) {
@@ -262,27 +266,39 @@ a {
 }
 
 .bottomnav a {
+  pointer-events: auto;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 10px 20px;
+  min-width: 116px;
+  padding: 11px 20px;
   border-radius: 999px;
   border: 1px solid var(--border);
-  background: var(--surface);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: var(--shadow);
   color: var(--text-muted);
   font-size: 12px;
   font-weight: 500;
-  transition: transform 0.12s ease, background 0.15s ease, color 0.15s ease;
+  transition: transform 0.12s ease, background 0.15s ease, color 0.15s ease,
+    border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .bottomnav a:active {
   transform: scale(0.96);
 }
 
+.bottomnav a:hover {
+  color: var(--text);
+}
+
 .bottomnav a.is-active {
   background: var(--inverse);
   border-color: var(--inverse);
   color: var(--inverse-fg);
+  box-shadow: var(--shadow), 0 0 0 4px color-mix(in srgb, var(--text) 7%, transparent);
 }
 
 /* --------------------------------------------------------------- buttons */
@@ -1066,10 +1082,16 @@ pre.code {
 
 .footer {
   border-top: 1px solid var(--border);
-  padding: 14px 20px;
+  padding: 14px 20px calc(14px + var(--bottom-nav-height));
   text-align: center;
   font-size: 10.5px;
   color: var(--text-subtle);
+}
+
+@media (min-width: 1024px) {
+  .footer {
+    padding-bottom: 14px;
+  }
 }
 
 .footer a:hover {

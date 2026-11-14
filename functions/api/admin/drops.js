@@ -1,11 +1,18 @@
 import { json, fail, readJson } from "../../_lib/http.js";
-import { isAdmin } from "../../_lib/auth.js";
+import { isAdmin, rateLimit } from "../../_lib/auth.js";
 import { execute } from "../../_lib/turso.js";
 import { seal } from "../../_lib/crypto.js";
 import { generateDropId, toPublicDrop } from "../../_lib/drops.js";
 import { CATEGORY_BY_ID } from "../../_lib/verify/categories.js";
 const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 const onRequestPost = async ({ request, env }) => {
+  const limit = rateLimit(request, env, "admin-publish", 30, 60 * 60 * 1000);
+  if (!limit.ok) {
+    return fail("Too many publishes. Try again later.", 429, {
+      retryAfter: limit.retryAfter,
+    });
+  }
+
   if (!isAdmin(request, env)) {
     return fail("Admin authorisation required.", 401);
   }
