@@ -1,28 +1,23 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "experimentalDecorators": true,
-    "useDefineForClassFields": false,
     "module": "ESNext",
-    "types": ["vite/client"],
-    "lib": [
-      "ES2022",
-      "DOM",
-      "DOM.Iterable"
-    ],
-    "skipLibCheck": true,
     "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["@cloudflare/workers-types", "node"],
+    "skipLibCheck": true,
+    "strict": false,
     "isolatedModules": true,
     "moduleDetection": "force",
     "allowJs": true,
-    "jsx": "react-jsx",
-    "paths": {
-      "@/*": [
-        "./*"
-      ]
-    },
+    "checkJs": false,
+    "noEmit": true,
     "allowImportingTsExtensions": true,
-    "noEmit": true
+    "resolveJsonModule": true,
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
-  "exclude": ["dist"]
+  "include": ["functions/**/*.ts", "functions/**/*.d.ts", "tests/**/*.ts"],
+  "exclude": ["node_modules", "dist", "public"]
 }

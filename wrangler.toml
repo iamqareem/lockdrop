@@ -1,0 +1,36 @@
+# Cloudflare Pages configuration for LockDrop.
+#
+# There is deliberately NO build step: the frontend in `public/` is plain
+# HTML, CSS and native ES modules, and the backend in `functions/` is bundled
+# by wrangler from TypeScript with zero npm runtime dependencies.
+#
+# Connect the GitHub repository to a Pages project with:
+#   Build command:   (leave empty)
+#   Build output:    public
+#
+# Then add the secrets listed in .env.example as Pages environment secrets.
+
+name = "lockdrop"
+compatibility_date = "2026-11-01"
+pages_build_output_dir = "public"
+
+# Workers AI — used for link safety judgement. The free tier includes
+# 10,000 neurons per day, which covers thousands of judgements.
+[ai]
+binding = "AI"
+
+# Plain (non-secret) environment values. Secrets live in `wrangler secret put`.
+[vars]
+POLYGON_RPC_URL = "https://polygon-bor-rpc.publicnode.com"
+AI_MODEL = "@cf/meta/llama-3.1-8b-instruct"
+AI_DAILY_BUDGET = "8000"
+
+# Secrets — set with `wrangler pages secret put <NAME>`:
+#   TURSO_DATABASE_URL     libsql://lockdrop-xxxx.turso.io
+#   TURSO_AUTH_TOKEN       Turso bearer token
+#   LOCKDROP_MASTER_KEY    64 hex characters (32 bytes)
+#   ADMIN_TOKEN            admin bearer token
+#   ESCROW_ADDRESS         deployed PolygonEscrow.sol address
+#   ADSGRAM_BLOCK_ID       Adsgram rewarded-video block (Telegram)
+#   MONETAG_DIRECT_LINK    Monetag smartlink for web sponsored tasks
+#   OPENROUTER_API_KEY     optional fallback judge

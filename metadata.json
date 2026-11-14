@@ -1,5 +1,0 @@
-{
-  "name": "LockDrop",
-  "description": "Simple Polygon P2P escrow for locking and selling file links backed by Turso SQLite.",
-  "requestFramePermissions": []
-}
