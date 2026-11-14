@@ -278,8 +278,8 @@ lockdrop/
 
 ## Getting started
 
-**Prerequisites:** Node.js 20+, the [Turso CLI](https://turso.tech/),
-and (for deployment) a Cloudflare account.
+**Prerequisites:** Node.js 22.13+ (Hardhat 3 requires it), the
+[Turso CLI](https://turso.tech/), and (for deployment) a Cloudflare account.
 
 ```bash
 # 1. Install dev dependencies
