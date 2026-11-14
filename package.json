@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.3.0",
   "type": "module",
-  "description": "Peer-to-peer escrow for selling file and link access on Polygon PoS. Vanilla JavaScript throughout — no build step, no transpiler.",
+  "description": "Peer-to-peer escrow for selling file and link access on Polygon PoS. Vanilla JavaScript throughout \u2014 no build step, no transpiler.",
   "scripts": {
     "dev": "wrangler pages dev public --port 8788",
     "deploy": "wrangler pages deploy public",
@@ -14,7 +14,8 @@
     "contract:deploy:amoy": "hardhat run scripts/deploy-contract.js --network amoy",
     "contract:deploy:polygon": "hardhat run scripts/deploy-contract.js --network polygon",
     "test": "node --test tests/*.test.js",
-    "schema": "turso db shell lockdrop < schema.sql"
+    "schema": "turso db shell lockdrop < schema.sql",
+    "kb:publish": "node scripts/publish-kb.mjs"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-ethers": "^4.2.2",

@@ -1,0 +1,31 @@
+{
+  "_comment": [
+    "Google Drive links for each knowledge-base piece.",
+    "",
+    "Upload the piece files from kb/ to Google Drive, then paste the link",
+    "here, keyed by the piece id from kb/manifest.json.",
+    "",
+    "A folder link works and is simpler to manage:",
+    "  \"linux-01\": \"https://drive.google.com/drive/folders/1AbCdEf...\"",
+    "",
+    "So does a link to a single file:",
+    "  \"linux-02\": \"https://drive.google.com/file/d/1XyZ.../view\"",
+    "",
+    "Then publish them all:",
+    "  node scripts/publish-kb.mjs --api https://lock.ugaplex.com --mode free_ad",
+    "",
+    "The verification engine checks each link before it is stored, so make",
+    "sure the Drive link is publicly readable — a link that requires a sign-in",
+    "will be reported as a Caution."
+  ],
+  "linux-01": "",
+  "linux-02": "",
+  "linux-03": "",
+  "linux-04": "",
+  "linux-05": "",
+  "linux-06": "",
+  "linux-07": "",
+  "linux-08": "",
+  "linux-09": "",
+  "linux-10": ""
+}

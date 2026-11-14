@@ -24,6 +24,7 @@ database.
 - [Project layout](#project-layout)
 - [Getting started](#getting-started)
 - [Deploying to Cloudflare Pages](#deploying-to-cloudflare-pages)
+- [Publishing the knowledge base](#publishing-the-knowledge-base)
 - [Environment](#environment)
 - [The escrow contract](#the-escrow-contract)
 - [Categories](#categories)
@@ -286,6 +287,7 @@ lockdrop/
 ├── scripts/                   check-abi · check-contract · check-categories
 │                              check-frontend · check-turso-read
 │                              build-contract-artifact · deploy-contract · lint
+├── kb/                        The knowledge base — source of the published drops
 ├── schema.sql                 Turso schema
 ├── hardhat.config.js          Contract toolchain
 ├── wrangler.toml              Cloudflare Pages configuration
@@ -335,32 +337,115 @@ the same origin, exactly as in production.
 
 The GitHub repository is the only thing Cloudflare needs.
 
-1. **Create the project.** Cloudflare dashboard → *Workers & Pages* → *Create* →
-   *Pages* → *Connect to Git*. Pick `iamqareem/lockdrop`.
-2. **Build settings.**
-   - Build command: *(leave empty)*
-   - Build output directory: `public`
-3. **Add the secrets.** *Settings* → *Environment variables* → *Add* for each of:
+### Already done
 
-   | Name | Type | Value |
-   | --- | --- | --- |
-   | `TURSO_DATABASE_URL` | Secret | `libsql://lockdrop-xxxx.turso.io` |
-   | `TURSO_AUTH_TOKEN` | Secret | Turso bearer token |
-   | `LOCKDROP_MASTER_KEY` | Secret | `openssl rand -hex 32` |
-   | `ADMIN_TOKEN` | Secret | a long random string |
-   | `ESCROW_ADDRESS` | Plain | deployed `PolygonEscrow.sol` address |
-   | `ADSGRAM_BLOCK_ID` | Plain | Adsgram block id |
-   | `MONETAG_DIRECT_LINK` | Plain | Monetag smartlink |
+The project `lockdrop` exists, is deployed, and is serving:
 
-4. **Add the Workers AI binding.** *Settings* → *Bindings* → *Add* → *Workers AI*,
-   variable name `AI`. This is what powers the AI judge. Cloudflare's Pages
-   documentation prescribes the dashboard for this binding, and it is also what keeps
-   local development free of a Cloudflare login.
-5. **Push.** Every push to `main` triggers a fresh deploy.
+- **Live:** `https://lockdrop-e0z.pages.dev/`
+- **Custom domain:** `lock.ugaplex.com` — added, waiting on the DNS record
+- **Account:** the `ugaplex.com` zone is in the same Cloudflare account, so
+  Pages will attach the CNAME once it exists
 
-`wrangler.toml` is the source of truth for the Pages build output, the public
-variables and the binding configuration. Secrets are set in the dashboard (or with
-`wrangler pages secret put`).
+### Build settings
+
+- Build command: *(leave empty — there is no build step)*
+- Build output directory: `public`
+- Root directory: `/`
+
+### Secrets
+
+Set with `wrangler pages secret put <NAME> --project-name lockdrop`, or in the
+dashboard under *Settings → Environment variables*.
+
+| Name | Type | Value |
+| --- | --- | --- |
+| `TURSO_DATABASE_URL` | Secret | `libsql://lockdrop-xxxx.turso.io` |
+| `TURSO_AUTH_TOKEN` | Secret | scoped read/write Turso token |
+| `LOCKDROP_MASTER_KEY` | Secret | `openssl rand -hex 32` |
+| `ADMIN_TOKEN` | Secret | a long random string |
+| `ESCROW_ADDRESS` | Secret | deployed `PolygonEscrow.sol` address |
+
+### Public values
+
+These live in `wrangler.toml` under `[vars]` and are read by the browser
+through `GET /api/config`: `ESCROW_ADDRESS`, `ADSGRAM_BLOCK_ID`,
+`MONETAG_DIRECT_LINK`, `POLYGON_RPC_URL`, `AI_MODEL`, `AI_DAILY_BUDGET`.
+
+### The Workers AI binding
+
+Declared in `wrangler.toml`:
+
+```toml
+[ai]
+binding = "AI"
+```
+
+A deploy applies it. The free tier allows 10,000 neurons per day and a verdict
+call costs about 1.3 — thousands of judgements, free.
+
+### The custom domain
+
+Pages will not attach a domain until the CNAME exists, so add it first:
+
+**Cloudflare dashboard → ugaplex.com → DNS → Records → Add record**
+
+| Type | Name | Target | Proxy |
+| --- | --- | --- | --- |
+| `CNAME` | `lock` | `lockdrop-e0z.pages.dev` | Proxied |
+
+Then watch it attach:
+
+```bash
+npx wrangler pages project list
+```
+
+The certificate is issued automatically. DNS propagation usually takes a minute
+or two; Pages then flips the domain to `active` on its own.
+
+> A CNAME pointed at a Pages site *without* adding the domain in the Pages
+> dashboard first will not resolve — that is the `522` case.
+
+### Deploying by hand
+
+```bash
+npm run deploy
+```
+
+The Git integration rebuilds on every push to `main`, so a manual deploy is only
+needed when you want to ship without pushing.
+
+---
+
+## Publishing the knowledge base
+
+`kb/` holds the knowledge base: the LPI *Learning Material* for LPIC-1, the
+FreeBSD Handbook, and a set of curated notes — all split into pieces, cleaned
+into markdown, and given YAML front matter so they can be ingested by an AI
+index or a RAG pipeline.
+
+To publish it as drops:
+
+1. **Upload to Drive.** Put each piece somewhere readable on Google Drive.
+2. **Record the links.** Paste them into `kb/drive-links.json`, keyed by the
+   piece id:
+
+   ```json
+   {
+     "linux-01": "https://drive.google.com/drive/folders/1AbCdEf...",
+     "linux-02": "https://drive.google.com/file/d/1XyZ.../view"
+   }
+   ```
+
+3. **Publish.**
+
+   ```bash
+   node scripts/publish-kb.mjs --api https://lock.ugaplex.com --mode free_ad
+   node scripts/publish-kb.mjs --mode paid_ad --price 1.5
+   ```
+
+Every link goes through the same verification engine as a user-created drop,
+so a Drive link that needs a sign-in is reported as a Caution rather than
+published silently.
 
 ---
 
@@ -510,6 +595,7 @@ desktop. The feed is a CSS multi-column masonry: 1 column on phones, 2 on tablet
 | `npm run contract:deploy:polygon` | Deploy to Polygon PoS |
 | `npm run deploy` | `wrangler pages deploy public` |
 | `npm run schema` | Apply `schema.sql` to the remote database |
+| `npm run kb:publish` | Publish the knowledge base as drops |
 
 ### How the three layers stay in sync
 
