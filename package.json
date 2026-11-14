@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Peer-to-peer escrow for selling file and link access on Polygon PoS, backed by Turso SQLite and Cloudflare Pages Functions.",
   "scripts": {
-    "dev": "wrangler pages dev public --ai AI --port 8788",
+    "dev": "wrangler pages dev public --port 8788",
     "deploy": "wrangler pages deploy public",
     "lint": "tsc --noEmit",
     "check": "node scripts/check-abi.mjs && tsx scripts/check-categories.ts && tsx scripts/sync-contract-source.ts --check",
