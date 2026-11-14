@@ -1,0 +1,24 @@
+{
+  "url": "https://lockdrop-mwanja.aws-ap-south-1.turso.io",
+  "readToken": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3OTQ2NTk3MzMsImlkIjoiMDFhMWQ5OTQtZDkwMS03MzUyLWIzYTYtYTY3MmEyMDU2YzZkIiwia2lkIjoiVkdRS1F5dGp0czVxd0ZjX09nTUFrVHg1OG5RUFktT0hQLU1Ec1g5bUZvQSIsInBlcm0iOlt7InQiOlsiZHJvcHMiXSwiYSI6WyJkYXRhX3JlYWQiXX1dLCJyaWQiOiI1NTJjMDc0MC0zNzAwLTQ2OWMtOGY0YS1hMzM0Y2IwYjE0YzYifQ.j4mzmu0bQBmCebIn6kHvnbtf6dyB6klgB1se8RnkmdH7TzNDAgD_Uglego1UJxwXPikK1c8uELqV1lDH_te1DQ",
+  "readTable": "drops",
+  "_comment": [
+    "Public read configuration for the browser.",
+    "",
+    "The token below is PUBLIC BY DESIGN and must stay scoped to reading the",
+    "`drops` table only. Create it with:",
+    "",
+    "  turso db tokens create lockdrop -p drops:data_read -e never",
+    "",
+    "Turso enforces the scope server-side: the token cannot insert, update or",
+    "delete, and it cannot read any other table \u2014 including `drop_secrets`,",
+    "where the sealed destination URLs live. Those can only be opened by the",
+    "server, which holds LOCKDROP_MASTER_KEY.",
+    "",
+    "Rotate it with:",
+    "",
+    "  turso db tokens invalidate lockdrop",
+    "",
+    "then update this file and push."
+  ]
+}

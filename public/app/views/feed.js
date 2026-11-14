@@ -5,7 +5,7 @@
  * descriptive enough that you can judge a drop from the card alone —
  * brand, category, verdict, price and freshness.
  */
-import { api } from "../api.js";
+import { listDrops } from "../drops.js";
 import { getConfig } from "../config.js";
 import { state, notify } from "../state.js";
 import { renderShell, render } from "../main.js";
@@ -94,7 +94,10 @@ export async function renderFeedView() {
   }
 
   try {
-    const data = await api.listDrops({ limit: 40, category: state.feedCategory });
+    const data = await listDrops({
+      limit: 40,
+      category: state.feedCategory,
+    });
     state.drops = data.drops ?? [];
     state.feedCursor = data.nextCursor ?? null;
     state.feedHasMore = Boolean(data.hasMore);
@@ -163,7 +166,7 @@ export async function renderFeedView() {
     btn.disabled = true;
     btn.textContent = "Loading…";
     try {
-      const data = await api.listDrops({
+      const data = await listDrops({
         limit: 40,
         category: state.feedCategory,
         cursor: state.feedCursor,

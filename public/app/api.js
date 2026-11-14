@@ -1,9 +1,13 @@
 /**
- * API client.
+ * The escrow gateway.
  *
- * Every read and write goes through the LockDrop backend, which is the only
- * component that talks to Turso. The browser never sees the database URL or
- * its token.
+ * These are the two operations that cannot happen in the browser: sealing a
+ * URL (which needs the master key) and releasing it (which needs a verified
+ * on-chain payment). They run as Cloudflare Pages Functions — part of the
+ * Cloudflare Pages project, not a separate server.
+ *
+ * Everything the frontend *reads* goes straight to Turso instead; see
+ * `drops.js` and `turso.js`.
  */
 
 const BASE = "/api";
@@ -31,7 +35,7 @@ async function request(path, { method = "GET", body, headers = {} } = {}) {
     throw new ApiError(
       err instanceof Error && err.name === "AbortError"
         ? "The request timed out."
-        : "Could not reach the LockDrop API.",
+        : "The escrow service could not be reached.",
       0,
       null
     );
@@ -57,24 +61,10 @@ async function request(path, { method = "GET", body, headers = {} } = {}) {
   return payload;
 }
 
-function query(params = {}) {
-  const search = new URLSearchParams();
-  for (const [key, value] of Object.entries(params)) {
-    if (value === undefined || value === null || value === "") continue;
-    search.set(key, String(value));
-  }
-  const text = search.toString();
-  return text ? `?${text}` : "";
-}
-
 export const api = {
   config: () => request("/config"),
 
   contract: () => request("/contract"),
-
-  listDrops: (params) => request(`/drops${query(params)}`),
-
-  getDrop: (id) => request(`/drops/${encodeURIComponent(id)}`),
 
   createDrop: (body) => request("/drops", { method: "POST", body }),
 

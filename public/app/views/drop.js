@@ -5,6 +5,7 @@
  * only after the server has confirmed the payment (or the sponsored task),
  * which is the entire point of moving the escrow server-side.
  */
+import { getDrop } from "../drops.js";
 import { api } from "../api.js";
 import { state } from "../state.js";
 import { renderShell } from "../main.js";
@@ -154,8 +155,7 @@ export async function renderDropView(dropId) {
 
   let drop;
   try {
-    const result = await api.getDrop(dropId);
-    drop = result.drop;
+    drop = await getDrop(dropId);
   } catch (err) {
     renderShell(
       "drop",

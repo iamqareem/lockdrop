@@ -88,7 +88,7 @@ for (const signature of EXPECTED_FUNCTIONS) {
 /* ----------------------------------------------------------- the server side */
 
 const polygonSource = readFileSync(
-  join(root, "functions", "_lib", "polygon.ts"),
+  join(root, "functions", "_lib", "polygon.js"),
   "utf8"
 );
 const eventSignature = "Paid(bytes32,address,address,address,uint256,uint16)";
@@ -102,16 +102,19 @@ if (!events.has(eventSignature)) {
   const actual = match ? match[1].toLowerCase() : null;
   if (actual !== expected) {
     fail(
-      `Paid event topic: contract ${expected} but functions/_lib/polygon.ts uses ${actual}`
+      `Paid event topic: contract ${expected} but functions/_lib/polygon.js uses ${actual}`
     );
   } else {
-    ok(`Paid event topic matches functions/_lib/polygon.ts`);
+    ok(`Paid event topic matches functions/_lib/polygon.js`);
   }
 }
 
 /* ------------------------------------------------------------- the fee tiers */
 
-const tiersSource = readFileSync(join(root, "functions", "_lib", "tiers.ts"), "utf8");
+const tiersSource = readFileSync(
+  join(root, "public", "app", "shared", "drop.js"),
+  "utf8"
+);
 const contractStandard = Number(
   source.match(/FEE_BPS_STANDARD\s*=\s*(\d+)/)?.[1]
 );
@@ -125,10 +128,30 @@ if (!contractStandard || !contractPremium) {
   fail("could not read the fee constants from contracts/PolygonEscrow.sol");
 } else if (contractStandard !== serverStandard || contractPremium !== serverPremium) {
   fail(
-    `fee mismatch — contract ${contractStandard}/${contractPremium}, server ${serverStandard}/${serverPremium}`
+    `fee mismatch — contract ${contractStandard}/${contractPremium}, shared ${serverStandard}/${serverPremium}`
   );
 } else {
   ok(`fee tiers match: standard ${contractStandard} bps, premium ${contractPremium} bps`);
+}
+
+/* The tier enum values the browser encodes must match the contract's order. */
+const tierStandard = Number(tiersSource.match(/TIER_STANDARD\s*=\s*(\d+)/)?.[1]);
+const tierPremium = Number(tiersSource.match(/TIER_PREMIUM\s*=\s*(\d+)/)?.[1]);
+const contractTier = (source.match(/enum\s+Tier\s*\{([^}]*)\}/s)?.[1] ?? "")
+  .replace(/\/\/[^\n]*/g, ""); // strip line comments
+const contractOrder = [...contractTier.matchAll(/(\w+)\s*(?:,|$)/g)]
+  .map((m) => m[1])
+  .filter(Boolean);
+if (contractOrder.length === 2 && contractOrder[0] === "Standard" && contractOrder[1] === "Premium") {
+  if (tierStandard !== 0 || tierPremium !== 1) {
+    fail(
+      `tier enum mismatch — the contract orders Standard=0, Premium=1 but the shared module uses ${tierStandard}/${tierPremium}`
+    );
+  } else {
+    ok("tier enum order matches the contract (Standard=0, Premium=1)");
+  }
+} else {
+  fail(`could not read the Tier enum order from the contract: ${contractTier.trim()}`);
 }
 
 /* ------------------------------------------------- the tier enum in the ABI */

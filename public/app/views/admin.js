@@ -6,6 +6,7 @@
  * and every privileged call is authorised on the backend.
  */
 import { api } from "../api.js";
+import { listDrops } from "../drops.js";
 import { state, setAdminToken } from "../state.js";
 import { renderShell } from "../main.js";
 import { brandMark } from "../icons.js";
@@ -140,17 +141,11 @@ export async function renderAdminView() {
       e.preventDefault();
       const token = document.getElementById("adminTokenInput").value.trim();
       try {
-        // Probe the token by deleting nothing — a 404 proves it authenticated.
-        await api.listDrops({ limit: 1 });
-        const probe = await fetch("/api/admin/drops", {
-          method: "POST",
-          headers: { "content-type": "application/json", "x-admin-token": token },
-          body: JSON.stringify({ title: "probe", categoryId: "download", url: "https://example.com" }),
+        // A side-effect-free probe: 200 means the token is accepted.
+        const probe = await fetch("/api/admin/check", {
+          headers: { "x-admin-token": token },
         });
-        // A 401 means the token is wrong. Anything else means it is accepted.
-        if (probe.status === 401) {
-          throw new Error("rejected");
-        }
+        if (!probe.ok) throw new Error("rejected");
         setAdminToken(token);
         await renderAdminView();
       } catch {
@@ -209,7 +204,7 @@ export async function renderAdminView() {
 
 async function refreshAdminTable() {
   try {
-    const result = await api.listDrops({ limit: 100 });
+    const result = await listDrops({ limit: 100 });
     state.drops = result.drops ?? [];
   } catch {
     state.drops = [];

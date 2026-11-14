@@ -7,6 +7,11 @@ export const state = {
 
   isDarkMode: localStorage.getItem("lockdrop_dark_mode") === "true",
 
+  /** True when the direct Turso read path is configured. */
+  tursoReady: false,
+  /** True when the escrow gateway (Pages Functions) is reachable. */
+  escrowReady: false,
+
   /* wizard */
   wizardStep: 1,
   title: "",

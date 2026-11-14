@@ -3,9 +3,16 @@
 -- Apply with:
 --   turso db shell lockdrop < schema.sql
 --
--- `drops.ciphertext` holds the AES-GCM sealed destination link. The key that
--- opens it is derived on the server from LOCKDROP_MASTER_KEY, so this table
--- is useless on its own to anyone who obtains it.
+-- Two tables, on purpose:
+--
+--   drops        Public metadata. A read-only Turso token scoped to this one
+--                table is published in `public/turso.json` so the browser can
+--                fetch the feed directly from Turso.
+--
+--   drop_secrets The sealed destination URL. It lives on its own so the
+--                browser's scoped token cannot reach it even accidentally, and
+--                only the server — which holds LOCKDROP_MASTER_KEY — can
+--                open it.
 
 CREATE TABLE IF NOT EXISTS drops (
   id TEXT PRIMARY KEY NOT NULL,
@@ -13,8 +20,6 @@ CREATE TABLE IF NOT EXISTS drops (
   summary TEXT NOT NULL DEFAULT '',
   category_id TEXT NOT NULL DEFAULT 'document',
   category TEXT NOT NULL DEFAULT 'Document',
-  ciphertext TEXT NOT NULL,
-  iv TEXT NOT NULL,
   seller_wallet TEXT NOT NULL,
   token_address TEXT NOT NULL,
   token_symbol TEXT NOT NULL,
@@ -25,7 +30,6 @@ CREATE TABLE IF NOT EXISTS drops (
   verdict_reason TEXT NOT NULL DEFAULT '',
   verdict_score INTEGER NOT NULL DEFAULT 0,
   verdict_source TEXT NOT NULL DEFAULT 'heuristic',
-  verdict_report TEXT NOT NULL DEFAULT '{}',
   is_admin_ad INTEGER NOT NULL DEFAULT 0,
   status TEXT NOT NULL DEFAULT 'active',
   created_at TEXT NOT NULL
@@ -33,6 +37,13 @@ CREATE TABLE IF NOT EXISTS drops (
 CREATE INDEX IF NOT EXISTS idx_drops_created ON drops(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_drops_category ON drops(category_id);
 CREATE INDEX IF NOT EXISTS idx_drops_verdict ON drops(verdict);
+
+-- The AES-GCM sealed URL. Useless without the server's master key.
+CREATE TABLE IF NOT EXISTS drop_secrets (
+  drop_id TEXT PRIMARY KEY NOT NULL REFERENCES drops(id),
+  ciphertext TEXT NOT NULL,
+  iv TEXT NOT NULL
+);
 
 -- Verdicts are cached per URL so re-publishing the same link costs nothing.
 CREATE TABLE IF NOT EXISTS verdict_cache (

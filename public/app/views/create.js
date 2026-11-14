@@ -15,6 +15,7 @@ import { state, notify } from "../state.js";
 import { renderShell, render } from "../main.js";
 import { brandMark } from "../icons.js";
 import { CATEGORIES, CATEGORY_BY_ID, quickCheck } from "../categories.js";
+import { feeTierFor } from "../shared/drop.js";
 import { escapeHtml, debounce, copyText, isAddress } from "../util.js";
 
 const TOKENS = [
@@ -54,20 +55,12 @@ const UNLOCK_MODES = [
 ];
 
 /**
- * The fee tier a mode is sold at, read from the backend so the browser never
- * hard-codes the contract's fee. Mirrors `functions/_lib/tiers.ts`, which
- * `npm run check` keeps in step with the compiled contract.
+ * The fee tier a mode is sold at, read from the shared contract mirror so the
+ * browser never hard-codes the fee. `npm run check` keeps it in step with
+ * the compiled contract.
  */
 function modeTier(mode) {
-  const tiers = getConfig().feeTiers;
-  if (tiers && mode in tiers) return tiers[mode];
-  // The backend always sends the map; this is only a last-resort fallback
-  // for the brief window before the config has loaded.
-  return mode === "paid_pure"
-    ? { tier: 1, bps: 500, label: "5%" }
-    : mode === "paid_ad"
-      ? { tier: 0, bps: 300, label: "3%" }
-      : null;
+  return feeTierFor(mode);
 }
 
 function stepperHtml(step) {
@@ -186,7 +179,7 @@ function stepOneHtml() {
     <div class="stack">
       <div class="field">
         <label for="wizardTitle">What are you sharing?</label>
-        <input id="wizardTitle" type="text" maxlength="120" placeholder="e.g. VIP Telegram channel, Pro UI kit ZIP, Notion guide"
+        <input id="wizardTitle" type="text" maxlength="120" placeholder="Design assets pack"
           value="${escapeHtml(state.title)}" />
       </div>
       <div class="field">

@@ -29,7 +29,7 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Check ABI selectors, contract artifact and category sync
+      - name: Check ABI selectors, contract artifact, category sync and Turso read path
         run: npm run check
 
       - name: Unit tests

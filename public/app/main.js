@@ -7,6 +7,7 @@
  */
 import { state, subscribe, notify, setDarkMode } from "./state.js";
 import { loadConfig, getConfig } from "./config.js";
+import { loadTursoConfig } from "./turso.js";
 import { restoreAccount } from "./wallet.js";
 import { icon } from "./icons.js";
 import { escapeHtml, shortAddress } from "./util.js";
@@ -178,7 +179,16 @@ export async function boot() {
     window.Telegram.WebApp.expand();
   }
 
-  await loadConfig();
+  // Two independent sources. The Turso read config is what the feed needs;
+  // the gateway config is what locking and unlocking need. Neither blocks
+  // the other.
+  const [turso, gateway] = await Promise.all([
+    loadTursoConfig(),
+    loadConfig(),
+  ]);
+
+  state.tursoReady = Boolean(turso);
+  state.escrowReady = Boolean(gateway?.escrowAddress);
   state.walletAddress = await restoreAccount();
 
   window.addEventListener("hashchange", render);

@@ -44,40 +44,48 @@ database.
 │  #/admin       Admin dashboard (token-gated)                     │
 │  #/contract    PolygonEscrow.sol source                          │
 │                                                                   │
-│  app/api.js       every call goes to /api — never to Turso       │
-│  app/wallet.js    dependency-free EIP-1193 client + ABI encoding │
-│  app/categories.js client mirror of the server's category rules   │
-└───────────────────────────────┬───────────────────────────────────┘
-                                │  HTTPS, same origin
-┌─────────────────── Cloudflare Pages Functions ───────────────────┐
-│  functions/api/                                                   │
-│    config.ts    public runtime config (no secrets)               │
-│    drops.ts     GET feed · POST create (verifies first)           │
-│    drops/[id]   GET one · DELETE (admin)                         │
-│    verify.ts    POST → link verification report                   │
-│    unlock.ts    POST → releases the URL after payment proof      │
-│    contract.ts  GET → PolygonEscrow.sol                          │
-│    admin/drops  POST → publish a platform drop (admin)           │
-│                                                                   │
-│  functions/_lib/                                                  │
-│    turso.ts     HTTP v2 pipeline client (zero dependencies)       │
-│    crypto.ts    HKDF → per-drop AES-GCM key, seal / unseal        │
-│    polygon.ts   receipt + Paid-event verification                │
-│    tiers.ts     fee tiers, mirroring the contract                │
-│    ai.ts        Workers AI judge with a daily neuron budget       │
-│    verify/      normalise · structure · host · category · probe  │
-└──────────────┬───────────────────────────────┬───────────────────┘
-               │ libSQL HTTP v2 pipeline       │ Workers AI binding
-               ▼                               ▼
-        ┌─────────────┐                 ┌──────────────────┐
-        │    Turso    │                 │  Cloudflare      │
-        │   SQLite    │                 │  Workers AI      │
-        └─────────────┘                 └──────────────────┘
+│  app/turso.js       reads Turso DIRECTLY (no backend in the path) │
+│  app/drops.js       the feed queries                              │
+│  app/api.js         the escrow gateway calls                     │
+│  app/wallet.js      dependency-free EIP-1193 client + ABI encoding│
+│  app/shared/drop.js the public drop shape + fee tiers (shared)    │
+│  app/categories.js  client mirror of the server's category rules  │
+└───────────┬───────────────────────────────┬───────────────────────┘
+            │                               │
+   READS    │ HTTPS + read-only token       │ HTTPS (same origin)
+            │ (public/turso.json)           │
+            ▼                               ▼
+    ┌─────────────┐            ┌────────────────────────────┐
+    │    Turso    │◄───────────│  Cloudflare Pages Functions│
+    │   SQLite    │  read/write│  (the escrow gateway)      │
+    └─────────────┘   token   └────────────────────────────┘
 ```
 
 **There is no build step.** The frontend is plain HTML, CSS and native ES modules in
-`public/`; the backend is TypeScript in `functions/` that wrangler bundles with
+`public/`; the backend is JavaScript in `functions/` that wrangler bundles with
 **zero npm runtime dependencies**. Push to GitHub and the site updates.
+
+### Two data paths
+
+| Path | Goes through | Used for |
+| --- | --- | --- |
+| **Reads** | straight to **Turso** | the feed, a single drop, the admin list |
+| **Escrow** | **Cloudflare Pages Functions** → Turso | verifying a link, sealing a URL, unlocking a URL, admin writes |
+
+The browser reads the feed directly from Turso with a token that is **public by
+design**: it is scoped to `data_read` on the `drops` table alone. Turso enforces that
+server-side — the token cannot write, and it cannot read any other table.
+
+The sealed URLs live in a **separate table**, `drop_secrets`, which that token cannot
+reach even accidentally. Only the server, which holds `LOCKDROP_MASTER_KEY`, can open
+them.
+
+**Why the escrow still needs a gateway.** Two operations cannot happen in a browser:
+sealing a URL (the master key must never leave the server) and releasing one (the
+server has to confirm the on-chain payment before it hands over the key). Putting the
+key in the browser would make every locked link readable by anyone who opens
+devtools. Cloudflare Pages Functions are part of the Cloudflare Pages project — not a
+separate server to run, and not a separate bill.
 
 ### Request flow
 
@@ -93,6 +101,8 @@ database.
 8. The server re-reads the receipt from Polygon, checks the `Paid` event against the
    escrow contract — including the **fee tier** the drop was sold at — and only then
    decrypts and returns the URL.
+
+The feed never touches the server at all: the browser queries Turso itself.
 
 ---
 
@@ -186,6 +196,8 @@ day. It is a fallback, not the primary.
 | Turso token shipped in the browser bundle | Turso token is a Cloudflare secret; the browser only ever talks to `/api` |
 | OpenRouter key inlined in the client | Moved to the server, optional |
 | Admin PIN hard-coded in client JS (`7777` / `1337` / `admin`) | Admin token compared server-side in constant time |
+| The Turso read/write token was reachable from the browser | The browser holds a **read-only, `drops`-scoped** token; the write token stays in the Pages secret store |
+| The sealed URL sat in the same row as the public metadata | It lives in `drop_secrets`, a table the browser's token cannot read |
 | Any visitor could decrypt any link | The URL is released only after an on-chain `Paid` event is verified by the server |
 
 **Key hierarchy**
@@ -224,7 +236,7 @@ completion time, so the release is server-controlled. This is a soft gate — se
 | Frontend | Vanilla ES modules | No framework, no bundler, no runtime CDN |
 | Styling | Hand-written CSS | Monochrome design system, CSS custom properties, dark mode |
 | Icons | Simple Icons (CC0) + custom filled marks | Ten real brand marks, monochrome |
-| Backend | Cloudflare Pages Functions | TypeScript, zero npm runtime dependencies |
+| Backend | Cloudflare Pages Functions | Plain JavaScript, zero npm runtime dependencies |
 | Database | Turso (libSQL) | HTTP v2 pipeline API, no driver needed |
 | AI | Cloudflare Workers AI | Free tier, with OpenRouter as optional fallback |
 | Chain | Polygon PoS (137) | `ethers` used only as a dev-time assertion tool |
@@ -242,38 +254,43 @@ output, so a typo cannot ship silently.
 
 ```
 lockdrop/
-├── functions/                 Cloudflare Pages Functions
+├── functions/                 Cloudflare Pages Functions (JavaScript)
 │   ├── api/                   HTTP routes
 │   └── _lib/                  Shared server code
 │       ├── verify/            Link verification engine
-│       ├── turso.ts           Turso HTTP client
-│       ├── crypto.ts          HKDF + AES-GCM
-│       ├── polygon.ts         Receipt verification
-│       ├── tiers.ts           Fee tiers, mirroring the contract
-│       └── ai.ts              Workers AI judge + budget guard
+│       ├── turso.js           Turso HTTP client
+│       ├── crypto.js          HKDF + AES-GCM
+│       ├── polygon.js         Receipt verification
+│       ├── tiers.js           Fee tiers (re-exported from the shared module)
+│       └── ai.js              Workers AI judge + budget guard
 ├── public/                    Static frontend (no build step)
 │   ├── index.html
+│   ├── turso.json             Public read config: the browser's Turso token
 │   ├── assets/styles.css      Design system
 │   └── app/
 │       ├── main.js            Shell + hash router
+│       ├── turso.js           Direct Turso client for the browser
+│       ├── drops.js           The feed queries
+│       ├── api.js             Escrow gateway calls
 │       ├── wallet.js          EIP-1193 client, zero-dependency ABI encoding
 │       ├── categories.js      Client mirror of the category rules
 │       ├── icons.js           Brand marks + UI icons
+│       ├── shared/drop.js     The public drop shape — imported by BOTH sides
 │       └── views/             create · feed · drop · admin · contract
 ├── contracts/
 │   ├── PolygonEscrow.sol      The escrow
 │   ├── artifacts/             Commiled ABI + bytecode (the Pages artifact)
 │   └── mocks/                 ERC-20 mocks used only by the tests
-├── test/PolygonEscrow.test.ts Contract tests on a local EVM
+├── test/PolygonEscrow.test.js Contract tests on a local EVM
 ├── tests/                     Unit tests for the verification and payment code
 ├── scripts/                   check-abi · check-contract · check-categories
-│                              build-contract-artifact · deploy-contract
+│                              check-frontend · check-turso-read
+│                              build-contract-artifact · deploy-contract · lint
 ├── schema.sql                 Turso schema
-├── hardhat.config.ts          Contract toolchain
+├── hardhat.config.js          Contract toolchain
 ├── wrangler.toml              Cloudflare Pages configuration
 └── .env.example               Every environment value, split by trust level
 ```
-
 ---
 
 ## Getting started
@@ -285,16 +302,18 @@ lockdrop/
 # 1. Install dev dependencies
 npm install
 
-# 2. Start a local database
-turso dev -f lockdrop.db -p 8099
+# 2. Point the browser at Turso and mint the read token
+#    (the browser reads the feed directly — see "Two data paths")
+turso db tokens create lockdrop -p drops:data_read -e never
+# then put the token in public/turso.json
 
-# 3. Apply the schema to it
-turso db shell lockdrop < schema.sql     # remote database
-# …or, for the local server, POST schema.sql to http://127.0.0.1:8099/v2/pipeline
+# 3. Apply the schema
+turso db shell lockdrop < schema.sql
 
-# 4. Configure local secrets
+# 4. Configure the local secrets
 cp .env.example .dev.vars
-#   TURSO_DATABASE_URL="http://127.0.0.1:8099"
+#   TURSO_DATABASE_URL="libsql://lockdrop-xxxx.turso.io"
+#   TURSO_AUTH_TOKEN="<a scoped read/write token>"
 #   LOCKDROP_MASTER_KEY="$(openssl rand -hex 32)"
 
 # 5. Run the app
@@ -356,8 +375,19 @@ optionally `OPENROUTER_API_KEY`.
 **Public values** — read by the browser through `GET /api/config`: `ESCROW_ADDRESS`,
 `ADSGRAM_BLOCK_ID`, `MONETAG_DIRECT_LINK`.
 
+**The Turso read token** — a third kind, and the only credential that is intentionally
+public. It lives in `public/turso.json` and is scoped by Turso to `data_read` on the
+`drops` table alone:
+
+```bash
+turso db tokens create lockdrop -p drops:data_read -e never
+```
+
+It cannot write, and it cannot read `drop_secrets` where the sealed URLs are. Rotate
+it with `turso db tokens invalidate lockdrop`, then update the file and push.
+
 There is no `VITE_` prefix any more. There is no bundler to inline anything, and
-nothing secret is ever in the client.
+nothing secret is ever in the client except that read-only token.
 
 ---
 
@@ -473,8 +503,8 @@ desktop. The feed is a CSS multi-column masonry: 1 column on phones, 2 on tablet
 | `npm run dev` | Local dev server (static + Functions) on :8788 |
 | `npm test` | 39 unit tests — the verification engine and the payment verifier |
 | `npm run contract:test` | 10 contract tests on a local EVM |
-| `npm run check` | ABI selectors, contract artifact, category sync — all asserted |
-| `npm run lint` | `tsc --noEmit` |
+| `npm run check` | ABI, contract artifact, categories, frontend graph, Turso read path |
+| `npm run lint` | Parses every JavaScript file with Node's own parser |
 | `npm run contract:build` | Compile the contract and refresh the artifact |
 | `npm run contract:deploy:amoy` | Deploy to Polygon Amoy |
 | `npm run contract:deploy:polygon` | Deploy to Polygon PoS |
@@ -520,6 +550,14 @@ Honest list, in priority order.
 8. **The escrow is not upgradeable.** It is deliberately minimal and non-custodial;
    there is no owner, no pause switch and no admin function. Changing anything means
    a new deployment and a new `ESCROW_ADDRESS`.
+9. **The read token is public.** It is scoped to `data_read` on one table and the
+   data in it is public drop metadata, but it does mean anyone can read the whole
+   feed at full speed. If that matters, put the feed behind a Cloudflare cache or a
+   rate-limited route and keep the token server-side.
+10. **There is no type checker.** The project is plain JavaScript by design, so
+   `npm run lint` parses the files rather than type-checking them. The drift that a
+   type checker would catch is covered by `npm run check` instead, which asserts the
+   contract, the browser encoder and the server verifier all agree.
 
 ---
 
