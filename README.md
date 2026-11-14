@@ -357,6 +357,13 @@ The project `lockdrop` exists, is deployed, and is serving:
 Set with `wrangler pages secret put <NAME> --project-name lockdrop`, or in the
 dashboard under *Settings → Environment variables*.
 
+> **Secrets apply to the NEXT deployment, not the running one.** After changing
+> a secret, redeploy before testing it:
+>
+> ```bash
+> npm run deploy
+> ```
+
 | Name | Type | Value |
 | --- | --- | --- |
 | `TURSO_DATABASE_URL` | Secret | `libsql://lockdrop-xxxx.turso.io` |
