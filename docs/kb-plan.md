@@ -1,5 +1,7 @@
 # Knowledge base expansion plan
 
+> Planning document. The knowledge base itself lives in `kb/`.
+
 **Goal:** turn the 29 new PDFs in `datapad/docs/` into a second wave of
 refined, publishable drops, organised so the library reads as a set of
 learning paths rather than a pile of files.
