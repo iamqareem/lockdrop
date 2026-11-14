@@ -53,6 +53,23 @@ const UNLOCK_MODES = [
   },
 ];
 
+/**
+ * The fee tier a mode is sold at, read from the backend so the browser never
+ * hard-codes the contract's fee. Mirrors `functions/_lib/tiers.ts`, which
+ * `npm run check` keeps in step with the compiled contract.
+ */
+function modeTier(mode) {
+  const tiers = getConfig().feeTiers;
+  if (tiers && mode in tiers) return tiers[mode];
+  // The backend always sends the map; this is only a last-resort fallback
+  // for the brief window before the config has loaded.
+  return mode === "paid_pure"
+    ? { tier: 1, bps: 500, label: "5%" }
+    : mode === "paid_ad"
+      ? { tier: 0, bps: 300, label: "3%" }
+      : null;
+}
+
 function stepperHtml(step) {
   return `
     <div class="stepper">
@@ -217,12 +234,12 @@ function stepTwoHtml() {
 }
 
 function stepThreeHtml() {
-  const config = getConfig();
-  const feeBps = config.feeBps ?? 300;
-  const feePercent = feeBps / 100;
   const mode = UNLOCK_MODES.find((m) => m.id === state.unlockMode) ?? UNLOCK_MODES[0];
   const token = TOKENS.find((t) => t.address === state.tokenAddress) ?? TOKENS[0];
   const isFree = state.unlockMode === "free_ad";
+  const fee = modeTier(state.unlockMode);
+  const feeBps = fee?.bps ?? 0;
+  const feePercent = feeBps / 100;
   const price = Number(state.price) || 0;
   const net = price * (1 - feeBps / 10000);
 
@@ -286,7 +303,11 @@ function stepThreeHtml() {
         </div>
 
         <div class="panel" style="background:var(--surface-2);padding:14px">
-          <div class="kv"><dt>Platform fee</dt><dd>${feePercent}%</dd></div>
+          <div class="kv">
+            <dt>Platform fee</dt>
+            <dd>${feePercent}%${fee ? ` <span class="subtle">(${
+              fee.tier === 1 ? "premium tier" : "standard tier"
+            })</span>` : ""}</dd>          </div>
           <div class="kv"><dt>You receive</dt><dd style="color:var(--ok)">${net.toFixed(
             4
           )} ${escapeHtml(token.symbol)}</dd></div>

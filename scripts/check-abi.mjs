@@ -12,8 +12,8 @@ import { ethers } from "ethers";
 import { SELECTORS, encodePayNative, encodePayToken, encodeApprove } from "../public/app/wallet.js";
 
 const EXPECTED = {
-  payNative: "payNative(bytes32,address)",
-  payToken: "payToken(bytes32,address,uint256,address)",
+  payNative: "payNative(bytes32,address,uint8)",
+  payToken: "payToken(bytes32,address,uint256,address,uint8)",
   approve: "approve(address,uint256)",
   allowance: "allowance(address,address)",
   balanceOf: "balanceOf(address)",
@@ -38,21 +38,37 @@ const dropId = ethers.sha256(ethers.toUtf8Bytes("demo12345"));
 const seller = "0x1111111111111111111111111111111111111111";
 const token = "0x2222222222222222222222222222222222222222";
 const amount = ethers.parseUnits("5", 18);
+const TIER_STANDARD = 0;
+const TIER_PREMIUM = 1;
 
 const ifaceNative = new ethers.Interface([
-  "function payNative(bytes32 dropId, address seller) payable",
+  "function payNative(bytes32 dropId, address seller, uint8 tier) payable",
 ]);
 const ifaceToken = new ethers.Interface([
-  "function payToken(bytes32 dropId, address token, uint256 amount, address seller)",
+  "function payToken(bytes32 dropId, address token, uint256 amount, address seller, uint8 tier)",
 ]);
 const ifaceApprove = new ethers.Interface(["function approve(address spender, uint256 amount)"]);
 
 const checks = [
-  ["payNative", encodePayNative(dropId, seller), ifaceNative.encodeFunctionData("payNative", [dropId, seller])],
+  [
+    "payNative",
+    encodePayNative(dropId, seller, TIER_STANDARD),
+    ifaceNative.encodeFunctionData("payNative", [dropId, seller, TIER_STANDARD]),
+  ],
+  [
+    "payNative premium",
+    encodePayNative(dropId, seller, TIER_PREMIUM),
+    ifaceNative.encodeFunctionData("payNative", [dropId, seller, TIER_PREMIUM]),
+  ],
   [
     "payToken",
-    encodePayToken(dropId, token, amount, seller),
-    ifaceToken.encodeFunctionData("payToken", [dropId, token, amount, seller]),
+    encodePayToken(dropId, token, amount, seller, TIER_STANDARD),
+    ifaceToken.encodeFunctionData("payToken", [dropId, token, amount, seller, TIER_STANDARD]),
+  ],
+  [
+    "payToken premium",
+    encodePayToken(dropId, token, amount, seller, TIER_PREMIUM),
+    ifaceToken.encodeFunctionData("payToken", [dropId, token, amount, seller, TIER_PREMIUM]),
   ],
   [
     "approve",

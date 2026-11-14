@@ -15,11 +15,20 @@ export const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 /** keccak256 of the function signature, first 4 bytes. */
 export const SELECTORS = {
-  payNative: "0xf775f5a9", // payNative(bytes32,address)
-  payToken: "0xe325552e", // payToken(bytes32,address,uint256,address)
+  payNative: "0x088af277", // payNative(bytes32,address,uint8)
+  payToken: "0x8bf27d62", // payToken(bytes32,address,uint256,address,uint8)
   approve: "0x095ea7b3", // approve(address,uint256)
   allowance: "0xdd62ed3e", // allowance(address,address)
   balanceOf: "0x70a08231", // balanceOf(address)
+};
+
+/**
+ * The escrow's fee tiers, matching the `Tier` enum in PolygonEscrow.sol.
+ * `scripts/check-contract.mjs` asserts these against the compiled ABI.
+ */
+export const TIERS = {
+  STANDARD: 0, // 3%
+  PREMIUM: 1, // 5%
 };
 
 export class WalletError extends Error {
@@ -85,23 +94,25 @@ function wordBytes32(hex) {
   return clean;
 }
 
-/** ABI-encodes payNative(bytes32,address). */
-export function encodePayNative(dropIdBytes32, seller) {
+/** ABI-encodes payNative(bytes32,address,uint8). */
+export function encodePayNative(dropIdBytes32, seller, tier) {
   return (
     SELECTORS.payNative +
     wordBytes32(dropIdBytes32) +
-    wordAddress(seller)
+    wordAddress(seller) +
+    wordUint(tier)
   );
 }
 
-/** ABI-encodes payToken(bytes32,address,uint256,address). */
-export function encodePayToken(dropIdBytes32, token, amount, seller) {
+/** ABI-encodes payToken(bytes32,address,uint256,address,uint8). */
+export function encodePayToken(dropIdBytes32, token, amount, seller, tier) {
   return (
     SELECTORS.payToken +
     wordBytes32(dropIdBytes32) +
     wordAddress(token) +
     wordUint(amount) +
-    wordAddress(seller)
+    wordAddress(seller) +
+    wordUint(tier)
   );
 }
 
@@ -223,6 +234,7 @@ export async function sendEscrowPayment({
   tokenAddress,
   tokenDecimals,
   price,
+  tier,
   onStatus,
 }) {
   if (!/^0x[0-9a-fA-F]{40}$/.test(escrowAddress || "")) {
@@ -230,6 +242,9 @@ export async function sendEscrowPayment({
       "The escrow contract is not configured on this deployment.",
       "NO_ESCROW"
     );
+  }
+  if (tier !== TIERS.STANDARD && tier !== TIERS.PREMIUM) {
+    throw new WalletError("This drop has no valid fee tier.", "NO_TIER");
   }
 
   const status = onStatus || (() => {});
@@ -248,7 +263,7 @@ export async function sendEscrowPayment({
 
   if (isNative) {
     status(`Confirm the ${price} POL payment in your wallet…`);
-    const data = encodePayNative(dropIdBytes32, sellerWallet);
+    const data = encodePayNative(dropIdBytes32, sellerWallet, tier);
     txHash = await sendTransaction({
       from,
       to: escrowAddress,
@@ -277,7 +292,13 @@ export async function sendEscrowPayment({
       await waitForReceipt(approveHash);
     }
     status("Step 2/2 — confirm the escrow split in your wallet…");
-    const data = encodePayToken(dropIdBytes32, tokenAddress, amount, sellerWallet);
+    const data = encodePayToken(
+      dropIdBytes32,
+      tokenAddress,
+      amount,
+      sellerWallet,
+      tier
+    );
     txHash = await sendTransaction({ from, to: escrowAddress, data });
   }
 

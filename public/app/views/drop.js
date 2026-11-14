@@ -17,14 +17,15 @@ import {
   verdictClass,
   copyText,
 } from "../util.js";
-import { sendEscrowPayment } from "../wallet.js";
+import { sendEscrowPayment, TIERS } from "../wallet.js";
 import { hasAdsgram, hasMonetag, isTelegramContext, monetagLink, runAdsgramReward } from "../ads.js";
 
 function detailHtml(drop) {
   const isFree = drop.unlockMode === "free_ad" || drop.isAdminAd;
   const category = CATEGORY_BY_ID.get(drop.categoryId);
-  const sellerPercent = 97;
-  const feePercent = 3;
+  const feeBps = drop.feeBps ?? (drop.unlockMode === "paid_pure" ? 500 : 300);
+  const feePercent = feeBps / 100;
+  const sellerPercent = 100 - feePercent;
 
   return `
     <div class="narrow stack">
@@ -288,6 +289,7 @@ export async function renderDropView(dropId) {
         tokenAddress: drop.tokenAddress,
         tokenDecimals: drop.tokenDecimals,
         price: drop.price,
+        tier: drop.feeTier ?? (drop.unlockMode === "paid_pure" ? TIERS.PREMIUM : TIERS.STANDARD),
         onStatus: (message) => {
           statusEl.textContent = message;
         },

@@ -1,5 +1,6 @@
 /** Helpers for shaping drop rows into the public representation. */
 import type { DropRow, PublicDrop } from "./types";
+import { feeTierFor } from "./tiers";
 
 const ID_ALPHABET = "abcdefghijklmnopqrstuvwxyz0123456789";
 
@@ -20,6 +21,7 @@ export function generateDropId(length = 10): string {
  * the server until a payment has been verified.
  */
 export function toPublicDrop(row: DropRow): PublicDrop {
+  const fee = feeTierFor(row.unlock_mode);
   return {
     id: row.id,
     title: row.title,
@@ -32,6 +34,8 @@ export function toPublicDrop(row: DropRow): PublicDrop {
     tokenDecimals: row.token_decimals,
     price: row.price,
     unlockMode: row.unlock_mode,
+    feeTier: fee?.tier ?? null,
+    feeBps: fee?.bps ?? 0,
     verdict: row.verdict,
     verdictReason: row.verdict_reason,
     verdictScore: row.verdict_score,

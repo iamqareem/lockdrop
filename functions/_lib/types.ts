@@ -81,6 +81,10 @@ export interface PublicDrop {
   tokenDecimals: number;
   price: string;
   unlockMode: string;
+  /** The `Tier` enum value the drop is sold at, or null for a free drop. */
+  feeTier: number | null;
+  /** The platform fee for this drop, in basis points. */
+  feeBps: number;
   verdict: Verdict;
   verdictReason: string;
   verdictScore: number;

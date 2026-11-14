@@ -13,6 +13,7 @@ import { json, fail, readJson } from "../_lib/http";
 import { query, execute } from "../_lib/turso";
 import { unseal } from "../_lib/crypto";
 import { verifyEscrowPayment, toUnits } from "../_lib/polygon";
+import { expectedFeeBps } from "../_lib/tiers";
 import { rateLimit } from "../_lib/auth";
 
 /** Minimum time a sponsored task must run before the link is released. */
@@ -87,12 +88,18 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       return fail("The stored price for this drop is invalid.", 500);
     }
 
+    const feeBps = expectedFeeBps(drop.unlock_mode);
+    if (feeBps === null) {
+      return fail("This drop does not accept payments.", 400);
+    }
+
     const payment = await verifyEscrowPayment(env, txHash, {
       escrowAddress,
       dropId: drop.id,
       sellerWallet: drop.seller_wallet,
       tokenAddress: drop.token_address,
       amountUnits,
+      expectedFeeBps: feeBps,
     });
 
     if (!payment.ok) {

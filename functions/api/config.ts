@@ -8,6 +8,7 @@
 import type { Env } from "../_lib/types";
 import { json } from "../_lib/http";
 import { CATEGORY_RULES } from "../_lib/verify/categories";
+import { FEE_TIERS } from "../_lib/tiers";
 
 export const onRequestGet = async ({ env }: { env: Env }) => {
   const escrowAddress = (env.ESCROW_ADDRESS || "").trim();
@@ -23,8 +24,16 @@ export const onRequestGet = async ({ env }: { env: Env }) => {
     })),
     escrowAddress,
     polygonRpc: (env.POLYGON_RPC_URL || "").trim() || null,
-    /** Platform fee in basis points, mirroring PolygonEscrow.FEE_BPS. */
-    feeBps: 300,
+    /**
+     * The fee each unlock mode is sold at, mirroring the contract's Tier enum.
+     * `paid_ad` is the standard tier, `paid_pure` the premium tier.
+     */
+    feeTiers: Object.fromEntries(
+      Object.entries(FEE_TIERS).map(([mode, tier]) => [
+        mode,
+        tier ? { tier: tier.tier, bps: tier.bps, label: tier.label } : null,
+      ])
+    ),
     ads: {
       adsgramBlockId,
       monetagLink,

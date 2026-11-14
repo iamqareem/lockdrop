@@ -1,11 +1,10 @@
 /**
  * GET /api/contract
  *
- * Returns the canonical PolygonEscrow.sol source. The file is mirrored into
- * `functions/_lib/contract-source.ts` because Pages Functions cannot import
- * arbitrary file types; `npm run check` guarantees the two never drift.
+ * Returns the canonical PolygonEscrow.sol source, taken from the compiled
+ * artifact so the served source is always the source that was deployed.
  */
-import { POLYGON_ESCROW_SOURCE } from "../_lib/contract-source";
+import artifact from "../../contracts/artifacts/PolygonEscrow.json";
 import { json } from "../_lib/http";
 
-export const onRequestGet = async () => json({ source: POLYGON_ESCROW_SOURCE });
+export const onRequestGet = async () => json({ source: artifact.source });

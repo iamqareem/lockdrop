@@ -63,6 +63,7 @@ database.
 │    turso.ts     HTTP v2 pipeline client (zero dependencies)       │
 │    crypto.ts    HKDF → per-drop AES-GCM key, seal / unseal        │
 │    polygon.ts   receipt + Paid-event verification                │
+│    tiers.ts     fee tiers, mirroring the contract                │
 │    ai.ts        Workers AI judge with a daily neuron budget       │
 │    verify/      normalise · structure · host · category · probe  │
 └──────────────┬───────────────────────────────┬───────────────────┘
@@ -90,7 +91,8 @@ database.
    URL with AES-GCM and stores it.
 7. The buyer pays. The browser sends the transaction hash to `POST /api/unlock`.
 8. The server re-reads the receipt from Polygon, checks the `Paid` event against the
-   escrow contract, and only then decrypts and returns the URL.
+   escrow contract — including the **fee tier** the drop was sold at — and only then
+   decrypts and returns the URL.
 
 ---
 
@@ -227,6 +229,7 @@ completion time, so the release is server-controlled. This is a soft gate — se
 | AI | Cloudflare Workers AI | Free tier, with OpenRouter as optional fallback |
 | Chain | Polygon PoS (137) | `ethers` used only as a dev-time assertion tool |
 | Contract | Solidity `^0.8.20` | OpenZeppelin `ReentrancyGuard` + `SafeERC20` |
+| Contract toolchain | Hardhat 3 | Compiles, tests and deploys; never ships to Pages |
 
 The browser ships **no** `ethers` bundle: the three contract calls LockDrop needs use
 fixed function selectors and static ABI encoding, so `app/wallet.js` encodes them
@@ -246,6 +249,7 @@ lockdrop/
 │       ├── turso.ts           Turso HTTP client
 │       ├── crypto.ts          HKDF + AES-GCM
 │       ├── polygon.ts         Receipt verification
+│       ├── tiers.ts           Fee tiers, mirroring the contract
 │       └── ai.ts              Workers AI judge + budget guard
 ├── public/                    Static frontend (no build step)
 │   ├── index.html
@@ -256,10 +260,16 @@ lockdrop/
 │       ├── categories.js      Client mirror of the category rules
 │       ├── icons.js           Brand marks + UI icons
 │       └── views/             create · feed · drop · admin · contract
-├── contracts/PolygonEscrow.sol
-├── scripts/                   check-abi · check-categories · sync-contract-source
-├── tests/verify.test.ts       26 unit tests for the verification engine
+├── contracts/
+│   ├── PolygonEscrow.sol      The escrow
+│   ├── artifacts/             Commiled ABI + bytecode (the Pages artifact)
+│   └── mocks/                 ERC-20 mocks used only by the tests
+├── test/PolygonEscrow.test.ts Contract tests on a local EVM
+├── tests/                     Unit tests for the verification and payment code
+├── scripts/                   check-abi · check-contract · check-categories
+│                              build-contract-artifact · deploy-contract
 ├── schema.sql                 Turso schema
+├── hardhat.config.ts          Contract toolchain
 ├── wrangler.toml              Cloudflare Pages configuration
 └── .env.example               Every environment value, split by trust level
 ```
@@ -353,22 +363,67 @@ nothing secret is ever in the client.
 
 ## The escrow contract
 
-`contracts/PolygonEscrow.sol` is a minimal, non-custodial payment splitter:
+`contracts/PolygonEscrow.sol` is a minimal, non-custodial payment splitter with **two
+fee tiers**:
 
-- `payNative(bytes32 dropId, address seller)` — splits the incoming POL value.
-- `payToken(bytes32 dropId, address token, uint256 amount, address seller)` — pulls an
-  ERC-20 with `safeTransferFrom` and splits the **actually received** balance, so
-  fee-on-transfer tokens are handled correctly.
-- `FEE_BPS = 300` — 3% to `platformWallet`, the remainder to the seller.
+| Tier | Fee | Seller receives |
+| --- | --- | --- |
+| `Standard` | 3% | 97% |
+| `Premium` | 5% | 95% |
+
+The tier is an **enum**, never a basis-point number, so a caller can only pick one of
+the two tiers the platform offers — it can never choose an arbitrary fee.
+
+- `payNative(bytes32 dropId, address seller, Tier tier)` — splits the incoming POL.
+- `payToken(bytes32 dropId, address token, uint256 amount, address seller, Tier tier)`
+  — pulls an ERC-20 with `safeTransferFrom` and splits the **actually received**
+  balance, so fee-on-transfer tokens cannot drain the escrow.
+- The seller share is computed by subtraction, so no wei is ever stranded.
 - `nonReentrant` on both entry points.
-- Emits `Paid(dropId, buyer, seller, token, amount)` for off-chain verification.
+- Emits `Paid(dropId, buyer, seller, token, amount, feeBps)` for off-chain verification.
 
-Deploy it on Polygon PoS with your treasury wallet as `platformWallet`. The source is
-served in-app at `#/contract`.
+### Which tier a drop is sold at
 
-> The contract source is mirrored into `functions/_lib/contract-source.ts` because
-> Pages Functions cannot import arbitrary file types. `npm run check` fails if the
-> two ever drift; `npm run sync:contract` regenerates the mirror.
+The unlock mode decides:
+
+| Unlock mode | Tier | Fee | Why |
+| --- | --- | --- | --- |
+| `paid_ad` | Standard | 3% | the buyer may unlock with a sponsored task instead of paying |
+| `paid_pure` | Premium | 5% | no sponsored task is offered, so the buyer pays more |
+| `free_ad` | — | — | no payment at all |
+
+The **server** verifies that the `Paid` event reports exactly the tier the drop was
+sold at. A standard-tier payment on a premium drop is refused, so a tampered client
+cannot buy an ad-free drop at the cheaper rate.
+
+### Toolchain
+
+The contract is compiled, tested and deployed with [Hardhat 3](https://hardhat.org).
+It is a development-time toolchain only — it never reaches the Pages build.
+
+```bash
+npm run contract:build    # compile + refresh contracts/artifacts/PolygonEscrow.json
+npm run contract:test     # 10 contract tests on a local EVM
+npm run contract:deploy:amoy     # deploy to Polygon Amoy
+npm run contract:deploy:polygon  # deploy to Polygon PoS
+```
+
+Deployment needs:
+
+```bash
+export AMOY_RPC_URL=https://rpc-amoy.polygon.technology
+export AMOY_DEPLOYER_PRIVATE_KEY=0x…
+export PLATFORM_WALLET=0x…       # receives the platform fee
+export POLYGONSCAN_API_KEY=…     # optional, for source verification
+```
+
+The script deploys, reads the fee tiers back from the deployed bytecode to prove
+they are what you expect, and submits the source for verification on the explorer.
+
+> **The contract changed.** The old `payNative(bytes32,address)` /
+> `payToken(bytes32,address,uint256,address)` signatures are gone. A previously
+> deployed escrow **cannot** be used with this app — redeploy, then set
+> `ESCROW_ADDRESS` to the new address.
 
 ---
 
@@ -416,12 +471,30 @@ desktop. The feed is a CSS multi-column masonry: 1 column on phones, 2 on tablet
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | Local dev server (static + Functions) on :8788 |
-| `npm test` | 26 unit tests for the verification engine |
-| `npm run check` | ABI selectors, category sync, contract mirror — all asserted |
+| `npm test` | 39 unit tests — the verification engine and the payment verifier |
+| `npm run contract:test` | 10 contract tests on a local EVM |
+| `npm run check` | ABI selectors, contract artifact, category sync — all asserted |
 | `npm run lint` | `tsc --noEmit` |
+| `npm run contract:build` | Compile the contract and refresh the artifact |
+| `npm run contract:deploy:amoy` | Deploy to Polygon Amoy |
+| `npm run contract:deploy:polygon` | Deploy to Polygon PoS |
 | `npm run deploy` | `wrangler pages deploy public` |
-| `npm run sync:contract` | Regenerate the contract mirror |
 | `npm run schema` | Apply `schema.sql` to the remote database |
+
+### How the three layers stay in sync
+
+The contract, the browser's ABI encoder and the server's payment verifier are written
+by hand in three different runtimes. `npm run check` derives the selectors and the
+event topic from the **compiled ABI** and compares them against the constants the app
+actually uses, so a contract change cannot silently break the other two:
+
+```
+ok    contract artifact matches contracts/PolygonEscrow.sol
+ok    payNative(bytes32,address,uint8) -> 0x088af277 (matches wallet.js)
+ok    payToken(bytes32,address,uint256,address,uint8) -> 0x8bf27d62 (matches wallet.js)
+ok    Paid event topic matches functions/_lib/polygon.ts
+ok    fee tiers match: standard 300 bps, premium 500 bps
+```
 
 ---
 
@@ -432,33 +505,33 @@ Honest list, in priority order.
 1. **The sponsored-task gate is soft.** Without Adsgram's server-side verification,
    the ad unlock is a timed server-side release, not proof that an ad was watched. The
    paid path is unaffected — it is cryptographically verified.
-2. **The contract charges a flat 3%.** There is no per-drop fee tier, so a
-   fee-differentiated product would need a contract upgrade and redeployment.
-3. **No contract deployment tooling.** The repository has no Hardhat or Foundry
-   project; the contract is compiled and deployed by hand.
-4. **The rate limiter is per-isolate.** It is a speed bump against casual abuse, not
+2. **A buyer cannot dispute.** There is no refund or dispute window yet.
+3. **No pagination in the UI.** The API supports a cursor; the feed loads 40 at a
+   time with a "Load more" button.
+4. **Domain-age and reputation checks are not implemented.** The engine judges URL
+   shape, brand imitation and live page content — not how old a domain is.
+5. **The rate limiter is per-isolate.** It is a speed bump against casual abuse, not
    a distributed limit. The real boundary is the on-chain payment check.
-5. **The AI is advisory.** It can escalate a verdict but never relax one, and its
+6. **The AI is advisory.** It can escalate a verdict but never relax one, and its
    "reason" text is shown to buyers — a hallucinated reason could mislead. The
    heuristics always run first and dominate.
-6. **A buyer cannot dispute.** There is no refund or dispute window yet.
-7. **No pagination in the UI.** The API supports a cursor; the feed loads 40 at a
-   time with a "Load more" button.
-8. **Domain-age and reputation checks are not implemented.** The engine judges URL
-   shape, brand imitation and live page content — not how old a domain is.
+7. **The fee tiers are fixed at two.** The contract's `Tier` enum would need a
+   redeployment to add more.
+8. **The escrow is not upgradeable.** It is deliberately minimal and non-custodial;
+   there is no owner, no pause switch and no admin function. Changing anything means
+   a new deployment and a new `ESCROW_ADDRESS`.
 
 ---
 
 ## Roadmap
 
-- [ ] Hardhat or Foundry project for the contract, with deploy + verify scripts
-- [ ] Per-drop fee tiers in `PolygonEscrow.sol` (3% / 5%) with an upgrade path
 - [ ] Seller payout tracking and a dispute / refund window
 - [ ] Domain age and registrar checks via the RDAP/WHOIS endpoints
 - [ ] Feed search and sorting, and infinite scroll
 - [ ] Rate limiting backed by Cloudflare KV instead of isolate memory
 - [ ] Optional buyer identity (Telegram id) attached to an unlock
 - [ ] Self-service deploy from GitHub Actions with a Cloudflare API token
+- [ ] A second fee tier between standard and premium, if the market wants one
 
 ---
 

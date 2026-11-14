@@ -28,8 +28,11 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Check ABI selectors, category sync and contract mirror
+      - name: Check ABI selectors, contract artifact and category sync
         run: npm run check
 
       - name: Unit tests
         run: npm test
+
+      - name: Contract tests
+        run: npm run contract:test
