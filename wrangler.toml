@@ -14,10 +14,17 @@ name = "lockdrop"
 compatibility_date = "2026-11-01"
 pages_build_output_dir = "public"
 
-# Workers AI — used for link safety judgement. The free tier includes
-# 10,000 neurons per day, which covers thousands of judgements.
-[ai]
-binding = "AI"
+# Workers AI — used for link safety judgement.
+#
+# The AI binding is NOT declared here on purpose. Pages reads only the
+# root-level wrangler.toml, so a local override file is not possible, and a
+# declared remote binding makes `wrangler pages dev` require a
+# CLOUDFLARE_API_TOKEN. Instead the binding is added in the Cloudflare
+# dashboard (Settings -> Bindings -> Workers AI, variable name `AI`), which
+# is what Cloudflare's Pages documentation prescribes.
+#
+# The code treats the binding as optional: without it the verification engine
+# falls back to the heuristics and the footer reads "Locally verified".
 
 # Plain (non-secret) environment values. Secrets live in `wrangler secret put`.
 [vars]

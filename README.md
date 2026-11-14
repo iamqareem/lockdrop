@@ -294,10 +294,11 @@ npm run dev        # http://localhost:8788
 `npm run dev` runs `wrangler pages dev`. The static site and the API are served from
 the same origin, exactly as in production.
 
-> **Note on the AI binding.** Workers AI is a *remote* binding, so `wrangler pages dev`
-> needs `CLOUDFLARE_API_TOKEN` (or an interactive `wrangler login`) to reach it.
-> Without it the app still runs — verification falls back to the heuristics, and the
-> footer reads "Locally verified" instead of "AI verified".
+> **Note on the AI binding.** Workers AI is a *remote* binding, so it is configured in
+> the Cloudflare dashboard rather than in `wrangler.toml` — which keeps local
+> development free of a Cloudflare login. Without the binding the app still runs:
+> verification falls back to the heuristics, and the footer reads "Locally verified"
+> instead of "AI verified".
 
 ---
 
@@ -323,11 +324,14 @@ The GitHub repository is the only thing Cloudflare needs.
    | `MONETAG_DIRECT_LINK` | Plain | Monetag smartlink |
 
 4. **Add the Workers AI binding.** *Settings* → *Bindings* → *Add* → *Workers AI*,
-   variable name `AI`. This is what powers the AI judge.
+   variable name `AI`. This is what powers the AI judge. Cloudflare's Pages
+   documentation prescribes the dashboard for this binding, and it is also what keeps
+   local development free of a Cloudflare login.
 5. **Push.** Every push to `main` triggers a fresh deploy.
 
-`wrangler.toml` is the source of truth for the Pages configuration and carries the
-`[ai]` binding, the public variables and the build output directory.
+`wrangler.toml` is the source of truth for the Pages build output, the public
+variables and the binding configuration. Secrets are set in the dashboard (or with
+`wrangler pages secret put`).
 
 ---
 
