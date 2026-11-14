@@ -25,7 +25,18 @@ const CATEGORY_RULES = [
     hint: "drive.google.com",
     hosts: ["drive.google.com", "docs.google.com"],
     strictHost: true,
-    pathPatterns: [/^\/file\/d\//i, /^\/open/i, /^\/document\/d\//i, /^\/uc\?/i],
+    pathPatterns: [
+      /^\/file\/d\//i,
+      /^\/open/i,
+      /^\/document\/d\//i,
+      /^\/uc\?/i,
+      // Drive folder and shared-item links — a knowledge base is normally
+      // published as a folder, not as a single file.
+      /^\/drive\/folders\//i,
+      /^\/drive\/u\//i,
+      /^\/drive\/file\//i,
+      /^\/file\/u\//i,
+    ],
     extensions: [],
     specific: true
   },
@@ -35,7 +46,7 @@ const CATEGORY_RULES = [
     hint: "dropbox.com",
     hosts: ["dropbox.com", "db.tt", "dropboxusercontent.com"],
     strictHost: true,
-    pathPatterns: [/^\/s\//i, /^\/scl\/fi\//i, /download/i],
+    pathPatterns: [/^\/s\//i, /^\/scl\/fi\//i, /^\/sh\//i, /download/i],
     extensions: [],
     specific: true
   },
