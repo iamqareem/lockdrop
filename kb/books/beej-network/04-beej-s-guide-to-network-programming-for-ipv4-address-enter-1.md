@@ -1,15 +1,15 @@
 ---
 id: beej-network-04
-title: "Beej's Guide to Network Programming — For “IPv4 Address”, enter 192.168.0.2., In the command prompt…"
+title: "Beej's Guide to Network Programming — For 'IPv4 Address', enter 192.168.0.2., In the command prompt…",
 slug: beej-network-04-beej-s-guide-to-network-programming-for-ipv4-address-enter-1
-source: "Beej's Guide to Network Programming"
-sourceSection: "4. For “IPv4 Address”, enter 192.168.0.2., 3. In the command prompt, type ping 192.168.0.3., 1. Let’s choose a random root server, say c.root-servers.net. We’ll contact it and say, “Hey, we’re, 2. So we choose one of the .com name servers., 3. So we choose one of those servers., 2. You need more IP "
-track: networking-dns
+source: "Beej's Guide to Network Programming",
+sourceSection: "4. For 'IPv4 Address', enter 192.168.0.2., 3. In the command prompt, type ping 192.168.0.3., 1. Let’s choose a random root server, say c.root-servers.net. We’ll contact it and say, 'Hey, we’re, 2. So we choose one of the .com name servers., 3. So we choose one of those servers., 2. You need more IP"
+track: networking-dns,
 tier: premium
 tags: [network-programming, sockets, c, tcp-ip]
-summary: "Click on PC1 and do the same steps, except enter 192.168.0.3 for the IP address. Covers 7 sections: For “IPv4 Address”, enter 192.168.0.2., In the command prompt, type ping 192.168.0.3., Let’s choose a random root server."
+summary: "Click on PC1 and do the same steps, except enter 192.168.0.3 for the IP address. Covers 7 sections: For 'IPv4 Address', enter 192.168.0.2., In the command prompt, type ping 192.168.0.3., Let’s choose a random root server.",
 ---
-# Beej's Guide to Network Programming — For “IPv4 Address”, enter 192.168.0.2., In the command prompt…
+# Beej's Guide to Network Programming — For 'IPv4 Address', enter 192.168.0.2., In the command prompt…
 
 ## 4. For “IPv4 Address”, enter 192.168.0.2.
 

@@ -1,13 +1,13 @@
 ---
 id: bind9-01
-title: "BIND 9 Administrator Reference Manual — Introduction to DNS and BIND 9, Resource Requirements…"
+title: "BIND 9 Administrator Reference Manual — Introduction to DNS and BIND 9, Resource Requirements…",
 slug: bind9-01-bind-9-administrator-reference-manual-introduction-to-dns-an
-source: "BIND 9 Administrator Reference Manual"
+source: "BIND 9 Administrator Reference Manual",
 sourceSection: "1. Introduction to DNS and BIND 9, 2. Resource Requirements, 3. Configurations and Zone Files, 4. Name Server Operations, 5. DNSSEC, 6. Advanced Configurations, 7. Security Configurations, 8. Configuration Reference, 9. Troubleshooting, 10. Building BIND 9, 11. Release Notes, 12. Changelog, 13. DNSS"
-track: networking-dns
+track: networking-dns,
 tier: premium
 tags: [dns, bind9, networking, infrastructure]
-summary: "Split DNS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Covers 20 sections: Introduction to DNS and BIND 9, Resource Requirements, Configurations and Zone Files."
+summary: "Split DNS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Covers 20 sections: Introduction to DNS and BIND 9, Resource Requirements, Configurations and Zone Files.",
 ---
 # BIND 9 Administrator Reference Manual — Introduction to DNS and BIND 9, Resource Requirements…
 

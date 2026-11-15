@@ -1,13 +1,13 @@
 ---
 id: sqlite-tutorial-01
-title: "SQLite Tutorial — Disclaimer & Copyright, Table of Contents, iii, SQLite Basics…"
+title: "SQLite Tutorial — Disclaimer & Copyright, Table of Contents, iii, SQLite Basics…",
 slug: sqlite-tutorial-01-sqlite-tutorial-disclaimer-copyright-table-of-contents-iii-s
-source: "SQLite Tutorial"
+source: "SQLite Tutorial",
 sourceSection: "Disclaimer & Copyright, Table of Contents, iii, SQLite Basics, SQLite ─ Overview, SQLite does not require a separate server process or system to operate, SQLite comes with zero-configuration, which means no setup or administration, SQLite transactions are fully ACID-compliant, allowing safe access f"
-track: data-scripting
+track: data-scripting,
 tier: free
 tags: [sqlite, sql, databases, embedded]
-summary: "All the content and graphics published in this e-book are the property of Tutorials Point (I) Covers 181 sections: Disclaimer & Copyright, Table of Contents, iii."
+summary: "All the content and graphics published in this e-book are the property of Tutorials Point (I) Covers 181 sections: Disclaimer & Copyright, Table of Contents, iii.",
 ---
 # SQLite Tutorial — Disclaimer & Copyright, Table of Contents, iii, SQLite Basics…
 

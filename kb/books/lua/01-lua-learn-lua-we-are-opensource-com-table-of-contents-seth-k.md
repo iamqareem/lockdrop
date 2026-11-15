@@ -1,13 +1,13 @@
 ---
 id: lua-01
-title: "Lua — Learn Lua, We are Opensource.com, Table of Contents, Seth Kenlon…"
+title: "Lua — Learn Lua, We are Opensource.com, Table of Contents, Seth Kenlon…",
 slug: lua-01-lua-learn-lua-we-are-opensource-com-table-of-contents-seth-k
-source: "Lua"
+source: "Lua",
 sourceSection: "Learn Lua, We are Opensource.com, Table of Contents, Seth Kenlon, Seth Kenlon is a UNIX geek, free culture advocate, independent, 5 steps to learn any programming, 1. Syntax, obj.x,obj.y = v.mouse.getPosition(), A language's syntax also involves things like including libraries, setting variables, an"
-track: data-scripting
+track: data-scripting,
 tier: free
 tags: [lua, scripting, embedded]
-summary: "Opensource.com is a community website publishing stories about creating, adopting, and Covers 33 sections: Learn Lua, We are Opensource.com, Table of Contents."
+summary: "Opensource.com is a community website publishing stories about creating, adopting, and Covers 33 sections: Learn Lua, We are Opensource.com, Table of Contents.",
 ---
 # Lua — Learn Lua, We are Opensource.com, Table of Contents, Seth Kenlon…
 

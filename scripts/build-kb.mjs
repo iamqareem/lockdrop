@@ -167,6 +167,20 @@ function typeset(lines, title, headingAt, profile) {
 
 /* --------------------------------------------------------------- titles */
 
+/**
+ * Makes a value safe to put on one line of YAML front matter: no newlines,
+ * no control characters, no stray quotes, and a length cap.
+ */
+function cleanText(value, max = 180) {
+  return String(value ?? "")
+    .replace(/[\u0000-\u001f\u007f]+/g, " ")
+    .replace(/\s+/g, " ")
+    .replace(/["\u201c\u201d]/g, "'")
+    .trim()
+    .slice(0, max)
+    .trim();
+}
+
 /** "Chapter 2. Preparing the Host System" -> "Preparing the Host System" */
 function condenseHeading(text) {
   return text
@@ -280,21 +294,21 @@ for (const source of catalogue.sources) {
     const frontMatter = [
       "---",
       `id: ${group.piece.piece}`,
-      `title: ${JSON.stringify(title)}`,
+      `title: ${JSON.stringify(cleanText(title, 120))},`,
       `slug: ${group.piece.piece}-${slugify(title)}`,
-      `source: ${JSON.stringify(meta.title)}`,
+      `source: ${JSON.stringify(cleanText(meta.title, 120))},`,
       `sourceSection: ${JSON.stringify(
-        group.piece.sections.join(", ").slice(0, 300)
+        cleanText(group.piece.sections.join(", "), 300)
       )}`,
-      `track: ${meta.track}`,
+      `track: ${cleanText(meta.track, 40)},`,
       `tier: ${meta.tier}`,
       `tags: [${meta.tags.join(", ")}]`,
-      `summary: ${JSON.stringify(summary)}`,
+      `summary: ${JSON.stringify(cleanText(summary, 300))},`,
       "---",
       "",
     ].join("\n");
 
-    const body = typeset(bodyLines, title, headingAt, doc.profile);
+    const body = typeset(bodyLines, cleanText(title, 120), headingAt, doc.profile);
     const target = join(dir, fileName);
     if (!dryRun) {
       mkdirSync(dir, { recursive: true });

@@ -1,13 +1,13 @@
 ---
 id: lpi-020-100-06
-title: "LPIC-2 · 020-100 — Describe how managing privacy settings on social media platforms…"
+title: "LPIC-2 · 020-100 — Describe how managing privacy settings on social media platforms…",
 slug: lpi-020-100-06-lpic-2-020-100-describe-how-managing-privacy-settings-on-soc
-source: "LPI Learning Material — LPIC-2 (Exam 020-100)"
+source: "LPI Learning Material — LPIC-2 (Exam 020-100)",
 sourceSection: "1. Describe how managing privacy settings on social media platforms can help protect your, 1. Describe how managing privacy settings on social media platforms can help protect your"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-2, certification, security]
-summary: "Managing privacy settings helps control who can see your personal information, posts, and Covers 2 sections: Describe how managing privacy settings on social media platforms can help protect your, Describe how managing privacy se."
+summary: "Managing privacy settings helps control who can see your personal information, posts, and Covers 2 sections: Describe how managing privacy settings on social media platforms can help protect your, Describe how managing privacy se.",
 ---
 # LPIC-2 · 020-100 — Describe how managing privacy settings on social media platforms…
 

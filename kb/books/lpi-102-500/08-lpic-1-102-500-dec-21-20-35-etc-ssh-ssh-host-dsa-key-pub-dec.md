@@ -1,13 +1,13 @@
 ---
 id: lpi-102-500-08
-title: "LPIC-1 · 102-500 — Dec 21 20:35 /etc/ssh/ssh_host_dsa_key.pub, Dec 21 20:35…"
+title: "LPIC-1 · 102-500 — Dec 21 20:35 /etc/ssh/ssh_host_dsa_key.pub, Dec 21 20:35…",
 slug: lpi-102-500-08-lpic-1-102-500-dec-21-20-35-etc-ssh-ssh-host-dsa-key-pub-dec
-source: "LPI Learning Material — LPIC-1 (Exam 102-500)"
-sourceSection: "605. Dec 21 20:35 /etc/ssh/ssh_host_dsa_key.pub, 505. Dec 21 20:35 /etc/ssh/ssh_host_ecdsa_key, 177. Dec 21 20:35 /etc/ssh/ssh_host_ecdsa_key.pub, 411. Dec 21 20:35 /etc/ssh/ssh_host_ed25519_key, 97. Dec 21 20:35 /etc/ssh/ssh_host_ed25519_key.pub, 397. Dec 21 20:35 /etc/ssh/ssh_host_rsa_key.pub, 1. "
-track: linux-engineer
+source: "LPI Learning Material — LPIC-1 (Exam 102-500)",
+sourceSection: "605. Dec 21 20:35 /etc/ssh/ssh_host_dsa_key.pub, 505. Dec 21 20:35 /etc/ssh/ssh_host_ecdsa_key, 177. Dec 21 20:35 /etc/ssh/ssh_host_ecdsa_key.pub, 411. Dec 21 20:35 /etc/ssh/ssh_host_ed25519_key, 97. Dec 21 20:35 /etc/ssh/ssh_host_ed25519_key.pub, 397. Dec 21 20:35 /etc/ssh/ssh_host_rsa_key.pub, 1."
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-1, certification, shells, scripting]
-summary: "You can view the fingerprints of the keys by passing ssh-keygen the -l switch. Covers 26 sections: Dec 21 20:35 /etc/ssh/ssh_host_dsa_key.pub, Dec 21 20:35 /etc/ssh/ssh_host_ecdsa_key, Dec 21 20:35 /etc/ssh/ssh_host_ecd."
+summary: "You can view the fingerprints of the keys by passing ssh-keygen the -l switch. Covers 26 sections: Dec 21 20:35 /etc/ssh/ssh_host_dsa_key.pub, Dec 21 20:35 /etc/ssh/ssh_host_ecdsa_key, Dec 21 20:35 /etc/ssh/ssh_host_ecd.",
 ---
 # LPIC-1 · 102-500 — Dec 21 20:35 /etc/ssh/ssh_host_dsa_key.pub, Dec 21 20:35…
 

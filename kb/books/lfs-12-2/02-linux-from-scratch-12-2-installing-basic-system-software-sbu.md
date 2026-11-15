@@ -1,13 +1,13 @@
 ---
 id: lfs-12-2-02
-title: "Linux From Scratch 12.2 — Installing Basic System Software, SBU (with tests), System…"
+title: "Linux From Scratch 12.2 — Installing Basic System Software, SBU (with tests), System…",
 slug: lfs-12-2-02-linux-from-scratch-12-2-installing-basic-system-software-sbu
-source: "Linux From Scratch 12.2"
+source: "Linux From Scratch 12.2",
 sourceSection: "Chapter 8. Installing Basic System Software, 46. SBU (with tests), Chapter 9. System Configuration, Chapter 10. Making the LFS System Bootable, Chapter 11. The End"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lfs, from-scratch, compilation, sysadmin]
-summary: "In this chapter, we start constructing the LFS system in earnest. Covers 5 sections: Installing Basic System Software, SBU (with tests), System Configuration."
+summary: "In this chapter, we start constructing the LFS system in earnest. Covers 5 sections: Installing Basic System Software, SBU (with tests), System Configuration.",
 ---
 # Linux From Scratch 12.2 — Installing Basic System Software, SBU (with tests), System…
 

@@ -1,13 +1,13 @@
 ---
 id: beej-python-03
-title: "Beej's Guide to Python Programming — Using this string, create a copy of it where all the vowels are…"
+title: "Beej's Guide to Python Programming — Using this string, create a copy of it where all the vowels are…",
 slug: beej-python-03-beej-s-guide-to-python-programming-using-this-string-create-
-source: "Beej's Guide to Python Programming"
+source: "Beej's Guide to Python Programming",
 sourceSection: "3. Using this string, create a copy of it where all the vowels are uppercase and all the consonants are"
-track: data-scripting
+track: data-scripting,
 tier: free
 tags: [python, programming, scripting]
-summary: "Hint: think like a human. Covers Using this string, create a copy of it where all the vowels are uppercase and all the consonants are."
+summary: "Hint: think like a human. Covers Using this string, create a copy of it where all the vowels are uppercase and all the consonants are.",
 ---
 # Beej's Guide to Python Programming — Using this string, create a copy of it where all the vowels are…
 

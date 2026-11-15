@@ -1,13 +1,13 @@
 ---
 id: lpi-701-200-06
-title: "LPIC-1 · 701-200 — Create a PersistentVolumeClaim named mariadb-pvc, requesting 200M…"
+title: "LPIC-1 · 701-200 — Create a PersistentVolumeClaim named mariadb-pvc, requesting 200M…",
 slug: lpi-701-200-06-lpic-1-701-200-create-a-persistentvolumeclaim-named-mariadb-
-source: "LPI Learning Material — LPIC-1 (Exam 701-200)"
+source: "LPI Learning Material — LPIC-1 (Exam 701-200)",
 sourceSection: "1. Create a PersistentVolumeClaim named mariadb-pvc, requesting 200M of storage. Use it to, 1. Create a pod with two containers that communicate through a shared volume. One container, 2. What’s the difference between using a volume in Kubernetes with a PersistentVolumeClaim, 1. Create a PersistentV"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-1, certification, software-development]
-summary: "Create a manifest named pvc.yaml for the PersistentVolumeClaim: Covers 28 sections: Create a PersistentVolumeClaim named mariadb-pvc, requesting 200M of storage. Use it to, Create a pod with two container."
+summary: "Create a manifest named pvc.yaml for the PersistentVolumeClaim: Covers 28 sections: Create a PersistentVolumeClaim named mariadb-pvc, requesting 200M of storage. Use it to, Create a pod with two container.",
 ---
 # LPIC-1 · 701-200 — Create a PersistentVolumeClaim named mariadb-pvc, requesting 200M…
 

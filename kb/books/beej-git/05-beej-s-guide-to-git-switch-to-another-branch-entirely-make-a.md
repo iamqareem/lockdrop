@@ -1,13 +1,13 @@
 ---
 id: beej-git-05
-title: "Beej's Guide to Git — Switch to another branch entirely:, Make a new branch here and…"
+title: "Beej's Guide to Git — Switch to another branch entirely:, Make a new branch here and…",
 slug: beej-git-05-beej-s-guide-to-git-switch-to-another-branch-entirely-make-a
-source: "Beej's Guide to Git"
+source: "Beej's Guide to Git",
 sourceSection: "2. Switch to another branch entirely:, 3. Make a new branch here and check it out:, 3. Commit to complete the merge."
-track: git-ops
+track: git-ops,
 tier: free
 tags: [git, version-control, devops]
-summary: "Did you accidentally run git branch -c newbranch when you meant to run git switch -c newbranch? Covers 3 sections: Switch to another branch entirely:, Make a new branch here and check it out:, Commit to complete the merge.."
+summary: "Did you accidentally run git branch -c newbranch when you meant to run git switch -c newbranch? Covers 3 sections: Switch to another branch entirely:, Make a new branch here and check it out:, Commit to complete the merge..",
 ---
 # Beej's Guide to Git — Switch to another branch entirely:, Make a new branch here and…
 

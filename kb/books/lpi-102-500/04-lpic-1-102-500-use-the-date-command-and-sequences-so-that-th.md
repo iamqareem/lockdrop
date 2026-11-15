@@ -1,13 +1,13 @@
 ---
 id: lpi-102-500-04
-title: "LPIC-1 · 102-500 — Use the date command and sequences so that the system’s month is…"
+title: "LPIC-1 · 102-500 — Use the date command and sequences so that the system’s month is…",
 slug: lpi-102-500-04-lpic-1-102-500-use-the-date-command-and-sequences-so-that-th
-source: "LPI Learning Material — LPIC-1 (Exam 102-500)"
-sourceSection: "3. Use the date command and sequences so that the system’s month is set to February. Leave the, 4. Assuming that the command above was successful, use hwclock to set the hardware clock from, 5. There is a location called eucla. What continent is it part of? Use the grep command to find, 6. Set your "
-track: linux-engineer
+source: "LPI Learning Material — LPIC-1 (Exam 102-500)",
+sourceSection: "3. Use the date command and sequences so that the system’s month is set to February. Leave the, 4. Assuming that the command above was successful, use hwclock to set the hardware clock from, 5. There is a location called eucla. What continent is it part of? Use the grep command to find, 6. Set your"
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-1, certification, shells, scripting]
-summary: "Specify a specific time to display, as opposed to current time. Covers 27 sections: Use the date command and sequences so that the system’s month is set to February. Leave the, Assuming that the command a."
+summary: "Specify a specific time to display, as opposed to current time. Covers 27 sections: Use the date command and sequences so that the system’s month is set to February. Leave the, Assuming that the command a.",
 ---
 # LPIC-1 · 102-500 — Use the date command and sequences so that the system’s month is…
 

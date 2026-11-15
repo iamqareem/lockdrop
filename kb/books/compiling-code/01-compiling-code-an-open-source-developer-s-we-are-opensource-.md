@@ -1,13 +1,13 @@
 ---
 id: compiling-code-01
-title: "Compiling Code — An open source developer's, We are Opensource.com, Table of…"
+title: "Compiling Code — An open source developer's, We are Opensource.com, Table of…",
 slug: compiling-code-01-compiling-code-an-open-source-developer-s-we-are-opensource-
-source: "Developer Guide to Compiling Code"
+source: "Developer Guide to Compiling Code",
 sourceSection: "An open source developer's, We are Opensource.com, Table of Contents, Jayashree Huttanagoudar, Steven Avenwedde, Anyone can compile open source, 3. Compile the code, - X11, - SDL2 sound, - Spoilers, - SDL sound, Make, (Seth Kenlon, CC BY-SA 4.0), A programmer's guide to GNU C, hellogcc, $ ./hellogcc"
-track: systems-kernel
+track: systems-kernel,
 tier: free
 tags: [compilers, toolchain, build-systems, c]
-summary: "Opensource.com is a community website publishing stories about creating, adopting, and Covers 53 sections: An open source developer's, We are Opensource.com, Table of Contents."
+summary: "Opensource.com is a community website publishing stories about creating, adopting, and Covers 53 sections: An open source developer's, We are Opensource.com, Table of Contents.",
 ---
 # Compiling Code — An open source developer's, We are Opensource.com, Table of…
 

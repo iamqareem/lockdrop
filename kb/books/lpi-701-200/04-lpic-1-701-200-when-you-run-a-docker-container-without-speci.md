@@ -1,13 +1,13 @@
 ---
 id: lpi-701-200-04
-title: "LPIC-1 · 701-200 — When you run a Docker container without specifying a network…"
+title: "LPIC-1 · 701-200 — When you run a Docker container without specifying a network…",
 slug: lpi-701-200-04-lpic-1-701-200-when-you-run-a-docker-container-without-speci
-source: "LPI Learning Material — LPIC-1 (Exam 701-200)"
+source: "LPI Learning Material — LPIC-1 (Exam 701-200)",
 sourceSection: "1. When you run a Docker container without specifying a network, which network driver is used, 2. You need two containers to communicate using container names. What kind of network should, 1. You have two containers. One is a Node.js API server named api-server and the other is a, 2. You created a n"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-1, certification, software-development]
-summary: "PostgreSQL database named pg-db. Covers 33 sections: When you run a Docker container without specifying a network, which network driver is used, You need two containers to c."
+summary: "PostgreSQL database named pg-db. Covers 33 sections: When you run a Docker container without specifying a network, which network driver is used, You need two containers to c.",
 ---
 # LPIC-1 · 701-200 — When you run a Docker container without specifying a network…
 

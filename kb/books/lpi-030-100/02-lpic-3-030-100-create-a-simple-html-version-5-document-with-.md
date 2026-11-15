@@ -1,13 +1,13 @@
 ---
 id: lpi-030-100-02
-title: "LPIC-3 · 030-100 — Create a simple HTML version 5 document with the title My first…"
+title: "LPIC-3 · 030-100 — Create a simple HTML version 5 document with the title My first…",
 slug: lpi-030-100-02-lpic-3-030-100-create-a-simple-html-version-5-document-with-
-source: "LPI Learning Material — LPIC-3 (Exam 030-100)"
-sourceSection: "1. Create a simple HTML version 5 document with the title My first HTML document and only, 2. Add the author (Kevin Author) and description (This is my first HTML page.) of the, 3. Add the following keywords related to the HTML document: HTML, Example, Test, and, 4. Add the <meta charset=\"ISO-8859-1"
-track: linux-engineer
+source: "LPI Learning Material — LPIC-3 (Exam 030-100)",
+sourceSection: "1. Create a simple HTML version 5 document with the title My first HTML document and only, 2. Add the author (Kevin Author) and description (This is my first HTML page.) of the, 3. Add the following keywords related to the HTML document: HTML, Example, Test, and, 4. Add the <meta charset='ISO-8859-1"
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-3, certification, software-development]
-summary: "Hello World text to Japanese (こんにちは世界). Covers 29 sections: Create a simple HTML version 5 document with the title My first HTML document and only, Add the author (Kevin Author) an."
+summary: "Hello World text to Japanese (こんにちは世界). Covers 29 sections: Create a simple HTML version 5 document with the title My first HTML document and only, Add the author (Kevin Author) an.",
 ---
 # LPIC-3 · 030-100 — Create a simple HTML version 5 document with the title My first…
 

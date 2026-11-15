@@ -1,13 +1,13 @@
 ---
 id: lpi-050-100-01
-title: "LPIC-5 · 050-100 — Software Fundamentals, Software Fundamentals, If the user enters…"
+title: "LPIC-5 · 050-100 — Software Fundamentals, Software Fundamentals, If the user enters…",
 slug: lpi-050-100-01-lpic-5-050-100-software-fundamentals-software-fundamentals-i
-source: "LPI Learning Material — LPIC-5 (Exam 050-100)"
+source: "LPI Learning Material — LPIC-5 (Exam 050-100)",
 sourceSection: "Topic 051: Software Fundamentals, 051. Software Fundamentals, 3. If the user enters a string of letters, Python would print an error as part of its error handling. If, 3. What is the advantage of a machine code file over bytecode?, 2. You have found several open source packages, offered in different"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-5, certification, security, cryptography]
-summary: "Open Source Essentials version 1.0, Exam 050, Objective 051.1 Covers 21 sections: Software Fundamentals, Software Fundamentals, If the user enters a string of letters, Python would print an error as par."
+summary: "Open Source Essentials version 1.0, Exam 050, Objective 051.1 Covers 21 sections: Software Fundamentals, Software Fundamentals, If the user enters a string of letters, Python would print an error as par.",
 ---
 # LPIC-5 · 050-100 — Software Fundamentals, Software Fundamentals, If the user enters…
 

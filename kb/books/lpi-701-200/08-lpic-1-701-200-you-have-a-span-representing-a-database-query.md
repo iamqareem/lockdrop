@@ -1,13 +1,13 @@
 ---
 id: lpi-701-200-08
-title: "LPIC-1 · 701-200 — You have a span representing a database query operation. What are…"
+title: "LPIC-1 · 701-200 — You have a span representing a database query operation. What are…",
 slug: lpi-701-200-08-lpic-1-701-200-you-have-a-span-representing-a-database-query
-source: "LPI Learning Material — LPIC-1 (Exam 701-200)"
+source: "LPI Learning Material — LPIC-1 (Exam 701-200)",
 sourceSection: "2. You have a span representing a database query operation. What are three types of metadata, 4. In Grafana Tempo, you notice a spike in request latency. You find a trace where a span for the, 5. You’re using Jaeger to troubleshoot an e-commerce app. You search by service name and find a, 1. You are"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-1, certification, software-development]
-summary: "Payment Gateway takes much longer than others. Covers 6 sections: You have a span representing a database query operation. What are three types of metadata, In Grafana Tempo, you notice ."
+summary: "Payment Gateway takes much longer than others. Covers 6 sections: You have a span representing a database query operation. What are three types of metadata, In Grafana Tempo, you notice .",
 ---
 # LPIC-1 · 701-200 — You have a span representing a database query operation. What are…
 

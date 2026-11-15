@@ -1,13 +1,13 @@
 ---
 id: book-of-pf-03
-title: "The Book of PF — Originally introduced in OpenBSD 4.1 under the name hoststated…"
+title: "The Book of PF — Originally introduced in OpenBSD 4.1 under the name hoststated…",
 slug: book-of-pf-03-the-book-of-pf-originally-introduced-in-openbsd-4-1-under-th
-source: "The Book of PF, 3rd Edition"
+source: "The Book of PF, 3rd Edition",
 sourceSection: "2. Originally introduced in OpenBSD 4.1 under the name hoststated, the daemon has seen, 74. Chapter 5, 76. Chapter 5, 3. See the OpenSSL man page for further explanation of cipher-related options., 78. Chapter 5, 80. Chapter 5, 82. Chapter 5, 5. How much security this actually adds is a matter of oc"
-track: bsd-internals
+track: bsd-internals,
 tier: premium
 tags: [firewall, pf, networking, security]
-summary: "To see how we can make our sample configuration work a little better by Covers 22 sections: Originally introduced in OpenBSD 4.1 under the name hoststated, the daemon has seen, Chapter 5, Chapter 5."
+summary: "To see how we can make our sample configuration work a little better by Covers 22 sections: Originally introduced in OpenBSD 4.1 under the name hoststated, the daemon has seen, Chapter 5, Chapter 5.",
 ---
 # The Book of PF — Originally introduced in OpenBSD 4.1 under the name hoststated…
 

@@ -1,13 +1,13 @@
 ---
 id: book-of-pf-06
-title: "The Book of PF — Chapter 9, On OpenBSD, all pftop functionality is included in…"
+title: "The Book of PF — Chapter 9, On OpenBSD, all pftop functionality is included in…",
 slug: book-of-pf-06-the-book-of-pf-chapter-9-on-openbsd-all-pftop-functionality-
-source: "The Book of PF, 3rd Edition"
+source: "The Book of PF, 3rd Edition",
 sourceSection: "172. Chapter 9, 1. On OpenBSD, all pftop functionality is included in various systat views, as described in the, 2. The color values listed in the configuration example would give you a graph with red, blue,, 174. Chapter 9, 176. Chapter 9, 178. Chapter 9, 180. Chapter 9, 5. The protocol debuted wit"
-track: bsd-internals
+track: bsd-internals,
 tier: premium
 tags: [firewall, pf, networking, security]
-summary: "The systat program offers quite a few other views, including networkrelated ones, such as netstat, vmstat for virtual memory statistics, and iostat Covers 22 sections: Chapter 9, On OpenBSD, all pftop functionality is included in various sy"
+summary: "The systat program offers quite a few other views, including networkrelated ones, such as netstat, vmstat for virtual memory statistics, and iostat Covers 22 sections: Chapter 9, On OpenBSD, all pftop functionality is included in various sy",
 ---
 # The Book of PF — Chapter 9, On OpenBSD, all pftop functionality is included in…
 

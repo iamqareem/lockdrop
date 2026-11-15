@@ -1,13 +1,13 @@
 ---
 id: bind9-02
-title: "BIND 9 Administrator Reference Manual — Add the zone into the BIND configuration (usually named.conf ):…"
+title: "BIND 9 Administrator Reference Manual — Add the zone into the BIND configuration (usually named.conf ):…",
 slug: bind9-02-bind-9-administrator-reference-manual-add-the-zone-into-the-
-source: "BIND 9 Administrator Reference Manual"
+source: "BIND 9 Administrator Reference Manual",
 sourceSection: "2. Add the zone into the BIND configuration (usually named.conf ):, 3. Enable use of the Response Policy Zone for all incoming queries by adding the response-policy directive into"
-track: networking-dns
+track: networking-dns,
 tier: premium
 tags: [dns, bind9, networking, infrastructure]
-summary: "The response should return NXDOMAIN instead of the list of IP addresses, and the BIND 9 log should contain lines like Covers 2 sections: Add the zone into the BIND configuration (usually named.conf ):, Enable use of the Response Policy Zone"
+summary: "The response should return NXDOMAIN instead of the list of IP addresses, and the BIND 9 log should contain lines like Covers 2 sections: Add the zone into the BIND configuration (usually named.conf ):, Enable use of the Response Policy Zone",
 ---
 # BIND 9 Administrator Reference Manual — Add the zone into the BIND configuration (usually named.conf ):…
 

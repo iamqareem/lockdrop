@@ -1,13 +1,13 @@
 ---
 id: book-of-pf-07
-title: "The Book of PF — Appendix B, Index, Index & Index"
+title: "The Book of PF — Appendix B, Index, Index & Index",
 slug: book-of-pf-07-the-book-of-pf-appendix-b-index-index-index
-source: "The Book of PF, 3rd Edition"
+source: "The Book of PF, 3rd Edition",
 sourceSection: "210. Appendix B, 214. Index, 218. Index, 220. Index"
-track: bsd-internals
+track: bsd-internals,
 tier: premium
 tags: [firewall, pf, networking, security]
-summary: "Visit http://nostarch.com/pf3/ for updates, errata, and other information. Covers 4 sections: Appendix B, Index, Index."
+summary: "Visit http://nostarch.com/pf3/ for updates, errata, and other information. Covers 4 sections: Appendix B, Index, Index.",
 ---
 # The Book of PF — Appendix B, Index, Index & Index
 

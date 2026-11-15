@@ -1,13 +1,13 @@
 ---
 id: design-44bsd-01
-title: "The Design and Implementation of 4.4BSD — Kernel Organization, Kernel Services, Process Management, Memory…"
+title: "The Design and Implementation of 4.4BSD — Kernel Organization, Kernel Services, Process Management, Memory…",
 slug: design-44bsd-01-the-design-and-implementation-of-4-4bsd-kernel-organization-
-source: "The Design and Implementation of the 4.4BSD Operating System"
+source: "The Design and Implementation of the 4.4BSD Operating System",
 sourceSection: "2.1.2 Kernel Organization, 2.1.3 Kernel Services, 2.1.4 Process Management, 2.1.5 Memory Management, 2.1.6 I/O System, 2.1.7 Filesystems, 3. Everyone else"
-track: systems-kernel
+track: systems-kernel,
 tier: premium
 tags: [bsd, kernel, internals, history, unix]
-summary: "In this section, we view the organization of the 4.4BSD kernel in two ways: Covers 7 sections: Kernel Organization, Kernel Services, Process Management."
+summary: "In this section, we view the organization of the 4.4BSD kernel in two ways: Covers 7 sections: Kernel Organization, Kernel Services, Process Management.",
 ---
 # The Design and Implementation of 4.4BSD — Kernel Organization, Kernel Services, Process Management, Memory…
 

@@ -1,13 +1,13 @@
 ---
 id: lfs-12-2-01
-title: "Linux From Scratch 12.2 — Introduction, Preparing the Host System, Packages and Patches…"
+title: "Linux From Scratch 12.2 — Introduction, Preparing the Host System, Packages and Patches…",
 slug: lfs-12-2-01-linux-from-scratch-12-2-introduction-preparing-the-host-syst
-source: "Linux From Scratch 12.2"
+source: "Linux From Scratch 12.2",
 sourceSection: "Chapter 1. Introduction, Chapter 2. Preparing the Host System, Chapter 3. Packages and Patches, Chapter 4. Final Preparations, 3. For each package:, Chapter 5. Compiling a Cross-Toolchain, Chapter 6. Cross Compiling Temporary Tools, Chapter 7. Entering Chroot and Building Additional"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lfs, from-scratch, compilation, sysadmin]
-summary: "The LFS system will be built by using an already installed Linux distribution (such as Debian, OpenMandriva, Fedora, Covers 8 sections: Introduction, Preparing the Host System, Packages and Patches."
+summary: "The LFS system will be built by using an already installed Linux distribution (such as Debian, OpenMandriva, Fedora, Covers 8 sections: Introduction, Preparing the Host System, Packages and Patches.",
 ---
 # Linux From Scratch 12.2 — Introduction, Preparing the Host System, Packages and Patches…
 

@@ -1,13 +1,13 @@
 ---
 id: freebsd-developers-01
-title: "The FreeBSD Developer's Handbook — Introduction, Programming Tools, We now have a compiled version…"
+title: "The FreeBSD Developer's Handbook — Introduction, Programming Tools, We now have a compiled version…",
 slug: freebsd-developers-01-the-freebsd-developer-s-handbook-introduction-programming-to
-source: "The FreeBSD Developer's Handbook"
-sourceSection: "Chapter 1. Introduction, Chapter 2. Programming Tools, 7. We now have a compiled version of the program. If we wish, we can test it now; when we feel, Chapter 3. Secure Programming, Chapter 4. Localization and, Chapter 5. Source Tree Guidelines and, Chapter 6. Regression and Performance, Chapter 7. "
-track: bsd-internals
+source: "The FreeBSD Developer's Handbook",
+sourceSection: "Chapter 1. Introduction, Chapter 2. Programming Tools, 7. We now have a compiled version of the program. If we wish, we can test it now; when we feel, Chapter 3. Secure Programming, Chapter 4. Localization and, Chapter 5. Source Tree Guidelines and, Chapter 6. Regression and Performance, Chapter 7."
+track: bsd-internals,
 tier: premium
 tags: [bsd, freebsd, internals, toolchains]
-summary: "So here we are. Covers 9 sections: Introduction, Programming Tools, We now have a compiled version of the program. If we wish, we can test it now; when we ."
+summary: "So here we are. Covers 9 sections: Introduction, Programming Tools, We now have a compiled version of the program. If we wish, we can test it now; when we .",
 ---
 # The FreeBSD Developer's Handbook — Introduction, Programming Tools, We now have a compiled version…
 

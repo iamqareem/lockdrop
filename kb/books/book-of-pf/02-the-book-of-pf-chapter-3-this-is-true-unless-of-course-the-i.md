@@ -1,13 +1,13 @@
 ---
 id: book-of-pf-02
-title: "The Book of PF — Chapter 3, This is true unless, of course, the information…"
+title: "The Book of PF — Chapter 3, This is true unless, of course, the information…",
 slug: book-of-pf-02-the-book-of-pf-chapter-3-this-is-true-unless-of-course-the-i
-source: "The Book of PF, 3rd Edition"
+source: "The Book of PF, 3rd Edition",
 sourceSection: "32. Chapter 3, 4. This is true unless, of course, the information changed in the meantime. Some sysadmins, 34. Chapter 3, 5. The earliest RFC describing the FTP protocol is RFC 114, dated April 10, 1971. The switch, 36. Chapter 3, 38. Chapter 3, 40. Chapter 3, 7. The main RFCs describing ICMP and so"
-track: bsd-internals
+track: bsd-internals,
 tier: premium
 tags: [firewall, pf, networking, security]
-summary: "Here’s another pass rule that is useful to those who want the ability to Covers 23 sections: Chapter 3, This is true unless, of course, the information changed in the meantime. Some sysadmins, Chapter 3."
+summary: "Here’s another pass rule that is useful to those who want the ability to Covers 23 sections: Chapter 3, This is true unless, of course, the information changed in the meantime. Some sysadmins, Chapter 3.",
 ---
 # The Book of PF — Chapter 3, This is true unless, of course, the information…
 

@@ -1,13 +1,13 @@
 ---
 id: lpi-101-500-06
-title: "LPIC-1 · 101-500 — In a preemptive multi-tasking system, what happens when a lower…"
+title: "LPIC-1 · 101-500 — In a preemptive multi-tasking system, what happens when a lower…",
 slug: lpi-101-500-06-lpic-1-101-500-in-a-preemptive-multi-tasking-system-what-hap
-source: "LPI Learning Material — LPIC-1 (Exam 101-500)"
-sourceSection: "1. In a preemptive multi-tasking system, what happens when a lower priority process is, 2. Consider the following top screen:, 3. Consider the following ps -el listing:, 4. After trying to renice a process with renice, the following error happens:, 1. Changing process priorities is usually required "
-track: linux-engineer
+source: "LPI Learning Material — LPIC-1 (Exam 101-500)",
+sourceSection: "1. In a preemptive multi-tasking system, what happens when a lower priority process is, 2. Consider the following top screen:, 3. Consider the following ps -el listing:, 4. After trying to renice a process with renice, the following error happens:, 1. Changing process priorities is usually required"
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-1, certification, system-administration]
-summary: "This lesson covers how Linux shares CPU time among its managed processes. Covers 30 sections: In a preemptive multi-tasking system, what happens when a lower priority process is, Consider the following top screen:,."
+summary: "This lesson covers how Linux shares CPU time among its managed processes. Covers 30 sections: In a preemptive multi-tasking system, what happens when a lower priority process is, Consider the following top screen:,.",
 ---
 # LPIC-1 · 101-500 — In a preemptive multi-tasking system, what happens when a lower…
 

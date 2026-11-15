@@ -1,13 +1,13 @@
 ---
 id: beej-network-05
-title: "Beej's Guide to Network Programming — Install the software."
+title: "Beej's Guide to Network Programming — Install the software.",
 slug: beej-network-05-beej-s-guide-to-network-programming-install-the-software
-source: "Beej's Guide to Network Programming"
+source: "Beej's Guide to Network Programming",
 sourceSection: "5. Install the software."
-track: networking-dns
+track: networking-dns,
 tier: premium
 tags: [network-programming, sockets, c, tcp-ip]
-summary: "If you want to go through the free course, or if the above route isn’t working, try this: Covers Install the software.."
+summary: "If you want to go through the free course, or if the above route isn’t working, try this: Covers Install the software..",
 ---
 # Beej's Guide to Network Programming — Install the software.
 

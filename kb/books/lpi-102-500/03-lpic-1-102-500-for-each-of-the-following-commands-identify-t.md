@@ -1,13 +1,13 @@
 ---
 id: lpi-102-500-03
-title: "LPIC-1 · 102-500 — For each of the following commands, identify the corresponding…"
+title: "LPIC-1 · 102-500 — For each of the following commands, identify the corresponding…",
 slug: lpi-102-500-03-lpic-1-102-500-for-each-of-the-following-commands-identify-t
-source: "LPI Learning Material — LPIC-1 (Exam 102-500)"
+source: "LPI Learning Material — LPIC-1 (Exam 102-500)",
 sourceSection: "1. For each of the following commands, identify the corresponding purpose:, 1. Using the groupadd command, create the administrators and developers groups. Assume, 2. Now that you have created these groups, run the following command: useradd -G, 3. Create a new group named designers, rename it to we"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-1, certification, shells, scripting]
-summary: "The following files and commands were discussed in this lesson: Covers 56 sections: For each of the following commands, identify the corresponding purpose:, Using the groupadd command, create the administ."
+summary: "The following files and commands were discussed in this lesson: Covers 56 sections: For each of the following commands, identify the corresponding purpose:, Using the groupadd command, create the administ.",
 ---
 # LPIC-1 · 102-500 — For each of the following commands, identify the corresponding…
 

@@ -1,13 +1,13 @@
 ---
 id: beej-python-06
-title: "Beej's Guide to Python Programming — Appendix B: The REPL, Appendix C: Assignment Behavior, Appendix…"
+title: "Beej's Guide to Python Programming — Appendix B: The REPL, Appendix C: Assignment Behavior, Appendix…",
 slug: beej-python-06-beej-s-guide-to-python-programming-appendix-b-the-repl-appen
-source: "Beej's Guide to Python Programming"
+source: "Beej's Guide to Python Programming",
 sourceSection: "Appendix B: The REPL, Appendix C: Assignment Behavior, Appendix D: Number Bases, 4. Repeat!, 64. Nov 18 23:14 ., 3936. Nov 18 23:14 .., 96. Nov 18 23:27 ., 3936. Nov 18 23:14 .., 87. Nov 18 23:27 hello.py"
-track: data-scripting
+track: data-scripting,
 tier: free
 tags: [python, programming, scripting]
-summary: "The REPL, pronounced REP-əl, is short for the Read-Evaluate-Print Loop. Covers 9 sections: Appendix B: The REPL, Appendix C: Assignment Behavior, Appendix D: Number Bases."
+summary: "The REPL, pronounced REP-əl, is short for the Read-Evaluate-Print Loop. Covers 9 sections: Appendix B: The REPL, Appendix C: Assignment Behavior, Appendix D: Number Bases.",
 ---
 # Beej's Guide to Python Programming — Appendix B: The REPL, Appendix C: Assignment Behavior, Appendix…
 

@@ -1,13 +1,13 @@
 ---
 id: lpi-701-200-03
-title: "LPIC-1 · 701-200 — You are releasing a new version of your application and want to…"
+title: "LPIC-1 · 701-200 — You are releasing a new version of your application and want to…",
 slug: lpi-701-200-03-lpic-1-701-200-you-are-releasing-a-new-version-of-your-appli
-source: "LPI Learning Material — LPIC-1 (Exam 701-200)"
+source: "LPI Learning Material — LPIC-1 (Exam 701-200)",
 sourceSection: "2. You are releasing a new version of your application and want to minimize risk while allowing, 3. You are releasing an update that adds a new feature to your API but does not break any, 4. Your team is using GitOps to manage Kubernetes deployments. A manual change is made, 1. Choose two popular CI"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-1, certification, software-development]
-summary: "This lesson introduced the core concepts of continuous integration (CI) and continuous delivery Covers 18 sections: You are releasing a new version of your application and want to minimize risk while allowing, You are releasing an updat."
+summary: "This lesson introduced the core concepts of continuous integration (CI) and continuous delivery Covers 18 sections: You are releasing a new version of your application and want to minimize risk while allowing, You are releasing an updat.",
 ---
 # LPIC-1 · 701-200 — You are releasing a new version of your application and want to…
 

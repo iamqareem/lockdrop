@@ -1,13 +1,13 @@
 ---
 id: lpi-020-100-04
-title: "LPIC-2 · 020-100 — Which backup type is described as the most efficient in terms of…"
+title: "LPIC-2 · 020-100 — Which backup type is described as the most efficient in terms of…",
 slug: lpi-020-100-04-lpic-2-020-100-which-backup-type-is-described-as-the-most-ef
-source: "LPI Learning Material — LPIC-2 (Exam 020-100)"
+source: "LPI Learning Material — LPIC-2 (Exam 020-100)",
 sourceSection: "2. Which backup type is described as the most efficient in terms of storage space, but can be, 3. What is the purpose of a backup retention policy?, 1. Create a backup plan for your personal or work-related data, considering the type of data,, 2. Research a popular cloud storage service and its secu"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-2, certification, security]
-summary: "In this lesson, we’ve explored the importance of data backups, common backup types and Covers 26 sections: Which backup type is described as the most efficient in terms of storage space, but can be, What is the purpose of a bac."
+summary: "In this lesson, we’ve explored the importance of data backups, common backup types and Covers 26 sections: Which backup type is described as the most efficient in terms of storage space, but can be, What is the purpose of a bac.",
 ---
 # LPIC-2 · 020-100 — Which backup type is described as the most efficient in terms of…
 

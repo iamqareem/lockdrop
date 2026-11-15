@@ -1,13 +1,13 @@
 ---
 id: lpi-102-500-05
-title: "LPIC-1 · 102-500 — Assuming you are root, complete the table with the appropriate…"
+title: "LPIC-1 · 102-500 — Assuming you are root, complete the table with the appropriate…",
 slug: lpi-102-500-05-lpic-1-102-500-assuming-you-are-root-complete-the-table-with
-source: "LPI Learning Material — LPIC-1 (Exam 102-500)"
+source: "LPI Learning Material — LPIC-1 (Exam 102-500)",
 sourceSection: "1. Assuming you are root, complete the table with the appropriate journalctl command:, 1. What options should you modify in /etc/systemd/journald.conf so that messages are, 2. Provide the correct journalctl filter to print the following:, 4. Priority levels can also be specified numerically. Rewrite"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-1, certification, shells, scripting]
-summary: "Complete the following tasks using journalctl and the appropriate options: Covers 42 sections: Assuming you are root, complete the table with the appropriate journalctl command:, What options should you modify in /e."
+summary: "Complete the following tasks using journalctl and the appropriate options: Covers 42 sections: Assuming you are root, complete the table with the appropriate journalctl command:, What options should you modify in /e.",
 ---
 # LPIC-1 · 102-500 — Assuming you are root, complete the table with the appropriate…
 

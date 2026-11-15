@@ -1,15 +1,15 @@
 ---
 id: lpi-701-200-07
-title: "LPIC-1 · 701-200 — What does “high availability” mean in the context of IT…"
+title: "LPIC-1 · 701-200 — What does 'high availability' mean in the context of IT…",
 slug: lpi-701-200-07-lpic-1-701-200-what-does-high-availability-mean-in-the-conte
-source: "LPI Learning Material — LPIC-1 (Exam 701-200)"
-sourceSection: "1. What does “high availability” mean in the context of IT operations, and which strategies are, 3. What are two methods organizations can use to reduce latency and improve system, 4. Why is it important to monitor CPU and memory usage, and what issues can high usage, 5. How does proactive monitorin"
-track: linux-engineer
+source: "LPI Learning Material — LPIC-1 (Exam 701-200)",
+sourceSection: "1. What does 'high availability' mean in the context of IT operations, and which strategies are, 3. What are two methods organizations can use to reduce latency and improve system, 4. Why is it important to monitor CPU and memory usage, and what issues can high usage, 5. How does proactive monitorin"
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-1, certification, software-development]
-summary: "In modern IT environments, operations teams are tasked with maintaining the reliability, Covers 34 sections: What does “high availability” mean in the context of IT operations, and which strategies are, What are two methods organ."
+summary: "In modern IT environments, operations teams are tasked with maintaining the reliability, Covers 34 sections: What does 'high availability' mean in the context of IT operations, and which strategies are, What are two methods organ.",
 ---
-# LPIC-1 · 701-200 — What does “high availability” mean in the context of IT…
+# LPIC-1 · 701-200 — What does 'high availability' mean in the context of IT…
 
 ## 3. What are two methods organizations can use to reduce latency and improve system
 responsiveness?

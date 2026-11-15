@@ -1,13 +1,13 @@
 ---
 id: lpi-030-100-05
-title: "LPIC-3 · 030-100 — How would you implement a parameter to multiply or sum the two…"
+title: "LPIC-3 · 030-100 — How would you implement a parameter to multiply or sum the two…",
 slug: lpi-030-100-05-lpic-3-030-100-how-would-you-implement-a-parameter-to-multip
-source: "LPI Learning Material — LPIC-3 (Exam 030-100)"
+source: "LPI Learning Material — LPIC-3 (Exam 030-100)",
 sourceSection: "4. How would you implement a parameter to multiply or sum the two numbers in the server, 1. How can you execute Node.js applications on your computer?, 035. NodeJS Server Programming, 1. How can the content of the comment field, sent within a query string of the HTTP GET method,, 2. Write a route th"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-3, certification, software-development]
-summary: "This lesson provided an overview of the Node.js environment, its characteristics, and how it can Covers 28 sections: How would you implement a parameter to multiply or sum the two numbers in the server, How can you execute Node.js applic."
+summary: "This lesson provided an overview of the Node.js environment, its characteristics, and how it can Covers 28 sections: How would you implement a parameter to multiply or sum the two numbers in the server, How can you execute Node.js applic.",
 ---
 # LPIC-3 · 030-100 — How would you implement a parameter to multiply or sum the two…
 

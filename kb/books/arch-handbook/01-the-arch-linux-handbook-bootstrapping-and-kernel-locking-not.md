@@ -1,13 +1,13 @@
 ---
 id: arch-handbook-01
-title: "The Arch Linux Handbook — Bootstrapping and Kernel, Locking Notes, Kernel Objects, The Jail…"
+title: "The Arch Linux Handbook — Bootstrapping and Kernel, Locking Notes, Kernel Objects, The Jail…",
 slug: arch-handbook-01-the-arch-linux-handbook-bootstrapping-and-kernel-locking-not
-source: "The Arch Linux Handbook"
+source: "The Arch Linux Handbook",
 sourceSection: "Chapter 1. Bootstrapping and Kernel, Chapter 2. Locking Notes, Chapter 3. Kernel Objects, Chapter 4. The Jail Subsystem, Chapter 5. The SYSINIT Framework"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, arch, packaging, sysadmin]
-summary: "This chapter is an overview of the boot and system initialization processes, starting from the BIOS Covers 5 sections: Bootstrapping and Kernel, Locking Notes, Kernel Objects."
+summary: "This chapter is an overview of the boot and system initialization processes, starting from the BIOS Covers 5 sections: Bootstrapping and Kernel, Locking Notes, Kernel Objects.",
 ---
 # The Arch Linux Handbook — Bootstrapping and Kernel, Locking Notes, Kernel Objects, The Jail…
 

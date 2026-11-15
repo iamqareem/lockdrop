@@ -1,13 +1,13 @@
 ---
 id: lpi-102-500-02
-title: "LPIC-1 · 102-500 — The -s option for the read command is useful for entering…"
+title: "LPIC-1 · 102-500 — The -s option for the read command is useful for entering…",
 slug: lpi-102-500-02-lpic-1-102-500-the-s-option-for-the-read-command-is-useful-f
-source: "LPI Learning Material — LPIC-1 (Exam 102-500)"
+source: "LPI Learning Material — LPIC-1 (Exam 102-500)",
 sourceSection: "1. The -s option for the read command is useful for entering passwords, as it will not show the, 2. The only purpose of the command whoami is to display the username of the user who called it,, 3. What Bash operator should be between the commands apt-get dist-upgrade and, 1. After trying to run a ne"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-1, certification, shells, scripting]
-summary: "Considering that the file ./script.sh was created by the same user, what would be the Covers 40 sections: The -s option for the read command is useful for entering passwords, as it will not show the, The only purpose of the co."
+summary: "Considering that the file ./script.sh was created by the same user, what would be the Covers 40 sections: The -s option for the read command is useful for entering passwords, as it will not show the, The only purpose of the co.",
 ---
 # LPIC-1 · 102-500 — The -s option for the read command is useful for entering…
 

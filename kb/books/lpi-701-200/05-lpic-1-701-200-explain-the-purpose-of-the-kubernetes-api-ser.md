@@ -1,13 +1,13 @@
 ---
 id: lpi-701-200-05
-title: "LPIC-1 · 701-200 — Explain the purpose of the Kubernetes API Server in the control…"
+title: "LPIC-1 · 701-200 — Explain the purpose of the Kubernetes API Server in the control…",
 slug: lpi-701-200-05-lpic-1-701-200-explain-the-purpose-of-the-kubernetes-api-ser
-source: "LPI Learning Material — LPIC-1 (Exam 701-200)"
+source: "LPI Learning Material — LPIC-1 (Exam 701-200)",
 sourceSection: "1. Explain the purpose of the Kubernetes API Server in the control plane. Why is it considered the, 4. Describe the responsibilities of the kubelet. How does it interact with the rest of the Kubernetes, 1. Imagine you are managing a Kubernetes cluster, and you notice that one of your applications, 1"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-1, certification, software-development]
-summary: "Kubernetes is the leading platform for orchestrating containerized applications. Covers 32 sections: Explain the purpose of the Kubernetes API Server in the control plane. Why is it considered the, Describe the responsibi."
+summary: "Kubernetes is the leading platform for orchestrating containerized applications. Covers 32 sections: Explain the purpose of the Kubernetes API Server in the control plane. Why is it considered the, Describe the responsibi.",
 ---
 # LPIC-1 · 701-200 — Explain the purpose of the Kubernetes API Server in the control…
 

@@ -16,7 +16,9 @@
     "test": "node --test tests/*.test.js",
     "schema": "turso db shell lockdrop < schema.sql",
     "kb:publish": "node scripts/publish-kb.mjs",
-    "kb:catalog": "node scripts/catalog.mjs"
+    "kb:catalog": "node scripts/catalog.mjs",
+    "kb:build": "node scripts/build-kb.mjs",
+    "kb:sync": "node scripts/sync-manifest.mjs"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-ethers": "^4.2.2",

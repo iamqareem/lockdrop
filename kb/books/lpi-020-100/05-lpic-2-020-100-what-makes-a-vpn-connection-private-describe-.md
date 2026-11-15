@@ -1,13 +1,13 @@
 ---
 id: lpi-020-100-05
-title: "LPIC-2 · 020-100 — What makes a VPN connection private?, Describe how Tor enhances…"
+title: "LPIC-2 · 020-100 — What makes a VPN connection private?, Describe how Tor enhances…",
 slug: lpi-020-100-05-lpic-2-020-100-what-makes-a-vpn-connection-private-describe-
-source: "LPI Learning Material — LPIC-2 (Exam 020-100)"
-sourceSection: "2. What makes a VPN connection private?, 1. Describe how Tor enhances user anonymity on the internet. Explain the process by which Tor, 2. What are the primary differences between Bitcoin and Monero in terms of anonymity? Discuss, 1. Describe how Tor enhances user anonymity on the internet. Explain "
-track: linux-engineer
+source: "LPI Learning Material — LPIC-2 (Exam 020-100)",
+sourceSection: "2. What makes a VPN connection private?, 1. Describe how Tor enhances user anonymity on the internet. Explain the process by which Tor, 2. What are the primary differences between Bitcoin and Monero in terms of anonymity? Discuss, 1. Describe how Tor enhances user anonymity on the internet. Explain"
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-2, certification, security]
-summary: "Include details on their typical use cases, strengths, and weaknesses. Covers 19 sections: What makes a VPN connection private?, Describe how Tor enhances user anonymity on the internet. Explain the process by w."
+summary: "Include details on their typical use cases, strengths, and weaknesses. Covers 19 sections: What makes a VPN connection private?, Describe how Tor enhances user anonymity on the internet. Explain the process by w.",
 ---
 # LPIC-2 · 020-100 — What makes a VPN connection private?, Describe how Tor enhances…
 

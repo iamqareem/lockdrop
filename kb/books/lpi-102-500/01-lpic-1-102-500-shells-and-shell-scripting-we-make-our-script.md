@@ -1,13 +1,13 @@
 ---
 id: lpi-102-500-01
-title: "LPIC-1 · 102-500 — Shells and Shell Scripting, We make our script executable:…"
+title: "LPIC-1 · 102-500 — Shells and Shell Scripting, We make our script executable:…",
 slug: lpi-102-500-01-lpic-1-102-500-shells-and-shell-scripting-we-make-our-script
-source: "LPI Learning Material — LPIC-1 (Exam 102-500)"
+source: "LPI Learning Material — LPIC-1 (Exam 102-500)",
 sourceSection: "Topic 105: Shells and Shell Scripting, 2. We make our script executable:, 3. Finally, we invoke bash with the -l option to run the script:, 4. Hello from /home/user2/.profile means ~/.profile has been fully read and executed., 2. We list its contents:, 3. We create our directory and check all went a"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-1, certification, shells, scripting]
-summary: "The shell is arguably the most powerful tool in a Linux system and can be defined as an interface Covers 67 sections: Shells and Shell Scripting, We make our script executable:, Finally, we invoke bash with the -l option to run the script."
+summary: "The shell is arguably the most powerful tool in a Linux system and can be defined as an interface Covers 67 sections: Shells and Shell Scripting, We make our script executable:, Finally, we invoke bash with the -l option to run the script.",
 ---
 # LPIC-1 · 102-500 — Shells and Shell Scripting, We make our script executable:…
 

@@ -1,13 +1,13 @@
 ---
 id: lpi-020-100-01
-title: "LPIC-2 · 020-100 — Security Concepts, Security Concepts, What is the role of a Chief…"
+title: "LPIC-2 · 020-100 — Security Concepts, Security Concepts, What is the role of a Chief…",
 slug: lpi-020-100-01-lpic-2-020-100-security-concepts-security-concepts-what-is-t
-source: "LPI Learning Material — LPIC-2 (Exam 020-100)"
+source: "LPI Learning Material — LPIC-2 (Exam 020-100)",
 sourceSection: "Topic 021: Security Concepts, 021. Security Concepts, 3. What is the role of a Chief Information Security Officer (CISO), and why is it important in an, 2. Is there a legitimate reason to post a hacking tool online that can be used by script kiddies to, 1. Why are many attacks on digital information"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-2, certification, security]
-summary: "Over the past few decades, internet technologies have significantly changed the ways society Covers 25 sections: Security Concepts, Security Concepts, What is the role of a Chief Information Security Officer (CISO), and why is it imp."
+summary: "Over the past few decades, internet technologies have significantly changed the ways society Covers 25 sections: Security Concepts, Security Concepts, What is the role of a Chief Information Security Officer (CISO), and why is it imp.",
 ---
 # LPIC-2 · 020-100 — Security Concepts, Security Concepts, What is the role of a Chief…
 

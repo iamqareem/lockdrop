@@ -1,13 +1,13 @@
 ---
 id: lpi-101-500-05
-title: "LPIC-1 · 101-500 — It’s convenient to save the execution date of actions performed…"
+title: "LPIC-1 · 101-500 — It’s convenient to save the execution date of actions performed…",
 slug: lpi-101-500-05-lpic-1-101-500-it-s-convenient-to-save-the-execution-date-of
-source: "LPI Learning Material — LPIC-1 (Exam 101-500)"
+source: "LPI Learning Material — LPIC-1 (Exam 101-500)",
 sourceSection: "1. It’s convenient to save the execution date of actions performed by automated scripts. Command, 2. Using command echo, how can the contents of variable TODAY be sent to the standard input of, 3. How could the output of command date +%Y-%m-%d be used as a Here string to command sed, 4. Command conv"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-1, certification, system-administration]
-summary: "SHA1 hash of the file with sha1sum < sda1.img > sda1.sha1. Covers 36 sections: It’s convenient to save the execution date of actions performed by automated scripts. Command, Using command echo, how c."
+summary: "SHA1 hash of the file with sha1sum < sda1.img > sda1.sha1. Covers 36 sections: It’s convenient to save the execution date of actions performed by automated scripts. Command, Using command echo, how c.",
 ---
 # LPIC-1 · 101-500 — It’s convenient to save the execution date of actions performed…
 

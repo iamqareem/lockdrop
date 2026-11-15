@@ -1,13 +1,13 @@
 ---
 id: eloquent-javascript-01
-title: "Eloquent JavaScript — Program Structure, Functions, Higher-Order Functions & Modules"
+title: "Eloquent JavaScript — Program Structure, Functions, Higher-Order Functions & Modules",
 slug: eloquent-javascript-01-eloquent-javascript-program-structure-functions-higher-order
-source: "Eloquent JavaScript"
+source: "Eloquent JavaScript",
 sourceSection: "2. Program Structure, 3. Functions, 5. Higher-Order Functions, 10. Modules"
-track: javascript
+track: javascript,
 tier: premium
 tags: [javascript, programming, web]
-summary: "Expressions and statements . . . . . . . . . . . . . . . . . . . . . . . . Covers 4 sections: Program Structure, Functions, Higher-Order Functions."
+summary: "Expressions and statements . . . . . . . . . . . . . . . . . . . . . . . . Covers 4 sections: Program Structure, Functions, Higher-Order Functions.",
 ---
 # Eloquent JavaScript — Program Structure, Functions, Higher-Order Functions & Modules
 

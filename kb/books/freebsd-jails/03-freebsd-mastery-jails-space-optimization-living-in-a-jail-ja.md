@@ -1,13 +1,13 @@
 ---
 id: freebsd-jails-03
-title: "FreeBSD Mastery · Jails — Space Optimization, Living In A Jail & Jail Features And Controls"
+title: "FreeBSD Mastery · Jails — Space Optimization, Living In A Jail & Jail Features And Controls",
 slug: freebsd-jails-03-freebsd-mastery-jails-space-optimization-living-in-a-jail-ja
-source: "FreeBSD Mastery — Jails"
+source: "FreeBSD Mastery — Jails",
 sourceSection: "Chapter 6. Space Optimization, Chapter 7. Living In A Jail, Chapter 8. Jail Features And Controls"
-track: bsd-internals
+track: bsd-internals,
 tier: premium
 tags: [bsd, freebsd, jails, containers, security]
-summary: "Standard jails plop a copy of FreeBSD down onto the disk and use it like any Covers 3 sections: Space Optimization, Living In A Jail, Jail Features And Controls."
+summary: "Standard jails plop a copy of FreeBSD down onto the disk and use it like any Covers 3 sections: Space Optimization, Living In A Jail, Jail Features And Controls.",
 ---
 # FreeBSD Mastery · Jails — Space Optimization, Living In A Jail & Jail Features And Controls
 

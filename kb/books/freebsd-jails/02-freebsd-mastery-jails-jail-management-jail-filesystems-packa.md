@@ -1,13 +1,13 @@
 ---
 id: freebsd-jails-02
-title: "FreeBSD Mastery · Jails — Jail Management, Jail Filesystems & Packages and Upgrades"
+title: "FreeBSD Mastery · Jails — Jail Management, Jail Filesystems & Packages and Upgrades",
 slug: freebsd-jails-02-freebsd-mastery-jails-jail-management-jail-filesystems-packa
-source: "FreeBSD Mastery — Jails"
+source: "FreeBSD Mastery — Jails",
 sourceSection: "Chapter 3. Jail Management, Chapter 4. Jail Filesystems, Chapter 5. Packages and Upgrades"
-track: bsd-internals
+track: bsd-internals,
 tier: premium
 tags: [bsd, freebsd, jails, containers, security]
-summary: "Starting and stopping jails is the least of your problems. Covers 3 sections: Jail Management, Jail Filesystems, Packages and Upgrades."
+summary: "Starting and stopping jails is the least of your problems. Covers 3 sections: Jail Management, Jail Filesystems, Packages and Upgrades.",
 ---
 # FreeBSD Mastery · Jails — Jail Management, Jail Filesystems & Packages and Upgrades
 

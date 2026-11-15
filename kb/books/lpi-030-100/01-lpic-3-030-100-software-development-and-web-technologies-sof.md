@@ -1,13 +1,13 @@
 ---
 id: lpi-030-100-01
-title: "LPIC-3 · 030-100 — Software Development and Web Technologies, Software Development…"
+title: "LPIC-3 · 030-100 — Software Development and Web Technologies, Software Development…",
 slug: lpi-030-100-01-lpic-3-030-100-software-development-and-web-technologies-sof
-source: "LPI Learning Material — LPIC-3 (Exam 030-100)"
+source: "LPI Learning Material — LPIC-3 (Exam 030-100)",
 sourceSection: "Topic 031: Software Development and Web Technologies, 031. Software Development and Web, 1. Suppose you want to write a 3D game to be played in the browser. Web apps and games are, 1. What kind of program can be used to edit source code?, 1. Suppose you want to write a 3D game to be played in the br"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-3, certification, software-development]
-summary: "Web Development Essentials (030) (Version 1.0) | Topic 031: Software Development and Web Technologies Covers 21 sections: Software Development and Web Technologies, Software Development and Web, Suppose you want to write a 3D game to be pla"
+summary: "Web Development Essentials (030) (Version 1.0) | Topic 031: Software Development and Web Technologies Covers 21 sections: Software Development and Web Technologies, Software Development and Web, Suppose you want to write a 3D game to be pla",
 ---
 # LPIC-3 · 030-100 — Software Development and Web Technologies, Software Development…
 

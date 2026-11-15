@@ -1,13 +1,13 @@
 ---
 id: lec-sqlite-01
-title: "SQLite and sqlite3 — SQLite and sqlite3, Supplementary materials, Recall, Types of…"
+title: "SQLite and sqlite3 — SQLite and sqlite3, Supplementary materials, Recall, Types of…",
 slug: lec-sqlite-01-sqlite-and-sqlite3-sqlite-and-sqlite3-supplementary-material
-source: "SQLite and sqlite3 — Statistical Computing & Programming"
+source: "SQLite and sqlite3 — Statistical Computing & Programming",
 sourceSection: "SQLite and sqlite3, Supplementary materials, Recall, Types of DBMS: MySQL, Microsoft Access, Microsoft SQL Server, FileMaker Pro, Oracle, Relational database management, SQL, It is an American National Standards Institute standard computer language for accessing, Big picture, Source: https://www.w3r"
-track: data-scripting
+track: data-scripting,
 tier: free
 tags: [sqlite, sql, databases, statistics]
-summary: "A database is a collection of data typically stored in a computer system. Covers 56 sections: SQLite and sqlite3, Supplementary materials, Recall."
+summary: "A database is a collection of data typically stored in a computer system. Covers 56 sections: SQLite and sqlite3, Supplementary materials, Recall.",
 ---
 # SQLite and sqlite3 — SQLite and sqlite3, Supplementary materials, Recall, Types of…
 

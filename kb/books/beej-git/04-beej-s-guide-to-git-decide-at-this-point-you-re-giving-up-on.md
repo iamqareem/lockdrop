@@ -1,13 +1,13 @@
 ---
 id: beej-git-04
-title: "Beej's Guide to Git — Decide, at this point, you’re giving up on topic1. Switch back to…"
+title: "Beej's Guide to Git — Decide, at this point, you’re giving up on topic1. Switch back to…",
 slug: beej-git-04-beej-s-guide-to-git-decide-at-this-point-you-re-giving-up-on
-source: "Beej's Guide to Git"
+source: "Beej's Guide to Git",
 sourceSection: "5. Decide, at this point, you’re giving up on topic1. Switch back to the main branch and force delete, 2. Go to the next conflict., 3. Repeat from Step 1 until all conflicts are resolved., 2. Switch to the commit that you want to use. You can refer to this commit by branch name, commit, 5. Commit."
-track: git-ops
+track: git-ops,
 tier: free
 tags: [git, version-control, devops]
-summary: "At this point let’s say we want to look back at the commits we made on bar.txt. Covers 5 sections: Decide, at this point, you’re giving up on topic1. Switch back to the main branch and force delete, Go to the next confl."
+summary: "At this point let’s say we want to look back at the commits we made on bar.txt. Covers 5 sections: Decide, at this point, you’re giving up on topic1. Switch back to the main branch and force delete, Go to the next confl.",
 ---
 # Beej's Guide to Git — Decide, at this point, you’re giving up on topic1. Switch back to…
 

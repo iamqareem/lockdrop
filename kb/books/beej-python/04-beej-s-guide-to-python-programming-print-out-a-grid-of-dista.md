@@ -1,13 +1,13 @@
 ---
 id: beej-python-04
-title: "Beej's Guide to Python Programming — Print out a grid of distances between each ship., Print out a…"
+title: "Beej's Guide to Python Programming — Print out a grid of distances between each ship., Print out a…",
 slug: beej-python-04-beej-s-guide-to-python-programming-print-out-a-grid-of-dista
-source: "Beej's Guide to Python Programming"
+source: "Beej's Guide to Python Programming",
 sourceSection: "2. Print out a grid of distances between each ship., 2. Print out a grid of distances between each ship., 3. Print the table of contents with printdir() on that ZipFile object."
-track: data-scripting
+track: data-scripting,
 tier: free
 tags: [python, programming, scripting]
-summary: "Don’t look now, but these would make a great couple of functions. Covers 3 sections: Print out a grid of distances between each ship., Print out a grid of distances between each ship., Print the table of c."
+summary: "Don’t look now, but these would make a great couple of functions. Covers 3 sections: Print out a grid of distances between each ship., Print out a grid of distances between each ship., Print the table of c.",
 ---
 # Beej's Guide to Python Programming — Print out a grid of distances between each ship., Print out a…
 

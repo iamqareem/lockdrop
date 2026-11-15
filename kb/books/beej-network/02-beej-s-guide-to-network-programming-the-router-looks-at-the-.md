@@ -1,13 +1,13 @@
 ---
 id: beej-network-02
-title: "Beej's Guide to Network Programming — The router looks at the destination IP address. It consults its…"
+title: "Beej's Guide to Network Programming — The router looks at the destination IP address. It consults its…",
 slug: beej-network-02-beej-s-guide-to-network-programming-the-router-looks-at-the-
-source: "Beej's Guide to Network Programming"
+source: "Beej's Guide to Network Programming",
 sourceSection: "2. The router looks at the destination IP address. It consults its routing table and decides to which, 2. Strip the sentence from the buffer., 3. Close the connection"
-track: networking-dns
+track: networking-dns,
 tier: premium
 tags: [network-programming, sockets, c, tcp-ip]
-summary: "Let’s start with the easier model that splits this transmission up into different layers from the top down. Covers 3 sections: The router looks at the destination IP address. It consults its routing table and decides to which, Strip the sen"
+summary: "Let’s start with the easier model that splits this transmission up into different layers from the top down. Covers 3 sections: The router looks at the destination IP address. It consults its routing table and decides to which, Strip the sen",
 ---
 # Beej's Guide to Network Programming — The router looks at the destination IP address. It consults its…
 

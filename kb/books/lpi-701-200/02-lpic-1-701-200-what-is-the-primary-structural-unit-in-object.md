@@ -1,13 +1,13 @@
 ---
 id: lpi-701-200-02
-title: "LPIC-1 · 701-200 — What is the primary structural unit in object storage, and how…"
+title: "LPIC-1 · 701-200 — What is the primary structural unit in object storage, and how…",
 slug: lpi-701-200-02-lpic-1-701-200-what-is-the-primary-structural-unit-in-object
-source: "LPI Learning Material — LPIC-1 (Exam 701-200)"
+source: "LPI Learning Material — LPIC-1 (Exam 701-200)",
 sourceSection: "1. What is the primary structural unit in object storage, and how does it differ from traditional, 2. When should a developer choose a NoSQL database like MongoDB over a relational database, 3. What role do content delivery networks (CDNs) play in improving web application, 1. Research and compare t"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-1, certification, software-development]
-summary: "This lesson introduced essential components of modern cloud-native and service-based Covers 46 sections: What is the primary structural unit in object storage, and how does it differ from traditional, When should a developer ."
+summary: "This lesson introduced essential components of modern cloud-native and service-based Covers 46 sections: What is the primary structural unit in object storage, and how does it differ from traditional, When should a developer .",
 ---
 # LPIC-1 · 701-200 — What is the primary structural unit in object storage, and how…
 

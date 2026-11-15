@@ -1,13 +1,13 @@
 ---
 id: unix-programming-02
-title: "UNIX Programming FAQ — Sep 19 2021 /usr/bin/new1"
+title: "UNIX Programming FAQ — Sep 19 2021 /usr/bin/new1",
 slug: unix-programming-02-unix-programming-faq-sep-19-2021-usr-bin-new1
-source: "UNIX Programming FAQ — Processes, Memory, Communication, Networking and Shell Scripting"
+source: "UNIX Programming FAQ — Processes, Memory, Communication, Networking and Shell Scripting",
 sourceSection: "8632. Sep 19 2021 /usr/bin/new1"
-track: systems-kernel
+track: systems-kernel,
 tier: premium
 tags: [unix, systems-programming, processes, memory, ipc]
-summary: "In the given example, the file /usr/bin/new1 file is owned by user1. Covers Sep 19 2021 /usr/bin/new1."
+summary: "In the given example, the file /usr/bin/new1 file is owned by user1. Covers Sep 19 2021 /usr/bin/new1.",
 ---
 # UNIX Programming FAQ — Sep 19 2021 /usr/bin/new1
 

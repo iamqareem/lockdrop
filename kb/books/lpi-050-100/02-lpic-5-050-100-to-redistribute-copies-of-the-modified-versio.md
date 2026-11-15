@@ -1,13 +1,13 @@
 ---
 id: lpi-050-100-02
-title: "LPIC-5 · 050-100 — To redistribute copies of the modified versions, Integrity of the…"
+title: "LPIC-5 · 050-100 — To redistribute copies of the modified versions, Integrity of the…",
 slug: lpi-050-100-02-lpic-5-050-100-to-redistribute-copies-of-the-modified-versio
-source: "LPI Learning Material — LPIC-5 (Exam 050-100)"
+source: "LPI Learning Material — LPIC-5 (Exam 050-100)",
 sourceSection: "4. To redistribute copies of the modified versions, 4. Integrity of the author’s source code: Modifications can be restricted if recipients are allowed to, 9. License must not restrict other software: For instance, other software bundled with this, 4. Can software be patented?, 2. Can software be pu"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-5, certification, security, cryptography]
-summary: "Out of the free software movement, open source advocates arose in the late 1990s as a way to Covers 22 sections: To redistribute copies of the modified versions, Integrity of the author’s source code: Modifications can be restricted ."
+summary: "Out of the free software movement, open source advocates arose in the late 1990s as a way to Covers 22 sections: To redistribute copies of the modified versions, Integrity of the author’s source code: Modifications can be restricted .",
 ---
 # LPIC-5 · 050-100 — To redistribute copies of the modified versions, Integrity of the…
 

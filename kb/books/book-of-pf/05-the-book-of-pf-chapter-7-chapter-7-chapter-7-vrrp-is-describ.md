@@ -1,13 +1,13 @@
 ---
 id: book-of-pf-05
-title: "The Book of PF — Chapter 7, Chapter 7, Chapter 7, VRRP is described in RFC 2281…"
+title: "The Book of PF — Chapter 7, Chapter 7, Chapter 7, VRRP is described in RFC 2281…",
 slug: book-of-pf-05-the-book-of-pf-chapter-7-chapter-7-chapter-7-vrrp-is-describ
-source: "The Book of PF, 3rd Edition"
+source: "The Book of PF, 3rd Edition",
 sourceSection: "138. Chapter 7, 140. Chapter 7, 144. Chapter 7, 1. VRRP is described in RFC 2281 and RFC 3768. The patents involved are held by Cisco,, 148. Chapter 8, 150. Chapter 8, 152. Chapter 8, 154. Chapter 8, 156. Chapter 8, 160. Chapter 8, 162. Chapter 9, 166. Chapter 9, 168. Chapter 9, 170. Chapter 9"
-track: bsd-internals
+track: bsd-internals,
 tier: premium
 tags: [firewall, pf, networking, security]
-summary: "Maximizing network performance generally feels nice. Covers 14 sections: Chapter 7, Chapter 7, Chapter 7."
+summary: "Maximizing network performance generally feels nice. Covers 14 sections: Chapter 7, Chapter 7, Chapter 7.",
 ---
 # The Book of PF — Chapter 7, Chapter 7, Chapter 7, VRRP is described in RFC 2281…
 

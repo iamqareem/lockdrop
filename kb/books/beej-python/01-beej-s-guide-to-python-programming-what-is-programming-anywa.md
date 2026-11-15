@@ -1,13 +1,13 @@
 ---
 id: beej-python-01
-title: "Beej's Guide to Python Programming — What is Programming, Anyway?, What software will I need?, How do…"
+title: "Beej's Guide to Python Programming — What is Programming, Anyway?, What software will I need?, How do…",
 slug: beej-python-01-beej-s-guide-to-python-programming-what-is-programming-anywa
-source: "Beej's Guide to Python Programming"
+source: "Beej's Guide to Python Programming",
 sourceSection: "2. What is Programming, Anyway?, 3. What software will I need?, 4. How do I write a program?, 5. Data and Processing Data, 6. Flow Control and Looping, 7. Strings, 8. Lists, 9. Dictionaries, 10. Functions, 11. Classes and Objects, 12. Importing Modules, 13. Reading Files, 14. Exceptions, 15. Appendi"
-track: data-scripting
+track: data-scripting,
 tier: free
 tags: [python, programming, scripting]
-summary: "Objectives . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Covers 19 sections: What is Programming, Anyway?, What software will I need?, How do I write a program?."
+summary: "Objectives . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Covers 19 sections: What is Programming, Anyway?, What software will I need?, How do I write a program?.",
 ---
 # Beej's Guide to Python Programming — What is Programming, Anyway?, What software will I need?, How do…
 

@@ -1,13 +1,13 @@
 ---
 id: bind9-09
-title: "BIND 9 Administrator Reference Manual — Preface, Introduction, Introduction, Introduction, Getting…"
+title: "BIND 9 Administrator Reference Manual — Preface, Introduction, Introduction, Introduction, Getting…",
 slug: bind9-09-bind-9-administrator-reference-manual-preface-introduction-i
-source: "BIND 9 Administrator Reference Manual"
+source: "BIND 9 Administrator Reference Manual",
 sourceSection: "13.1 Preface, 13.2 Introduction, 13.2 Introduction, 13.2 Introduction, 13.3 Getting Started, 13.3 Getting Started, 4. Network interfaces: While your authoritative name servers will begin sending back larger responses, it is unlikely, 4. The isc.org name server responds with the DNSKEY and RRSIG reco"
-track: networking-dns
+track: networking-dns,
 tier: premium
 tags: [dns, bind9, networking, infrastructure]
-summary: "One factor to consider, but over which you really have no control, is the number of users who query your domain name Covers 30 sections: Preface, Introduction, Introduction."
+summary: "One factor to consider, but over which you really have no control, is the number of users who query your domain name Covers 30 sections: Preface, Introduction, Introduction.",
 ---
 # BIND 9 Administrator Reference Manual — Preface, Introduction, Introduction, Introduction, Getting…
 

@@ -1,13 +1,13 @@
 ---
 id: beej-python-02
-title: "Beej's Guide to Python Programming — Ask the user to input a number, or the word quit. If the user…"
+title: "Beej's Guide to Python Programming — Ask the user to input a number, or the word quit. If the user…",
 slug: beej-python-02-beej-s-guide-to-python-programming-ask-the-user-to-input-a-n
-source: "Beej's Guide to Python Programming"
+source: "Beej's Guide to Python Programming",
 sourceSection: "3. Ask the user to input a number, or the word quit. If the user enters a number, print out that number"
-track: data-scripting
+track: data-scripting,
 tier: free
 tags: [python, programming, scripting]
-summary: "If the number is divisible by 5, print Buzz instead. Covers Ask the user to input a number, or the word quit. If the user enters a number, print out that number."
+summary: "If the number is divisible by 5, print Buzz instead. Covers Ask the user to input a number, or the word quit. If the user enters a number, print out that number.",
 ---
 # Beej's Guide to Python Programming — Ask the user to input a number, or the word quit. If the user…
 

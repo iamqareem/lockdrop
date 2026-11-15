@@ -1,13 +1,13 @@
 ---
 id: lpi-020-100-03
-title: "LPIC-2 · 020-100 — Compare the security features of VeraCrypt and BitLocker. What…"
+title: "LPIC-2 · 020-100 — Compare the security features of VeraCrypt and BitLocker. What…",
 slug: lpi-020-100-03-lpic-2-020-100-compare-the-security-features-of-veracrypt-an
-source: "LPI Learning Material — LPIC-2 (Exam 020-100)"
+source: "LPI Learning Material — LPIC-2 (Exam 020-100)",
 sourceSection: "4. Compare the security features of VeraCrypt and BitLocker. What are the key differences in how, 1. BitLocker offers encryption for Windows users, but not all users may want to depend on a, 2. Explain how cloud storage providers, such as Google Drive and Dropbox, implement, 1. Explain the main diff"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-2, certification, security]
-summary: "Cryptomator. Covers 23 sections: Compare the security features of VeraCrypt and BitLocker. What are the key differences in how, BitLocker offers encrypti."
+summary: "Cryptomator. Covers 23 sections: Compare the security features of VeraCrypt and BitLocker. What are the key differences in how, BitLocker offers encrypti.",
 ---
 # LPIC-2 · 020-100 — Compare the security features of VeraCrypt and BitLocker. What…
 

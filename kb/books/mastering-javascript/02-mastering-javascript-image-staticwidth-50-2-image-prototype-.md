@@ -1,13 +1,13 @@
 ---
 id: mastering-javascript-02
-title: "Mastering JavaScript — Image.staticWidth = 50; 2 Image.prototype.prototypeWidth = 55;…"
+title: "Mastering JavaScript — Image.staticWidth = 50; 2 Image.prototype.prototypeWidth = 55;…",
 slug: mastering-javascript-02-mastering-javascript-image-staticwidth-50-2-image-prototype-
-source: "Mastering JavaScript — The Complete Guide"
+source: "Mastering JavaScript — The Complete Guide",
 sourceSection: "1. Image.staticWidth = 50; 2 Image.prototype.prototypeWidth = 55;, 1. Circle.prototype.draw = function() { 2 ctx.beginPath(); 3 ctx.fillStyle ="
-track: javascript
+track: javascript,
 tier: premium
 tags: [javascript, programming, advanced]
-summary: "Whilst the syntax is still considered experimental (it’s not yet adopted by many Covers 2 sections: Image.staticWidth = 50; 2 Image.prototype.prototypeWidth = 55;, Circle.prototype.draw = function() { 2 ctx.beginPath(); ."
+summary: "Whilst the syntax is still considered experimental (it’s not yet adopted by many Covers 2 sections: Image.staticWidth = 50; 2 Image.prototype.prototypeWidth = 55;, Circle.prototype.draw = function() { 2 ctx.beginPath(); .",
 ---
 # Mastering JavaScript — Image.staticWidth = 50; 2 Image.prototype.prototypeWidth = 55;…
 

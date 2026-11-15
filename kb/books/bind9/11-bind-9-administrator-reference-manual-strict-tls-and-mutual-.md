@@ -1,13 +1,13 @@
 ---
 id: bind9-11
-title: "BIND 9 Administrator Reference Manual — Strict TLS and Mutual TLS authentication mechanisms are not…"
+title: "BIND 9 Administrator Reference Manual — Strict TLS and Mutual TLS authentication mechanisms are not…",
 slug: bind9-11-bind-9-administrator-reference-manual-strict-tls-and-mutual-
-source: "BIND 9 Administrator Reference Manual"
+source: "BIND 9 Administrator Reference Manual",
 sourceSection: "23. Strict TLS and Mutual TLS authentication mechanisms are not supported yet., 16. This does not apply to DNS server implementations."
-track: networking-dns
+track: networking-dns,
 tier: premium
 tags: [dns, bind9, networking, infrastructure]
-summary: "RFC 9432 - P. van Dijk, L. Covers 2 sections: Strict TLS and Mutual TLS authentication mechanisms are not supported yet., This does not apply to DNS server implementa."
+summary: "RFC 9432 - P. van Dijk, L. Covers 2 sections: Strict TLS and Mutual TLS authentication mechanisms are not supported yet., This does not apply to DNS server implementa.",
 ---
 # BIND 9 Administrator Reference Manual — Strict TLS and Mutual TLS authentication mechanisms are not…
 

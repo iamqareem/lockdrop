@@ -1,13 +1,13 @@
 ---
 id: nginx-practical-01
-title: "nginx · A Practical Guide — Getting Started, Getting Started, Getting Started, The first…"
+title: "nginx · A Practical Guide — Getting Started, Getting Started, Getting Started, The first…",
 slug: nginx-practical-01-nginx-a-practical-guide-getting-started-getting-started-gett
-source: "nginx — A Practical Guide to High Performance"
+source: "nginx — A Practical Guide to High Performance",
 sourceSection: "Chapter 1. Getting Started, Chapter 1. Getting Started, Chapter 1. Getting Started, 4. The first matching regular expression, in the order defined in the configuration, Chapter 3. CGI, FastCGI, and uWSGI, Chapter 3. CGI, FastCGI, and uWSGI, 4. Python and uWSGI, Chapter 3. CGI, FastCGI, and uWSGI"
-track: web-performance
+track: web-performance,
 tier: premium
 tags: [nginx, performance, web-server, tuning]
-summary: "In this chapter, we’ll cover the basics of configuring nginx— from getting it up and Covers 8 sections: Getting Started, Getting Started, Getting Started."
+summary: "In this chapter, we’ll cover the basics of configuring nginx— from getting it up and Covers 8 sections: Getting Started, Getting Started, Getting Started.",
 ---
 # nginx · A Practical Guide — Getting Started, Getting Started, Getting Started, The first…
 

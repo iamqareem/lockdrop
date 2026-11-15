@@ -1,13 +1,13 @@
 ---
 id: nginx-cookbook-01
-title: "The Complete NGINX Cookbook — UPDATE, High-Performance Load Balancing. . . . . . . . . . . . .…"
+title: "The Complete NGINX Cookbook — UPDATE, High-Performance Load Balancing. . . . . . . . . . . . .…",
 slug: nginx-cookbook-01-the-complete-nginx-cookbook-update-high-performance-load-bal
-source: "The Complete NGINX Cookbook"
+source: "The Complete NGINX Cookbook",
 sourceSection: "2019. UPDATE, 2. High-Performance Load Balancing. . . . . . . . . . . . . . . . . . . . . . . . . . . . . 9, 3. Traffic Management. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 27, 4. Massively Scalable Content Caching. . . . . . . . . . . . . . . . . . . . . . . . ."
-track: web-performance
+track: web-performance,
 tier: premium
 tags: [nginx, web-server, reverse-proxy, operations]
-summary: "Published by O’Reilly Media, Inc., 1005 Gravenstein Highway North, Sebastopol, CA Covers 16 sections: UPDATE, High-Performance Load Balancing. . . . . . . . . . . . . . . . . . . . . . . . . . . . . 9, Traffic Management. ."
+summary: "Published by O’Reilly Media, Inc., 1005 Gravenstein Highway North, Sebastopol, CA Covers 16 sections: UPDATE, High-Performance Load Balancing. . . . . . . . . . . . . . . . . . . . . . . . . . . . . 9, Traffic Management. .",
 ---
 # The Complete NGINX Cookbook — UPDATE, High-Performance Load Balancing. . . . . . . . . . . . .…
 

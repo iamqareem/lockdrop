@@ -1,13 +1,13 @@
 ---
 id: virtualization-01
-title: "Virtualization — Everyday Virtualization, We are Opensource.com, Table of…"
+title: "Virtualization — Everyday Virtualization, We are Opensource.com, Table of…",
 slug: virtualization-01-virtualization-everyday-virtualization-we-are-opensource-com
-source: "Virtualization"
+source: "Virtualization",
 sourceSection: "Everyday Virtualization, We are Opensource.com, Table of Contents, Getting started with GNOME, Create a box, An introduction to Virtual Machine, How to use GNOME Boxes', The Properties menu of a local box, Snapshots screen for a local box, A snapshot and its action menu, Snapshots renamed to be more"
-track: systems-kernel
+track: systems-kernel,
 tier: free
 tags: [virtualization, hypervisor, containers, operations]
-summary: "Opensource.com is a community website publishing stories about creating, adopting, and Covers 35 sections: Everyday Virtualization, We are Opensource.com, Table of Contents."
+summary: "Opensource.com is a community website publishing stories about creating, adopting, and Covers 35 sections: Everyday Virtualization, We are Opensource.com, Table of Contents.",
 ---
 # Virtualization — Everyday Virtualization, We are Opensource.com, Table of…
 

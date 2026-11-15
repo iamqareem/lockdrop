@@ -1,13 +1,13 @@
 ---
 id: lpi-050-100-06
-title: "LPIC-5 · 050-100 — What is one of the main differences between a local sports club…"
+title: "LPIC-5 · 050-100 — What is one of the main differences between a local sports club…",
 slug: lpi-050-100-06-lpic-5-050-100-what-is-one-of-the-main-differences-between-a
-source: "LPI Learning Material — LPIC-5 (Exam 050-100)"
+source: "LPI Learning Material — LPIC-5 (Exam 050-100)",
 sourceSection: "1. What is one of the main differences between a local sports club and an international open"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-5, certification, security, cryptography]
-summary: "Open source projects are not bound to a specific language or location. Covers What is one of the main differences between a local sports club and an international open."
+summary: "Open source projects are not bound to a specific language or location. Covers What is one of the main differences between a local sports club and an international open.",
 ---
 # LPIC-5 · 050-100 — What is one of the main differences between a local sports club…
 

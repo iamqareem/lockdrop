@@ -1,13 +1,13 @@
 ---
 id: pragmatic-systemd-02
-title: "Pragmatic systemd — The service unit file, May 08 16:01:51 testvm1.both.org…"
+title: "Pragmatic systemd — The service unit file, May 08 16:01:51 testvm1.both.org…",
 slug: pragmatic-systemd-02-pragmatic-systemd-the-service-unit-file-may-08-16-01-51-test
-source: "Pragmatic systemd"
+source: "Pragmatic systemd",
 sourceSection: "The service unit file, May 08 16:01:51 testvm1.both.org hello.sh[840]: ######### Hello World! ########, May 10 10:54:45 testvm1.both.org audit[1]: SERVICE_STOP pid=1 uid=0, StandardOutput=journal+console, and running the systemctl enable hello.service command creates the link in the, After=network-o"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, systemd, services, init, production]
-summary: "Create the service unit file /etc/systemd/system/hello.service with the following Covers 52 sections: The service unit file, May 08 16:01:51 testvm1.both.org hello.sh[840]: ######### Hello World! ########, May 10 10:54:45 ."
+summary: "Create the service unit file /etc/systemd/system/hello.service with the following Covers 52 sections: The service unit file, May 08 16:01:51 testvm1.both.org hello.sh[840]: ######### Hello World! ########, May 10 10:54:45 .",
 ---
 # Pragmatic systemd — The service unit file, May 08 16:01:51 testvm1.both.org…
 

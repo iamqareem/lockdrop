@@ -1,13 +1,13 @@
 ---
 id: lpi-101-500-07
-title: "LPIC-1 · 101-500 — Which partitioning scheme should be used to partition a 3 TB hard…"
+title: "LPIC-1 · 101-500 — Which partitioning scheme should be used to partition a 3 TB hard…",
 slug: lpi-101-500-07-lpic-1-101-500-which-partitioning-scheme-should-be-used-to-p
-source: "LPI Learning Material — LPIC-1 (Exam 101-500)"
+source: "LPI Learning Material — LPIC-1 (Exam 101-500)",
 sourceSection: "1. Which partitioning scheme should be used to partition a 3 TB hard disk into three 1 GB, 3. What would be the command to create an ext3 filesystem, checking for bad blocks before, with, 4. Using parted, what is the command to create a 300 MB ext4 partition, starting at 500 MB on the, 5. Imagine yo"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-1, certification, system-administration]
-summary: "Then, you enable swap on this partition with swapon /dev/sdb1, but get the following error Covers 46 sections: Which partitioning scheme should be used to partition a 3 TB hard disk into three 1 GB, What would be the command to cre."
+summary: "Then, you enable swap on this partition with swapon /dev/sdb1, but get the following error Covers 46 sections: Which partitioning scheme should be used to partition a 3 TB hard disk into three 1 GB, What would be the command to cre.",
 ---
 # LPIC-1 · 101-500 — Which partitioning scheme should be used to partition a 3 TB hard…
 

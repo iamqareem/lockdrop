@@ -1,13 +1,13 @@
 ---
 id: beej-network-03
-title: "Beej's Guide to Network Programming — Write a function that generates the IP pseudo header bytes from…"
+title: "Beej's Guide to Network Programming — Write a function that generates the IP pseudo header bytes from…",
 slug: beej-network-03-beej-s-guide-to-network-programming-write-a-function-that-ge
-source: "Beej's Guide to Network Programming"
+source: "Beej's Guide to Network Programming",
 sourceSection: "5. Write a function that generates the IP pseudo header bytes from the IP addresses from, 11. Modify your code to run it on all 10 of the data files. The first 5 files should have matching, 1. The source computer will broadcast a specialized Ethernet frame that contains the destination IP, 2. Look U"
-track: networking-dns
+track: networking-dns,
 tier: premium
 tags: [network-programming, sockets, c, tcp-ip]
-summary: "The checksum in TCP is a 16-bit value that represents a “sum total” of all the bytes in the packet. Covers 4 sections: Write a function that generates the IP pseudo header bytes from the IP addresses from, Modify your code to run it on all."
+summary: "The checksum in TCP is a 16-bit value that represents a 'sum total' of all the bytes in the packet. Covers 4 sections: Write a function that generates the IP pseudo header bytes from the IP addresses from, Modify your code to run it on all.",
 ---
 # Beej's Guide to Network Programming — Write a function that generates the IP pseudo header bytes from…
 

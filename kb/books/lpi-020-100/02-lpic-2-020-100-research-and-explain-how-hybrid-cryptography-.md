@@ -1,13 +1,13 @@
 ---
 id: lpi-020-100-02
-title: "LPIC-2 · 020-100 — Research and explain how hybrid cryptography is implemented in…"
+title: "LPIC-2 · 020-100 — Research and explain how hybrid cryptography is implemented in…",
 slug: lpi-020-100-02-lpic-2-020-100-research-and-explain-how-hybrid-cryptography-
-source: "LPI Learning Material — LPIC-2 (Exam 020-100)"
+source: "LPI Learning Material — LPIC-2 (Exam 020-100)",
 sourceSection: "1. Research and explain how hybrid cryptography is implemented in secure web browsing, 3. Root CA Check, 3. Explain the concept of the chain of trust in PKI. Why is the chain of trust important for, 1. Research the role of Extended Validation (EV) certificates in web security and explain how they, 2"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-2, certification, security]
-summary: "In HTTPS, hybrid cryptography is implemented by using asymmetric encryption, typically RSA, Covers 12 sections: Research and explain how hybrid cryptography is implemented in secure web browsing, Root CA Check, Explain the concept o."
+summary: "In HTTPS, hybrid cryptography is implemented by using asymmetric encryption, typically RSA, Covers 12 sections: Research and explain how hybrid cryptography is implemented in secure web browsing, Root CA Check, Explain the concept o.",
 ---
 # LPIC-2 · 020-100 — Research and explain how hybrid cryptography is implemented in…
 

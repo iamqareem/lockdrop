@@ -1,13 +1,13 @@
 ---
 id: freebsd-jails-04
-title: "FreeBSD Mastery · Jails — Networking, Extreme Jails & Resource Restriction and Removal"
+title: "FreeBSD Mastery · Jails — Networking, Extreme Jails & Resource Restriction and Removal",
 slug: freebsd-jails-04-freebsd-mastery-jails-networking-extreme-jails-resource-rest
-source: "FreeBSD Mastery — Jails"
+source: "FreeBSD Mastery — Jails",
 sourceSection: "Chapter 9. Networking, Chapter 10. Extreme Jails, Chapter 11. Resource Restriction and Removal"
-track: bsd-internals
+track: bsd-internals,
 tier: premium
 tags: [bsd, freebsd, jails, containers, security]
-summary: "Up until now, we’ve delegated all the networking to the host. Covers 3 sections: Networking, Extreme Jails, Resource Restriction and Removal."
+summary: "Up until now, we’ve delegated all the networking to the host. Covers 3 sections: Networking, Extreme Jails, Resource Restriction and Removal.",
 ---
 # FreeBSD Mastery · Jails — Networking, Extreme Jails & Resource Restriction and Removal
 

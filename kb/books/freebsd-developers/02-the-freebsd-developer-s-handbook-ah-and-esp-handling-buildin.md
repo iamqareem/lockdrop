@@ -1,13 +1,13 @@
 ---
 id: freebsd-developers-02
-title: "The FreeBSD Developer's Handbook — AH and ESP handling, Building and Installing a FreeBSD, Kernel…"
+title: "The FreeBSD Developer's Handbook — AH and ESP handling, Building and Installing a FreeBSD, Kernel…",
 slug: freebsd-developers-02-the-freebsd-developer-s-handbook-ah-and-esp-handling-buildin
-source: "The FreeBSD Developer's Handbook"
-sourceSection: "3. AH and ESP handling, Chapter 9. Building and Installing a FreeBSD, Chapter 10. Kernel Debugging, 197. STD BSD { caddr_t mmap(caddr_t addr, size_t len, int prot, \\, 189. STD POSIX, 201. STD BSD { int ftruncate(int fd, int pad, off_t length); }, 2. Append the digit to a buffer we will use later to "
-track: bsd-internals
+source: "The FreeBSD Developer's Handbook",
+sourceSection: "3. AH and ESP handling, Chapter 9. Building and Installing a FreeBSD, Chapter 10. Kernel Debugging, 197. STD BSD { caddr_t mmap(caddr_t addr, size_t len, int prot, \\, 189. STD POSIX, 201. STD BSD { int ftruncate(int fd, int pad, off_t length); }, 2. Append the digit to a buffer we will use later to"
+track: bsd-internals,
 tier: premium
 tags: [bsd, freebsd, internals, toolchains]
-summary: "The kernel implements experimental policy management code. Covers 7 sections: AH and ESP handling, Building and Installing a FreeBSD, Kernel Debugging."
+summary: "The kernel implements experimental policy management code. Covers 7 sections: AH and ESP handling, Building and Installing a FreeBSD, Kernel Debugging.",
 ---
 # The FreeBSD Developer's Handbook — AH and ESP handling, Building and Installing a FreeBSD, Kernel…
 

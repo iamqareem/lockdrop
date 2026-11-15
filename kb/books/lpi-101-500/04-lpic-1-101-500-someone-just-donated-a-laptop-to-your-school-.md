@@ -1,13 +1,13 @@
 ---
 id: lpi-101-500-04
-title: "LPIC-1 · 101-500 — Someone just donated a laptop to your school and now you wish to…"
+title: "LPIC-1 · 101-500 — Someone just donated a laptop to your school and now you wish to…",
 slug: lpi-101-500-04-lpic-1-101-500-someone-just-donated-a-laptop-to-your-school-
-source: "LPI Learning Material — LPIC-1 (Exam 101-500)"
+source: "LPI Learning Material — LPIC-1 (Exam 101-500)",
 sourceSection: "1. Someone just donated a laptop to your school and now you wish to install Linux on it. There is, 2. Explore your local /etc/passwd file with the grep, sed, head and tail commands per the, 3. Consider this /etc/passwd file example. Copy the lines below to a local file named mypasswd, 1. Once more u"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-1, certification, system-administration]
-summary: "Tip: Use the sed, cut, and paste commands to achieve the desired results. Covers 46 sections: Someone just donated a laptop to your school and now you wish to install Linux on it. There is, Explore your local /etc/."
+summary: "Tip: Use the sed, cut, and paste commands to achieve the desired results. Covers 46 sections: Someone just donated a laptop to your school and now you wish to install Linux on it. There is, Explore your local /etc/.",
 ---
 # LPIC-1 · 101-500 — Someone just donated a laptop to your school and now you wish to…
 

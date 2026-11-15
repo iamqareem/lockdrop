@@ -1,13 +1,13 @@
 ---
 id: lpi-050-100-03
-title: "LPIC-5 · 050-100 — What is a derivative work?, What would you do if you want to…"
+title: "LPIC-5 · 050-100 — What is a derivative work?, What would you do if you want to…",
 slug: lpi-050-100-03-lpic-5-050-100-what-is-a-derivative-work-what-would-you-do-i
-source: "LPI Learning Material — LPIC-5 (Exam 050-100)"
+source: "LPI Learning Material — LPIC-5 (Exam 050-100)",
 sourceSection: "3. What is a derivative work?, 1. What would you do if you want to publish a work and allow people to use it for any purposes, 2. Can you distribute commercial derivative works based on works published under an open, 1. Can open content licenses be used to avoid copyright?, 1. What would you do if y"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-5, certification, security, cryptography]
-summary: "Open content licenses cannot be used to avoid copyright. Covers 24 sections: What is a derivative work?, What would you do if you want to publish a work and allow people to use it for any purposes,."
+summary: "Open content licenses cannot be used to avoid copyright. Covers 24 sections: What is a derivative work?, What would you do if you want to publish a work and allow people to use it for any purposes,.",
 ---
 # LPIC-5 · 050-100 — What is a derivative work?, What would you do if you want to…
 

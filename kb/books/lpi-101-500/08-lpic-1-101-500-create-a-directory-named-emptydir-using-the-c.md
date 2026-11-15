@@ -1,13 +1,13 @@
 ---
 id: lpi-101-500-08
-title: "LPIC-1 · 101-500 — Create a directory named emptydir using the command mkdir…"
+title: "LPIC-1 · 101-500 — Create a directory named emptydir using the command mkdir…",
 slug: lpi-101-500-08-lpic-1-101-500-create-a-directory-named-emptydir-using-the-c
-source: "LPI Learning Material — LPIC-1 (Exam 101-500)"
+source: "LPI Learning Material — LPIC-1 (Exam 101-500)",
 sourceSection: "1. Create a directory named emptydir using the command mkdir emptydir. Now, using ls, list, 2. Create an empty file named emptyfile with the command touch emptyfile. Now, using, 4. Let us assume a file named test.sh is a shell script with the following permissions and, 33. Dec 11 10:36 test.sh, 5. C"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-1, certification, system-administration]
-summary: "Write down the corresponding permissions for each file and directory using octal mode using Covers 40 sections: Create a directory named emptydir using the command mkdir emptydir. Now, using ls, list, Create an empty file named empt."
+summary: "Write down the corresponding permissions for each file and directory using octal mode using Covers 40 sections: Create a directory named emptydir using the command mkdir emptydir. Now, using ls, list, Create an empty file named empt.",
 ---
 # LPIC-1 · 101-500 — Create a directory named emptydir using the command mkdir…
 

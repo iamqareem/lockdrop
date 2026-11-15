@@ -1,13 +1,13 @@
 ---
 id: lpi-050-100-04
-title: "LPIC-5 · 050-100 — Name some ways that service providers can earn revenue without…"
+title: "LPIC-5 · 050-100 — Name some ways that service providers can earn revenue without…",
 slug: lpi-050-100-04-lpic-5-050-100-name-some-ways-that-service-providers-can-ear
-source: "LPI Learning Material — LPIC-5 (Exam 050-100)"
+source: "LPI Learning Material — LPIC-5 (Exam 050-100)",
 sourceSection: "1. Name some ways that service providers can earn revenue without charging the users of the, 2. What are some reasons that a service provider might offer its software for self-hosting by, 2. What is an End User License Agreement (EULA)?, 1. Name some ways that service providers can earn revenue with"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-5, certification, security, cryptography]
-summary: "This lesson discusses service provider business models that rely on open source software, and Covers 25 sections: Name some ways that service providers can earn revenue without charging the users of the, What are some reasons that a s."
+summary: "This lesson discusses service provider business models that rely on open source software, and Covers 25 sections: Name some ways that service providers can earn revenue without charging the users of the, What are some reasons that a s.",
 ---
 # LPIC-5 · 050-100 — Name some ways that service providers can earn revenue without…
 

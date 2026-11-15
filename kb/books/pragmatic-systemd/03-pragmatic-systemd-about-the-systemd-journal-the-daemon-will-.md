@@ -1,13 +1,13 @@
 ---
 id: pragmatic-systemd-03
-title: "Pragmatic systemd — About the systemd journal, The daemon will implicitly collect…"
+title: "Pragmatic systemd — About the systemd journal, The daemon will implicitly collect…",
 slug: pragmatic-systemd-03-pragmatic-systemd-about-the-systemd-journal-the-daemon-will-
-source: "Pragmatic systemd"
+source: "Pragmatic systemd",
 sourceSection: "About the systemd journal, The daemon will implicitly collect numerous metadata fields for each log messages, Configuration changes, About journalctl, • short-monotonic: Very similar to the default but shows monotonic timestamps, -6 6e94...7fa4 Sat 2020-07-04 07:33:25 EDT—Sat 2020-07-04 07:58:59 EDT"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, systemd, services, init, production]
-summary: "The systemd journaling service is implemented by the systemd-journald daemon. Covers 51 sections: About the systemd journal, The daemon will implicitly collect numerous metadata fields for each log messages, Configurat."
+summary: "The systemd journaling service is implemented by the systemd-journald daemon. Covers 51 sections: About the systemd journal, The daemon will implicitly collect numerous metadata fields for each log messages, Configurat.",
 ---
 # Pragmatic systemd — About the systemd journal, The daemon will implicitly collect…
 

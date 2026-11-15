@@ -1,13 +1,13 @@
 ---
 id: lpi-701-200-01
-title: "LPIC-1 · 701-200 — Software Engineering, What is the main difference between Agile…"
+title: "LPIC-1 · 701-200 — Software Engineering, What is the main difference between Agile…",
 slug: lpi-701-200-01-lpic-1-701-200-software-engineering-what-is-the-main-differe
-source: "LPI Learning Material — LPIC-1 (Exam 701-200)"
+source: "LPI Learning Material — LPIC-1 (Exam 701-200)",
 sourceSection: "Topic 701: Software Engineering, 1. What is the main difference between Agile and DevOps in terms of their focus within the, 3. What role do DevOps practices play in supporting Agile principles like frequent delivery and, 1. Retrospectives are a core part of the Agile cycle, where teams reflect on t"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-1, certification, software-development]
-summary: "This lesson introduces the foundations of Agile and DevOps, two complementary approaches that Covers 20 sections: Software Engineering, What is the main difference between Agile and DevOps in terms of their focus within the, What role."
+summary: "This lesson introduces the foundations of Agile and DevOps, two complementary approaches that Covers 20 sections: Software Engineering, What is the main difference between Agile and DevOps in terms of their focus within the, What role.",
 ---
 # LPIC-1 · 701-200 — Software Engineering, What is the main difference between Agile…
 

@@ -1,13 +1,13 @@
 ---
 id: beej-git-02
-title: "Beej's Guide to Git — Use git merge --abort to abort the merge., Do a git commit to…"
+title: "Beej's Guide to Git — Use git merge --abort to abort the merge., Do a git commit to…",
 slug: beej-git-02-beej-s-guide-to-git-use-git-merge-abort-to-abort-the-merge-d
-source: "Beej's Guide to Git"
+source: "Beej's Guide to Git",
 sourceSection: "2. Use git merge --abort to abort the merge., 3. Do a git commit to finalize the merge., 3. The user commits the file with git commit. The file is now Unmodified and is part of the repo, 2. Restore the file from that commit., 2. The private, internal version that’s on dev."
-track: git-ops
+track: git-ops,
 tier: free
 tags: [git, version-control, devops]
-summary: "The second just rolls back the merge making it as if I hadn’t run git merge in the first place. Covers 5 sections: Use git merge --abort to abort the merge., Do a git commit to finalize the merge., The user commits the file with git co."
+summary: "The second just rolls back the merge making it as if I hadn’t run git merge in the first place. Covers 5 sections: Use git merge --abort to abort the merge., Do a git commit to finalize the merge., The user commits the file with git co.",
 ---
 # Beej's Guide to Git — Use git merge --abort to abort the merge., Do a git commit to…
 

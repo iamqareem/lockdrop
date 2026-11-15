@@ -1,13 +1,13 @@
 ---
 id: bind9-10
-title: "BIND 9 Administrator Reference Manual — It provides a mechanism for the parent zone to exclude insecure…"
+title: "BIND 9 Administrator Reference Manual — It provides a mechanism for the parent zone to exclude insecure…",
 slug: bind9-10-bind-9-administrator-reference-manual-it-provides-a-mechanis
-source: "BIND 9 Administrator Reference Manual"
-sourceSection: "2. It provides a mechanism for the parent zone to exclude insecure delegations (i.e., delegations to zones that are not, 600. IN DNSKEY 257 3 8 (, 6. Both DS records are shown. Click “Save.”, 300. IN DNSKEY 256 3 7 (, 300. IN DNSKEY 256 3 7 (, 300. IN NSEC aaa.example.com. NS SOA RRSIG NSEC DNSKEY, "
-track: networking-dns
+source: "BIND 9 Administrator Reference Manual",
+sourceSection: "2. It provides a mechanism for the parent zone to exclude insecure delegations (i.e., delegations to zones that are not, 600. IN DNSKEY 257 3 8 (, 6. Both DS records are shown. Click 'Save.', 300. IN DNSKEY 256 3 7 (, 300. IN DNSKEY 256 3 7 (, 300. IN NSEC aaa.example.com. NS SOA RRSIG NSEC DNSKEY,"
+track: networking-dns,
 tier: premium
 tags: [dns, bind9, networking, infrastructure]
-summary: "Recall that in NSEC we provided a range of names to prove that something does not exist. Covers 9 sections: It provides a mechanism for the parent zone to exclude insecure delegations (i.e., delegations to zones that are not, IN."
+summary: "Recall that in NSEC we provided a range of names to prove that something does not exist. Covers 9 sections: It provides a mechanism for the parent zone to exclude insecure delegations (i.e., delegations to zones that are not, IN.",
 ---
 # BIND 9 Administrator Reference Manual — It provides a mechanism for the parent zone to exclude insecure…
 

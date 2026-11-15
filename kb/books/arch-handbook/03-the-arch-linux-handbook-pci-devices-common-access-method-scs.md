@@ -1,13 +1,13 @@
 ---
 id: arch-handbook-03
-title: "The Arch Linux Handbook — PCI Devices, Common Access Method SCSI, USB Devices, Newbus…"
+title: "The Arch Linux Handbook — PCI Devices, Common Access Method SCSI, USB Devices, Newbus…",
 slug: arch-handbook-03-the-arch-linux-handbook-pci-devices-common-access-method-scs
-source: "The Arch Linux Handbook"
+source: "The Arch Linux Handbook",
 sourceSection: "Chapter 11. PCI Devices, Chapter 12. Common Access Method SCSI, Chapter 13. USB Devices, Chapter 14. Newbus, Chapter 15. Sound Subsystem, Chapter 16. PC Card"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, arch, packaging, sysadmin]
-summary: "This chapter will talk about the FreeBSD mechanisms for writing a device driver for a device on a Covers 6 sections: PCI Devices, Common Access Method SCSI, USB Devices."
+summary: "This chapter will talk about the FreeBSD mechanisms for writing a device driver for a device on a Covers 6 sections: PCI Devices, Common Access Method SCSI, USB Devices.",
 ---
 # The Arch Linux Handbook — PCI Devices, Common Access Method SCSI, USB Devices, Newbus…
 

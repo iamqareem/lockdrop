@@ -1,13 +1,13 @@
 ---
 id: book-of-pf-04
-title: "The Book of PF — Chapter 6, Chapter 6, Of course, this address is totally bogus.…"
+title: "The Book of PF — Chapter 6, Chapter 6, Of course, this address is totally bogus.…",
 slug: book-of-pf-04-the-book-of-pf-chapter-6-chapter-6-of-course-this-address-is
-source: "The Book of PF, 3rd Edition"
+source: "The Book of PF, 3rd Edition",
 sourceSection: "106. Chapter 6, 108. Chapter 6, 6. Of course, this address is totally bogus. It looks like the kind of message ID the GNUS, 110. Chapter 6, 112. Chapter 6, 114. Chapter 6, 118. Chapter 7, 120. Chapter 7, 122. Chapter 7, 124. Chapter 7, 126. Chapter 7, 130. Chapter 7, 134. Chapter 7, 136. Chapter 7"
-track: bsd-internals
+track: bsd-internals,
 tier: premium
 tags: [firewall, pf, networking, security]
-summary: "The colon-separated list 2:4:864 represents the values passtime, greyexp, Covers 14 sections: Chapter 6, Chapter 6, Of course, this address is totally bogus. It looks like the kind of message ID the GNUS."
+summary: "The colon-separated list 2:4:864 represents the values passtime, greyexp, Covers 14 sections: Chapter 6, Chapter 6, Of course, this address is totally bogus. It looks like the kind of message ID the GNUS.",
 ---
 # The Book of PF — Chapter 6, Chapter 6, Of course, this address is totally bogus.…
 

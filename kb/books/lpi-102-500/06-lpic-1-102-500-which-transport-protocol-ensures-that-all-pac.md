@@ -1,13 +1,13 @@
 ---
 id: lpi-102-500-06
-title: "LPIC-1 · 102-500 — Which transport protocol ensures that all packets are delivered…"
+title: "LPIC-1 · 102-500 — Which transport protocol ensures that all packets are delivered…",
 slug: lpi-102-500-06-lpic-1-102-500-which-transport-protocol-ensures-that-all-pac
-source: "LPI Learning Material — LPIC-1 (Exam 102-500)"
+source: "LPI Learning Material — LPIC-1 (Exam 102-500)",
 sourceSection: "3. Which transport protocol ensures that all packets are delivered properly, verifying the, 4. Which type of IPv6 address is used to sent a packet to all interfaces that belong to group of, 2. What is the name of the field on IPv6 header package that implement the same resource of TTL, 2. How many d"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-1, certification, shells, scripting]
-summary: "This lesson covered the main transport protocols and services used on TCP/IP stack. Covers 48 sections: Which transport protocol ensures that all packets are delivered properly, verifying the, Which type of IPv6 address is u."
+summary: "This lesson covered the main transport protocols and services used on TCP/IP stack. Covers 48 sections: Which transport protocol ensures that all packets are delivered properly, verifying the, Which type of IPv6 address is u.",
 ---
 # LPIC-1 · 102-500 — Which transport protocol ensures that all packets are delivered…
 

@@ -1,13 +1,13 @@
 ---
 id: bash-scripting-01
-title: "Introduction to Bash Scripting — Table of Contents, BASH Script parser to Summarize Your NGINX and…"
+title: "Introduction to Bash Scripting — Table of Contents, BASH Script parser to Summarize Your NGINX and…",
 slug: bash-scripting-01-introduction-to-bash-scripting-table-of-contents-bash-script
-source: "Introduction to Bash Scripting"
-sourceSection: "Table of Contents, BASH Script parser to Summarize Your NGINX and Apache, About the book, This version was published on Feb 01 2021, Sponsors, DigitalOcean, Join DevDojo, Ebook PDF Generation Tool, Book Cover, License, Introduction to Bash scripting, Bash Structure, Bash Hello World, As bash can be "
-track: linux-engineer
+source: "Introduction to Bash Scripting",
+sourceSection: "Table of Contents, BASH Script parser to Summarize Your NGINX and Apache, About the book, This version was published on Feb 01 2021, Sponsors, DigitalOcean, Join DevDojo, Ebook PDF Generation Tool, Book Cover, License, Introduction to Bash scripting, Bash Structure, Bash Hello World, As bash can be"
+track: linux-engineer,
 tier: free
 tags: [linux, bash, shell, scripting, automation]
-summary: "This is an open-source introduction to Bash scripting guide that will help Covers 123 sections: Table of Contents, BASH Script parser to Summarize Your NGINX and Apache, About the book."
+summary: "This is an open-source introduction to Bash scripting guide that will help Covers 123 sections: Table of Contents, BASH Script parser to Summarize Your NGINX and Apache, About the book.",
 ---
 # Introduction to Bash Scripting — Table of Contents, BASH Script parser to Summarize Your NGINX and…
 

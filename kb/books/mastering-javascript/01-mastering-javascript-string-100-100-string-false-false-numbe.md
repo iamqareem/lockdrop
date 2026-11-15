@@ -1,15 +1,15 @@
 ---
 id: mastering-javascript-01
-title: "Mastering JavaScript — String(100); // \"100\", String(false); // \"false\", Number(\"2000\");…"
+title: "Mastering JavaScript — String(100); // '100', String(false); // 'false', Number('2000');…",
 slug: mastering-javascript-01-mastering-javascript-string-100-100-string-false-false-numbe
-source: "Mastering JavaScript — The Complete Guide"
-sourceSection: "1. String(100); // \"100\", 1. String(false); // \"false\", 1. Number(\"2000\"); // 2000, 1. Number(true); // 1 2 Number(false); // 0, 1. Number(\"one\"); // NaN 2 Number(\"1,000\"); // NaN 3 Number(\"1 1\");, 1. Boolean(100); // true 2 Boolean(\"name\"); // true 3 Boolean(\" \"); // true, a, 1. Boolean(0);, 1. Num"
-track: javascript
+source: "Mastering JavaScript — The Complete Guide",
+sourceSection: "1. String(100); // '100', 1. String(false); // 'false', 1. Number('2000'); // 2000, 1. Number(true); // 1 2 Number(false); // 0, 1. Number('one'); // NaN 2 Number('1,000'); // NaN 3 Number('1 1');, 1. Boolean(100); // true 2 Boolean('name'); // true 3 Boolean(' '); // true, a, 1. Boolean(0);, 1. Num"
+track: javascript,
 tier: premium
 tags: [javascript, programming, advanced]
-summary: "And let’s convert a Boolean false into a string literal “false”. Covers 9 sections: String(100); // \"100\", String(false); // \"false\", Number(\"2000\"); // 2000."
+summary: "And let’s convert a Boolean false into a string literal 'false'. Covers 9 sections: String(100); // '100', String(false); // 'false', Number('2000'); // 2000.",
 ---
-# Mastering JavaScript — String(100); // "100", String(false); // "false", Number("2000");…
+# Mastering JavaScript — String(100); // '100', String(false); // 'false', Number('2000');…
 
 ## 1. String(100); // "100"
 

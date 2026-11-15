@@ -1,13 +1,13 @@
 ---
 id: lpi-030-100-03
-title: "LPIC-3 · 030-100 — CSS Content Styling, Why is it not recommended to use the style…"
+title: "LPIC-3 · 030-100 — CSS Content Styling, Why is it not recommended to use the style…",
 slug: lpi-030-100-03-lpic-3-030-100-css-content-styling-why-is-it-not-recommended
-source: "LPI Learning Material — LPIC-3 (Exam 030-100)"
+source: "LPI Learning Material — LPIC-3 (Exam 030-100)",
 sourceSection: "Topic 033: CSS Content Styling, 2. Why is it not recommended to use the style attribute of the <p> tag if there are sibling, 2. What happens if you start a comment with /* in the middle of a CSS file, but forget to close it, 4. How can you indicate that a stylesheet from a <style> or <link> tag shou"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-3, certification, software-development]
-summary: "Web Development Essentials version 1.0, Exam 030, Objective 033.1 Covers 27 sections: CSS Content Styling, Why is it not recommended to use the style attribute of the <p> tag if there are sibling, What happ."
+summary: "Web Development Essentials version 1.0, Exam 030, Objective 033.1 Covers 27 sections: CSS Content Styling, Why is it not recommended to use the style attribute of the <p> tag if there are sibling, What happ.",
 ---
 # LPIC-3 · 030-100 — CSS Content Styling, Why is it not recommended to use the style…
 

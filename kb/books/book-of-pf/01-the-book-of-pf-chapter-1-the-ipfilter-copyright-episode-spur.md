@@ -1,13 +1,13 @@
 ---
 id: book-of-pf-01
-title: "The Book of PF — Chapter 1, The IPFilter copyright episode spurred the OpenBSD…"
+title: "The Book of PF — Chapter 1, The IPFilter copyright episode spurred the OpenBSD…",
 slug: book-of-pf-01-the-book-of-pf-chapter-1-the-ipfilter-copyright-episode-spur
-source: "The Book of PF, 3rd Edition"
+source: "The Book of PF, 3rd Edition",
 sourceSection: "2. Chapter 1, 4. The IPFilter copyright episode spurred the OpenBSD team to perform a license audit of, 4. Chapter 1, 6. Chapter 1, 8. Chapter 1, 10. Chapter 1, 1. If you’re setting up your first PF configuration on an OpenBSD version earlier than this,, 12. Chapter 2, 14. Chapter 2, 2. For instruct"
-track: bsd-internals
+track: bsd-internals,
 tier: premium
 tags: [firewall, pf, networking, security]
-summary: "The packet filter’s main function is, as the name suggests, to filter network Covers 21 sections: Chapter 1, The IPFilter copyright episode spurred the OpenBSD team to perform a license audit of, Chapter 1."
+summary: "The packet filter’s main function is, as the name suggests, to filter network Covers 21 sections: Chapter 1, The IPFilter copyright episode spurred the OpenBSD team to perform a license audit of, Chapter 1.",
 ---
 # The Book of PF — Chapter 1, The IPFilter copyright episode spurred the OpenBSD…
 

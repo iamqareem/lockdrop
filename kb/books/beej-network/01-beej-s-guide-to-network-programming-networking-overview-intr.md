@@ -1,13 +1,13 @@
 ---
 id: beej-network-01
-title: "Beej's Guide to Network Programming — Networking Overview, Introducing The Sockets API, The Layered…"
+title: "Beej's Guide to Network Programming — Networking Overview, Introducing The Sockets API, The Layered…",
 slug: beej-network-01-beej-s-guide-to-network-programming-networking-overview-intr
-source: "Beej's Guide to Network Programming"
+source: "Beej's Guide to Network Programming",
 sourceSection: "2. Networking Overview, 3. Introducing The Sockets API, 4. The Layered Network Model, 5. Project: HTTP Client and Server, 6. The Internet Protocol (IP), 7. The Internet Protocol version 4, 8. The Internet Protocol version 6, 9. Project: A Better Web Server, 10. Endianness and Integers, 11. Parsing P"
-track: networking-dns
+track: networking-dns,
 tier: premium
 tags: [network-programming, sockets, c, tcp-ip]
-summary: "Circuit Switched . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Covers 43 sections: Networking Overview, Introducing The Sockets API, The Layered Network Model."
+summary: "Circuit Switched . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Covers 43 sections: Networking Overview, Introducing The Sockets API, The Layered Network Model.",
 ---
 # Beej's Guide to Network Programming — Networking Overview, Introducing The Sockets API, The Layered…
 

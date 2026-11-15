@@ -1,13 +1,13 @@
 ---
 id: beej-git-01
-title: "Beej's Guide to Git — Git Basics, GitHub: How To Use It, The Git Log and HEAD, Branches…"
+title: "Beej's Guide to Git — Git Basics, GitHub: How To Use It, The Git Log and HEAD, Branches…",
 slug: beej-git-01-beej-s-guide-to-git-git-basics-github-how-to-use-it-the-git-
-source: "Beej's Guide to Git"
-sourceSection: "2. Git Basics, 3. GitHub: How To Use It, 4. The Git Log and HEAD, 5. Branches and Fast-Forward Merges, 6. Merging and Conflicts, 7. Using Subdirectories with Git, 8. Ignoring Files with .gitignore, 9. Remotes: Repos in Other Places, 10. Remote Tracking Branches, 11. File States, 12. Comparing Files "
-track: git-ops
+source: "Beej's Guide to Git",
+sourceSection: "2. Git Basics, 3. GitHub: How To Use It, 4. The Git Log and HEAD, 5. Branches and Fast-Forward Merges, 6. Merging and Conflicts, 7. Using Subdirectories with Git, 8. Ignoring Files with .gitignore, 9. Remotes: Repos in Other Places, 10. Remote Tracking Branches, 11. File States, 12. Comparing Files"
+track: git-ops,
 tier: free
 tags: [git, version-control, devops]
-summary: "What is Git? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Covers 47 sections: Git Basics, GitHub: How To Use It, The Git Log and HEAD."
+summary: "What is Git? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Covers 47 sections: Git Basics, GitHub: How To Use It, The Git Log and HEAD.",
 ---
 # Beej's Guide to Git — Git Basics, GitHub: How To Use It, The Git Log and HEAD, Branches…
 

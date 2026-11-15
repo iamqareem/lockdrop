@@ -1,13 +1,13 @@
 ---
 id: beej-python-05
-title: "Beej's Guide to Python Programming — Close the file., Print the data, Repeat, Raise it with the raise…"
+title: "Beej's Guide to Python Programming — Close the file., Print the data, Repeat, Raise it with the raise…",
 slug: beej-python-05-beej-s-guide-to-python-programming-close-the-file-print-the-
-source: "Beej's Guide to Python Programming"
-sourceSection: "3. Close the file., 4. Print the data, 4. Repeat, 2. Raise it with the raise statement., 1. When we run this code, it prints out “Exception” instead of “Division by Zero”. Why? What can, 3. Write a function that accepts a list of three numbers and returns the sum. If the list does not contain, Appen"
-track: data-scripting
+source: "Beej's Guide to Python Programming",
+sourceSection: "3. Close the file., 4. Print the data, 4. Repeat, 2. Raise it with the raise statement., 1. When we run this code, it prints out 'Exception' instead of 'Division by Zero'. Why? What can, 3. Write a function that accepts a list of three numbers and returns the sum. If the list does not contain, Appen"
+track: data-scripting,
 tier: free
 tags: [python, programming, scripting]
-summary: "Well, it’s analogous to when you open the file in your editor, and then close it. Covers 7 sections: Close the file., Print the data, Repeat."
+summary: "Well, it’s analogous to when you open the file in your editor, and then close it. Covers 7 sections: Close the file., Print the data, Repeat.",
 ---
 # Beej's Guide to Python Programming — Close the file., Print the data, Repeat, Raise it with the raise…
 

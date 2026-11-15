@@ -1,13 +1,13 @@
 ---
 id: lpi-050-100-05
-title: "LPIC-5 · 050-100 — Why do many open source projects join a foundation?, You are a…"
+title: "LPIC-5 · 050-100 — Why do many open source projects join a foundation?, You are a…",
 slug: lpi-050-100-05-lpic-5-050-100-why-do-many-open-source-projects-join-a-found
-source: "LPI Learning Material — LPIC-5 (Exam 050-100)"
+source: "LPI Learning Material — LPIC-5 (Exam 050-100)",
 sourceSection: "3. Why do many open source projects join a foundation?, 1. You are a committer on your project. Someone submits code that was taken from another, 2. You created a proprietary software product and want to contribute parts of it to an open source, 3. Two people on your mailing list start to argue over"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-5, certification, security, cryptography]
-summary: "In this lesson, you learned what it’s like to be part of a community and how communities remain Covers 16 sections: Why do many open source projects join a foundation?, You are a committer on your project. Someone submits code that was ."
+summary: "In this lesson, you learned what it’s like to be part of a community and how communities remain Covers 16 sections: Why do many open source projects join a foundation?, You are a committer on your project. Someone submits code that was .",
 ---
 # LPIC-5 · 050-100 — Why do many open source projects join a foundation?, You are a…
 

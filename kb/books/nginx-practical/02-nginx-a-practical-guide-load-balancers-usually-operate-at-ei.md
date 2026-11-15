@@ -1,13 +1,13 @@
 ---
 id: nginx-practical-02
-title: "nginx · A Practical Guide — Load Balancers usually operate at either Layer 7 (Application…"
+title: "nginx · A Practical Guide — Load Balancers usually operate at either Layer 7 (Application…",
 slug: nginx-practical-02-nginx-a-practical-guide-load-balancers-usually-operate-at-ei
-source: "nginx — A Practical Guide to High Performance"
+source: "nginx — A Practical Guide to High Performance",
 sourceSection: "2. Load Balancers usually operate at either Layer 7 (Application Layer, i.e, HTTP) or, 1. The amount of time to remove the server from the upstream pool when it is, 2. Keep-Alive for Load balancers"
-track: web-performance
+track: web-performance,
 tier: premium
 tags: [nginx, performance, web-server, tuning]
-summary: "Layer 4 (Transport Layer, i.e, TCP) while typically you will only operate at the Covers 3 sections: Load Balancers usually operate at either Layer 7 (Application Layer, i.e, HTTP) or, The amount of time to remove the ser."
+summary: "Layer 4 (Transport Layer, i.e, TCP) while typically you will only operate at the Covers 3 sections: Load Balancers usually operate at either Layer 7 (Application Layer, i.e, HTTP) or, The amount of time to remove the ser.",
 ---
 # nginx · A Practical Guide — Load Balancers usually operate at either Layer 7 (Application…
 

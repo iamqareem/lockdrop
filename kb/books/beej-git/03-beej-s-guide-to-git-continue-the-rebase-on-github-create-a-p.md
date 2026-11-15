@@ -1,13 +1,13 @@
 ---
 id: beej-git-03
-title: "Beej's Guide to Git — Continue the rebase., On GitHub, create a pull request. This…"
+title: "Beej's Guide to Git — Continue the rebase., On GitHub, create a pull request. This…",
 slug: beej-git-03-beej-s-guide-to-git-continue-the-rebase-on-github-create-a-p
-source: "Beej's Guide to Git"
+source: "Beej's Guide to Git",
 sourceSection: "3. Continue the rebase., 5. On GitHub, create a pull request. This informs the upstream owner that you have changes you’d, 6. Go issue a now-hopefully-non-conflicting PR., 2. Do a forced push to your remote. For your protection, Git won’t push in this circumstance. You, 6. Maybe apply earlier commit"
-track: git-ops
+track: git-ops,
 tier: free
 tags: [git, version-control, devops]
-summary: "Let’s do that. Covers 6 sections: Continue the rebase., On GitHub, create a pull request. This informs the upstream owner that you have changes you’d, Go ."
+summary: "Let’s do that. Covers 6 sections: Continue the rebase., On GitHub, create a pull request. This informs the upstream owner that you have changes you’d, Go .",
 ---
 # Beej's Guide to Git — Continue the rebase., On GitHub, create a pull request. This…
 

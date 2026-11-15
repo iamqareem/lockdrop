@@ -1,13 +1,13 @@
 ---
 id: lpi-101-500-03
-title: "LPIC-1 · 101-500 — Package, Package, If you have a .repo file describing a new…"
+title: "LPIC-1 · 101-500 — Package, Package, If you have a .repo file describing a new…",
 slug: lpi-101-500-03-lpic-1-101-500-package-package-if-you-have-a-repo-file-descr
-source: "LPI Learning Material — LPIC-1 (Exam 101-500)"
+source: "LPI Learning Material — LPIC-1 (Exam 101-500)",
 sourceSection: "1. Package, 1. Package, 5. If you have a .repo file describing a new repository, where this file should be put so that it is, 3. Using, 5. Using yum, find out which package provides the file /bin/wget., 576. Jun 28 16:39 default.xml, 1. What CPU extensions are necessary on an x86 based hardware plat"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-1, certification, system-administration]
-summary: "If you omit the name of a package, you can update every package on the system for which an Covers 24 sections: Package, Package, If you have a .repo file describing a new repository, where this file should be put so that it is."
+summary: "If you omit the name of a package, you can update every package on the system for which an Covers 24 sections: Package, Package, If you have a .repo file describing a new repository, where this file should be put so that it is.",
 ---
 # LPIC-1 · 101-500 — Package, Package, If you have a .repo file describing a new…
 

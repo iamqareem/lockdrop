@@ -1,13 +1,13 @@
 ---
 id: eloquent-javascript-02
-title: "Eloquent JavaScript — Output the value of memory location 0."
+title: "Eloquent JavaScript — Output the value of memory location 0.",
 slug: eloquent-javascript-02-eloquent-javascript-output-the-value-of-memory-location-0
-source: "Eloquent JavaScript"
+source: "Eloquent JavaScript",
 sourceSection: "9. Output the value of memory location 0."
-track: javascript
+track: javascript,
 tier: premium
 tags: [javascript, programming, web]
-summary: "Although that is already more readable than the soup of bits, it is still rather Covers Output the value of memory location 0.."
+summary: "Although that is already more readable than the soup of bits, it is still rather Covers Output the value of memory location 0..",
 ---
 # Eloquent JavaScript — Output the value of memory location 0.
 

@@ -1,13 +1,13 @@
 ---
 id: eloquent-javascript-03
-title: "Eloquent JavaScript — Chickens"
+title: "Eloquent JavaScript — Chickens",
 slug: eloquent-javascript-03-eloquent-javascript-chickens
-source: "Eloquent JavaScript"
+source: "Eloquent JavaScript",
 sourceSection: "011. Chickens"
-track: javascript
+track: javascript,
 tier: premium
 tags: [javascript, programming, web]
-summary: "This asks for a function of two arguments—the number of cows and the number Covers Chickens."
+summary: "This asks for a function of two arguments—the number of cows and the number Covers Chickens.",
 ---
 # Eloquent JavaScript — Chickens
 

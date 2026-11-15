@@ -1,13 +1,13 @@
 ---
 id: pragmatic-systemd-01
-title: "Pragmatic systemd — Pragmatic systemd, We are Opensource.com, Table of Contents…"
+title: "Pragmatic systemd — Pragmatic systemd, We are Opensource.com, Table of Contents…",
 slug: pragmatic-systemd-01-pragmatic-systemd-pragmatic-systemd-we-are-opensource-com-ta
-source: "Pragmatic systemd"
+source: "Pragmatic systemd",
 sourceSection: "Pragmatic systemd, We are Opensource.com, Table of Contents, David Both, SystemV target aliases Description, default.target, This target is always aliased with a symbolic link to, runlevel5.target, runlevel4.target Unused. Runlevel 4 was identical to runlevel 3 in the, runlevel3.target, All services"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, systemd, services, init, production]
-summary: "Opensource.com is a community website publishing stories about creating, adopting, and Covers 90 sections: Pragmatic systemd, We are Opensource.com, Table of Contents."
+summary: "Opensource.com is a community website publishing stories about creating, adopting, and Covers 90 sections: Pragmatic systemd, We are Opensource.com, Table of Contents.",
 ---
 # Pragmatic systemd — Pragmatic systemd, We are Opensource.com, Table of Contents…
 

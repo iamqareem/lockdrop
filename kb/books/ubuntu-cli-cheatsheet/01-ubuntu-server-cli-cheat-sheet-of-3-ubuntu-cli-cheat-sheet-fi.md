@@ -1,13 +1,13 @@
 ---
 id: ubuntu-cli-cheatsheet-01
-title: "Ubuntu Server CLI Cheat Sheet — of 3, Ubuntu CLI cheat sheet, Files, System information, File…"
+title: "Ubuntu Server CLI Cheat Sheet — of 3, Ubuntu CLI cheat sheet, Files, System information, File…",
 slug: ubuntu-cli-cheatsheet-01-ubuntu-server-cli-cheat-sheet-of-3-ubuntu-cli-cheat-sheet-fi
-source: "Ubuntu Server CLI Cheat Sheet 2024"
+source: "Ubuntu Server CLI Cheat Sheet 2024",
 sourceSection: "1 of 3, Ubuntu CLI cheat sheet, Files, System information, File management, System monitoring and management, Directory navigation, File permissions and ownership, Searching and finding, Cron jobs and scheduling, Archiving and compression, Text editing and processing, 2 of 3, Ubuntu CLI cheat sheet,"
-track: git-ops
+track: git-ops,
 tier: free
 tags: [ubuntu, cli, cheatsheet, sysadmin]
-summary: "LXD is a modern, secure and powerful tool that provides a unified experience for Covers 40 sections: of 3, Ubuntu CLI cheat sheet, Files."
+summary: "LXD is a modern, secure and powerful tool that provides a unified experience for Covers 40 sections: of 3, Ubuntu CLI cheat sheet, Files.",
 ---
 # Ubuntu Server CLI Cheat Sheet — of 3, Ubuntu CLI cheat sheet, Files, System information, File…
 

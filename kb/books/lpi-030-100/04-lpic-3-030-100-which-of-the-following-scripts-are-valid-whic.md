@@ -1,13 +1,13 @@
 ---
 id: lpi-030-100-04
-title: "LPIC-3 · 030-100 — Which of the following scripts are valid?, Which of the following…"
+title: "LPIC-3 · 030-100 — Which of the following scripts are valid?, Which of the following…",
 slug: lpi-030-100-04-lpic-3-030-100-which-of-the-following-scripts-are-valid-whic
-source: "LPI Learning Material — LPIC-3 (Exam 030-100)"
-sourceSection: "2. Which of the following scripts are valid?, 2. Which of the following scripts are valid?, 2. Based on the example let item = { name: 'Milk', quantity: 1 } for an object in a, 2. What will happen when one or more of the operands involved in a multiplication operation is a, 3. How is it possible to "
-track: linux-engineer
+source: "LPI Learning Material — LPIC-3 (Exam 030-100)",
+sourceSection: "2. Which of the following scripts are valid?, 2. Which of the following scripts are valid?, 2. Based on the example let item = { name: 'Milk', quantity: 1 } for an object in a, 2. What will happen when one or more of the operands involved in a multiplication operation is a, 3. How is it possible to"
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-3, certification, software-development]
-summary: "If we are at the end of a script, we can write one statement and it will be terminated by the end Covers 28 sections: Which of the following scripts are valid?, Which of the following scripts are valid?, Based on the example let item = { ."
+summary: "If we are at the end of a script, we can write one statement and it will be terminated by the end Covers 28 sections: Which of the following scripts are valid?, Which of the following scripts are valid?, Based on the example let item = { .",
 ---
 # LPIC-3 · 030-100 — Which of the following scripts are valid?, Which of the following…
 

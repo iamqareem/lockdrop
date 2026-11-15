@@ -1,13 +1,13 @@
 ---
 id: arch-handbook-02
-title: "The Arch Linux Handbook — The TrustedBSD MAC Framework, Virtual Memory System, SMPng Design…"
+title: "The Arch Linux Handbook — The TrustedBSD MAC Framework, Virtual Memory System, SMPng Design…",
 slug: arch-handbook-02-the-arch-linux-handbook-the-trustedbsd-mac-framework-virtual
-source: "The Arch Linux Handbook"
+source: "The Arch Linux Handbook",
 sourceSection: "Chapter 6. The TrustedBSD MAC Framework, Chapter 7. Virtual Memory System, Chapter 8. SMPng Design Document, Chapter 9. Writing FreeBSD Device Drivers, Chapter 10. ISA Device Drivers"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, arch, packaging, sysadmin]
-summary: "This documentation was developed for the FreeBSD Project by Chris Costello at Safeport Network Covers 5 sections: The TrustedBSD MAC Framework, Virtual Memory System, SMPng Design Document."
+summary: "This documentation was developed for the FreeBSD Project by Chris Costello at Safeport Network Covers 5 sections: The TrustedBSD MAC Framework, Virtual Memory System, SMPng Design Document.",
 ---
 # The Arch Linux Handbook — The TrustedBSD MAC Framework, Virtual Memory System, SMPng Design…
 

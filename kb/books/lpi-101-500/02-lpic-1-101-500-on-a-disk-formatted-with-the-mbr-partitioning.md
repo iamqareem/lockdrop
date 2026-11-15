@@ -1,13 +1,13 @@
 ---
 id: lpi-101-500-02
-title: "LPIC-1 · 101-500 — On a disk formatted with the MBR partitioning scheme, which is…"
+title: "LPIC-1 · 101-500 — On a disk formatted with the MBR partitioning scheme, which is…",
 slug: lpi-101-500-02-lpic-1-101-500-on-a-disk-formatted-with-the-mbr-partitioning
-source: "LPI Learning Material — LPIC-1 (Exam 101-500)"
+source: "LPI Learning Material — LPIC-1 (Exam 101-500)",
 sourceSection: "3. On a disk formatted with the MBR partitioning scheme, which is the ID of the EFI System, 1. What is the smallest unit inside of a Volume Group?, 5. Extended, 1. Imagine a user configuring GRUB Legacy to boot from the second partition of the first disk. He, 2. Imagine you have a disk identified as"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-1, certification, system-administration]
-summary: "In this lesson you learned about partitioning, which directories are usually kept in separate Covers 23 sections: On a disk formatted with the MBR partitioning scheme, which is the ID of the EFI System, What is the smallest unit insid."
+summary: "In this lesson you learned about partitioning, which directories are usually kept in separate Covers 23 sections: On a disk formatted with the MBR partitioning scheme, which is the ID of the EFI System, What is the smallest unit insid.",
 ---
 # LPIC-1 · 101-500 — On a disk formatted with the MBR partitioning scheme, which is…
 

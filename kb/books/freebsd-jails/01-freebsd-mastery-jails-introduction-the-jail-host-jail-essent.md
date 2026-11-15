@@ -1,13 +1,13 @@
 ---
 id: freebsd-jails-01
-title: "FreeBSD Mastery · Jails — Introduction, The Jail Host, Jail Essentials, Jail Management…"
+title: "FreeBSD Mastery · Jails — Introduction, The Jail Host, Jail Essentials, Jail Management…",
 slug: freebsd-jails-01-freebsd-mastery-jails-introduction-the-jail-host-jail-essent
-source: "FreeBSD Mastery — Jails"
-sourceSection: "Chapter 0. Introduction, Chapter 1. The Jail Host, Chapter 2. Jail Essentials, Chapter 3. Jail Management, Chapter 4. Jail Filesystems, Chapter 5. Packages and Upgrades, Chapter 6. Space Optimization, Chapter 7. Living In A Jail, Chapter 8. Jail Features And Controls, Chapter 9. Networking, Chapter "
-track: bsd-internals
+source: "FreeBSD Mastery — Jails",
+sourceSection: "Chapter 0. Introduction, Chapter 1. The Jail Host, Chapter 2. Jail Essentials, Chapter 3. Jail Management, Chapter 4. Jail Filesystems, Chapter 5. Packages and Upgrades, Chapter 6. Space Optimization, Chapter 7. Living In A Jail, Chapter 8. Jail Features And Controls, Chapter 9. Networking, Chapter"
+track: bsd-internals,
 tier: premium
 tags: [bsd, freebsd, jails, containers, security]
-summary: "When I first became a system administrator, operating system installations were Covers 15 sections: Introduction, The Jail Host, Jail Essentials."
+summary: "When I first became a system administrator, operating system installations were Covers 15 sections: Introduction, The Jail Host, Jail Essentials.",
 ---
 # FreeBSD Mastery · Jails — Introduction, The Jail Host, Jail Essentials, Jail Management…
 

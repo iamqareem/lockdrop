@@ -1,13 +1,13 @@
 ---
 id: unix-programming-01
-title: "UNIX Programming FAQ — Fundamental Concepts of UNIX Operating System, File Management…"
+title: "UNIX Programming FAQ — Fundamental Concepts of UNIX Operating System, File Management…",
 slug: unix-programming-01-unix-programming-faq-fundamental-concepts-of-unix-operating-
-source: "UNIX Programming FAQ — Processes, Memory, Communication, Networking and Shell Scripting"
+source: "UNIX Programming FAQ — Processes, Memory, Communication, Networking and Shell Scripting",
 sourceSection: "1. Fundamental Concepts of UNIX Operating System, 2. File Management, 3. Process Management, 4. Inter-Process Communication, 5. Socket Programming, 6. Memory Management, 7. UNIX Shell and Custom Environment, 8. Shell Programming Using Bourne Shell"
-track: systems-kernel
+track: systems-kernel,
 tier: premium
 tags: [unix, systems-programming, processes, memory, ipc]
-summary: "UNIX is a powerful operating system, first developed in Bell Labs and has been Covers 8 sections: Fundamental Concepts of UNIX Operating System, File Management, Process Management."
+summary: "UNIX is a powerful operating system, first developed in Bell Labs and has been Covers 8 sections: Fundamental Concepts of UNIX Operating System, File Management, Process Management.",
 ---
 # UNIX Programming FAQ — Fundamental Concepts of UNIX Operating System, File Management…
 

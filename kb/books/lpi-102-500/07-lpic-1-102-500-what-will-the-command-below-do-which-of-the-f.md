@@ -1,13 +1,13 @@
 ---
 id: lpi-102-500-07
-title: "LPIC-1 · 102-500 — What will the command below do?, Which of the following is a…"
+title: "LPIC-1 · 102-500 — What will the command below do?, Which of the following is a…",
 slug: lpi-102-500-07-lpic-1-102-500-what-will-the-command-below-do-which-of-the-f
-source: "LPI Learning Material — LPIC-1 (Exam 102-500)"
+source: "LPI Learning Material — LPIC-1 (Exam 102-500)",
 sourceSection: "1. What will the command below do?, 4. Which of the following is a proper /etc/hosts entry?, 3. Considering the following /etc/resolv.conf why isn’t the system resolving names through, 1. What will the command below do?, Topic 110: Security, 402. F.... apache2, 404. F.... apache2, 405. F.... apache2"
-track: linux-engineer
+track: linux-engineer,
 tier: free
 tags: [linux, lpic-1, certification, shells, scripting]
-summary: "The getent command is a great tool to see the results of resolver calls. Covers 33 sections: What will the command below do?, Which of the following is a proper /etc/hosts entry?, Considering the following /etc/re."
+summary: "The getent command is a great tool to see the results of resolver calls. Covers 33 sections: What will the command below do?, Which of the following is a proper /etc/hosts entry?, Considering the following /etc/re.",
 ---
 # LPIC-1 · 102-500 — What will the command below do?, Which of the following is a…
 
