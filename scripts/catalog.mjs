@@ -12,6 +12,7 @@
 import { execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { HEADING_RULES, profileFor, textValidator } from "./lib/profiles.mjs";
 import { dirname, join } from "node:path";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -58,71 +59,8 @@ const isShortTitle = (text) => {
   return true;
 };
 
-const RULES = [
-  {
-    id: "chapter",
-    level: 1,
-    re: /^chapter\s+([0-9]+)[.:]?\s*(.+)$/i,
-    title: (m) => `Chapter ${m[1]}. ${m[2]}`,
-    ok: (m) => isShortTitle(m[2]),
-  },
-  {
-    id: "part",
-    level: 1,
-    re: /^(?:part\s+)?([IVXLC]+)[:.]\s+([A-Z].*)$/,
-    title: (m) => `${m[1]}. ${m[2]}`,
-    ok: (m) => isShortTitle(m[2]),
-  },
-  {
-    id: "appendix",
-    level: 1,
-    re: /^(appendix\s+[A-Z])\b[:.]?\s*(.*)$/i,
-    title: (m) => (m[2] ? `${m[1]}: ${m[2]}` : m[1]),
-    ok: (m) => isText(m[2] || m[1]),
-  },
-  {
-    id: "topic",
-    level: 1,
-    re: /^topic\s+([0-9]+)[:.]\s*(.+)$/i,
-    title: (m) => `Topic ${m[1]}: ${m[2]}`,
-    ok: (m) => isShortTitle(m[2]),
-  },
-  {
-    id: "dotted3",
-    level: 3,
-    re: /^([0-9]+)\.([0-9]+)\.([0-9]+)\.?\s+(\S.*)$/,
-    title: (m) => `${m[1]}.${m[2]}.${m[3]} ${m[4]}`,
-    ok: (m) => isText(m[4]),
-  },
-  {
-    id: "dotted2",
-    level: 2,
-    re: /^([0-9]+)\.([0-9]+)\.?\s+(\S.*)$/,
-    title: (m) => `${m[1]}.${m[2]} ${m[3]}`,
-    ok: (m) => isText(m[3]),
-  },
-  {
-    id: "dotted1",
-    level: 1,
-    re: /^([0-9]+)\.?\s+([A-Z]\S.*)$/,
-    title: (m) => `${m[1]}. ${m[2]}`,
-    ok: (m) => isText(m[2]),
-  },
-  {
-    id: "lettered",
-    level: 2,
-    re: /^([A-Z])\.\s+([A-Z]\S.*)$/,
-    title: (m) => `${m[1]}. ${m[2]}`,
-    ok: (m) => isText(m[2]),
-  },
-  {
-    id: "markdown",
-    level: 1,
-    re: /^#{1,6}\s+(.+)$/,
-    title: (m) => m[1],
-    ok: (m) => isText(m[1]),
-  },
-];
+const RULES = HEADING_RULES.numbered;
+
 
 /**
  * Which structural heading convention a document uses.
@@ -280,16 +218,14 @@ export function detectConvention(lines) {
   return best;
 }
 
-export function headingOf(line, allowMarkdown = false) {
+export function headingOf(line, ruleSet = RULES) {
   const trimmed = line.trim();
-  for (const rule of RULES) {
+  for (const rule of ruleSet) {
     if (!rule.re) continue;
-    // The markdown rule would otherwise match every shell `# comment` in a
-    // code block, so it is only used for actual markdown sources.
-    if (rule.id === "markdown" && !allowMarkdown) continue;
     const m = trimmed.match(rule.re);
     if (!m) continue;
-    if (rule.ok && !rule.ok(m)) continue;
+    const validate = textValidator(rule.id);
+    if (!validate(m[m.length - 1])) continue;
     const title = rule.title(m).trim();
     if (title.length > 120) continue;
     if (!/[A-Za-z]/.test(title)) continue;
@@ -356,13 +292,17 @@ function structuralHeading(lines, index) {
 
 /* --------------------------------------------------------------- build */
 
-export function buildTree(path, ruleOverride = null) {
-  const allowMarkdown = !isPdf(path);
+
+/**
+ * The full document for a source: its heading tree and the cleaned text the
+ * tree was built from. The piece writer slices this to make each piece.
+ */
+export function buildDocument(path, meta = null) {
+  const profile = profileFor(meta);
+  const ruleSet = HEADING_RULES[profile.headingRules] ?? [];
   const raw = extractText(path).split("\n");
   const cleaned = stripFurniture(raw);
-  const rejoined = isHardWrapped(cleaned) ? rejoin(cleaned) : cleaned;
-  const detected = detectConvention(rejoined);
-  const convention = ruleOverride ?? detected.id;
+  const rejoined = profile.joinWrapped && isHardWrapped(cleaned) ? rejoin(cleaned) : cleaned;
 
   const tree = [];
   let current = null;
@@ -371,41 +311,31 @@ export function buildTree(path, ruleOverride = null) {
     const line = rejoined[i];
     const tokens = line.trim() ? line.trim().split(/\s+/).length : 0;
 
-    let heading = headingOf(line, allowMarkdown);
+    let heading = headingOf(line, ruleSet);
 
-    // A numbered heading has to stand on its own: a blank line before it.
-    // Without that, a code comment or a table cell reads as a section.
-    if (
-      heading &&
-      heading.rule !== "chapter" &&
-      heading.rule !== "topic" &&
-      heading.rule !== "markdown"
-    ) {
+    if (heading && profile.blankBefore === "heading-or-blank") {
       const previous = i > 0 ? rejoined[i - 1].trim() : "";
-      if (previous !== "") heading = null;
+      const previousIsHeading =
+        previous !== "" && headingOf(previous, ruleSet) !== null;
+      if (previous !== "" && !previousIsHeading) heading = null;
     }
 
-    if (!heading && convention === "structural") {
+    if (!heading && profile.headingRules === "structural") {
       heading = structuralHeading(rejoined, i);
     }
 
-    // A numbered line that is followed by the next number in the sequence is
-    // a list item, not a heading.
-    if (heading && heading.rule !== "chapter" && heading.rule !== "topic" &&
-        heading.rule !== "markdown" && isListItem(rejoined, i)) {
+    if (heading && profile.detectLists && isListItem(rejoined, i)) {
       heading = null;
     }
 
     if (heading) {
-      current = { ...heading, words: 0, children: [] };
+      current = { ...heading, at: i, words: 0, children: [] };
       tree.push(current);
       continue;
     }
     if (current) current.words += tokens;
   }
 
-  // Assemble the flat list into a tree: a heading nests under the nearest
-  // preceding heading of a higher level.
   const roots = [];
   const open = [];
   for (const node of tree) {
@@ -416,7 +346,7 @@ export function buildTree(path, ruleOverride = null) {
   }
 
   const total = tree.reduce((sum, n) => sum + n.words, 0);
-  return { roots, convention, total };
+  return { roots, flat: tree, profile, lines: rejoined, total };
 }
 
 /** Proposes pieces: take the largest units that fit the word band. */
@@ -469,7 +399,9 @@ for (const source of SOURCES) {
   if (only && source.id !== only) continue;
 
   process.stdout.write(`  ${source.id.padEnd(18)}`);
-  const { roots, convention, total } = buildTree(pdfPath, source.headingRule ?? null);
+  const doc = buildDocument(pdfPath, source);
+  const { roots, total } = doc;
+  const convention = doc.profile.name;
   const chapters = source.existing
     ? []
     : proposePieces(roots, { min: 12000, max: 18000 });

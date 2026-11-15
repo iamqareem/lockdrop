@@ -342,7 +342,7 @@ The GitHub repository is the only thing Cloudflare needs.
 The project `lockdrop` exists, is deployed, and is serving:
 
 - **Live:** `https://lockdrop-e0z.pages.dev/`
-- **Custom domain:** `lock.ugaplex.com` — added, waiting on the DNS record
+- **Custom domain:** `drops.ugaplex.com` — added, waiting on the DNS record
 - **Account:** the `ugaplex.com` zone is in the same Cloudflare account, so
   Pages will attach the CNAME once it exists
 
@@ -398,7 +398,7 @@ Pages will not attach a domain until the CNAME exists, so add it first:
 
 | Type | Name | Target | Proxy |
 | --- | --- | --- | --- |
-| `CNAME` | `lock` | `lockdrop-e0z.pages.dev` | Proxied |
+| `CNAME` | `drops` | `lockdrop-e0z.pages.dev` | Proxied |
 
 Then watch it attach:
 
@@ -472,7 +472,7 @@ The ten Linux pieces follow the exam structure, two objectives each:
 3. **Publish.**
 
    ```bash
-   node scripts/publish-kb.mjs --api https://lock.ugaplex.com --mode free_ad
+   node scripts/publish-kb.mjs --api https://drops.ugaplex.com --mode free_ad
    node scripts/publish-kb.mjs --mode paid_ad --price 1.5
    node scripts/publish-kb.mjs --only linux-01 --dry-run
    ```

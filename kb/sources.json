@@ -16,7 +16,8 @@
       "track": "linux-engineer",
       "tier": "free",
       "attribution": "Linux Professional Institute \u2014 Learning Material for the Linux Professional Institute Certification, Level 1 (Exam 010-160). Free to use and redistribute with attribution.",
-      "existing": true
+      "existing": true,
+      "profile": "exam"
     },
     {
       "id": "lpi-101-500",
@@ -24,7 +25,15 @@
       "title": "LPI Learning Material \u2014 LPIC-1 (Exam 101-500)",
       "track": "linux-engineer",
       "tier": "free",
-      "attribution": "Linux Professional Institute \u2014 Learning Material for the Linux Professional Institute Certification, Level 1 (Exam 101-500). Free to use and redistribute with attribution."
+      "attribution": "Linux Professional Institute \u2014 Learning Material for the Linux Professional Institute Certification, Level 1 (Exam 101-500). Free to use and redistribute with attribution.",
+      "titlePrefix": "LPIC-1 \u00b7 101-500",
+      "tags": [
+        "linux",
+        "lpic-1",
+        "certification",
+        "system-administration"
+      ],
+      "profile": "exam"
     },
     {
       "id": "lpi-102-500",
@@ -32,7 +41,16 @@
       "title": "LPI Learning Material \u2014 LPIC-1 (Exam 102-500)",
       "track": "linux-engineer",
       "tier": "free",
-      "attribution": "Linux Professional Institute \u2014 Learning Material for the Linux Professional Institute Certification, Level 1 (Exam 102-500). Free to use and redistribute with attribution."
+      "attribution": "Linux Professional Institute \u2014 Learning Material for the Linux Professional Institute Certification, Level 1 (Exam 102-500). Free to use and redistribute with attribution.",
+      "titlePrefix": "LPIC-1 \u00b7 102-500",
+      "tags": [
+        "linux",
+        "lpic-1",
+        "certification",
+        "shells",
+        "scripting"
+      ],
+      "profile": "exam"
     },
     {
       "id": "lpi-701-200",
@@ -40,7 +58,15 @@
       "title": "LPI Learning Material \u2014 LPIC-1 (Exam 701-200)",
       "track": "linux-engineer",
       "tier": "free",
-      "attribution": "Linux Professional Institute \u2014 Learning Material for the Linux Professional Institute Certification, Level 1 (Exam 701-200). Free to use and redistribute with attribution."
+      "attribution": "Linux Professional Institute \u2014 Learning Material for the Linux Professional Institute Certification, Level 1 (Exam 701-200). Free to use and redistribute with attribution.",
+      "titlePrefix": "LPIC-1 \u00b7 701-200",
+      "tags": [
+        "linux",
+        "lpic-1",
+        "certification",
+        "software-development"
+      ],
+      "profile": "exam"
     },
     {
       "id": "lpi-020-100",
@@ -48,7 +74,15 @@
       "title": "LPI Learning Material \u2014 LPIC-2 (Exam 020-100)",
       "track": "linux-engineer",
       "tier": "free",
-      "attribution": "Linux Professional Institute \u2014 Learning Material for the Linux Professional Institute Certification, Level 2 (Exam 020-100). Free to use and redistribute with attribution."
+      "attribution": "Linux Professional Institute \u2014 Learning Material for the Linux Professional Institute Certification, Level 2 (Exam 020-100). Free to use and redistribute with attribution.",
+      "titlePrefix": "LPIC-2 \u00b7 020-100",
+      "tags": [
+        "linux",
+        "lpic-2",
+        "certification",
+        "security"
+      ],
+      "profile": "exam"
     },
     {
       "id": "lpi-030-100",
@@ -56,7 +90,15 @@
       "title": "LPI Learning Material \u2014 LPIC-3 (Exam 030-100)",
       "track": "linux-engineer",
       "tier": "free",
-      "attribution": "Linux Professional Institute \u2014 Learning Material for the Linux Professional Institute Certification, Level 3 (Exam 030-100). Free to use and redistribute with attribution."
+      "attribution": "Linux Professional Institute \u2014 Learning Material for the Linux Professional Institute Certification, Level 3 (Exam 030-100). Free to use and redistribute with attribution.",
+      "titlePrefix": "LPIC-3 \u00b7 030-100",
+      "tags": [
+        "linux",
+        "lpic-3",
+        "certification",
+        "software-development"
+      ],
+      "profile": "exam"
     },
     {
       "id": "lpi-050-100",
@@ -64,7 +106,16 @@
       "title": "LPI Learning Material \u2014 LPIC-5 (Exam 050-100)",
       "track": "linux-engineer",
       "tier": "free",
-      "attribution": "Linux Professional Institute \u2014 Learning Material for the Linux Professional Institute Certification, Level 5 (Exam 050-100). Free to use and redistribute with attribution."
+      "attribution": "Linux Professional Institute \u2014 Learning Material for the Linux Professional Institute Certification, Level 5 (Exam 050-100). Free to use and redistribute with attribution.",
+      "titlePrefix": "LPIC-5 \u00b7 050-100",
+      "tags": [
+        "linux",
+        "lpic-5",
+        "certification",
+        "security",
+        "cryptography"
+      ],
+      "profile": "exam"
     },
     {
       "id": "lfs-12-2",
@@ -72,7 +123,16 @@
       "title": "Linux From Scratch 12.2",
       "track": "linux-engineer",
       "tier": "free",
-      "attribution": "Linux From Scratch, by Gerard E. Lindsey. Distributed under the Creative Commons Attribution-ShareAlike 3.0 licence."
+      "attribution": "Linux From Scratch, by Gerard E. Lindsey. Distributed under the Creative Commons Attribution-ShareAlike 3.0 licence.",
+      "titlePrefix": "Linux From Scratch 12.2",
+      "tags": [
+        "linux",
+        "lfs",
+        "from-scratch",
+        "compilation",
+        "sysadmin"
+      ],
+      "profile": "manual"
     },
     {
       "id": "arch-handbook",
@@ -80,7 +140,15 @@
       "title": "The Arch Linux Handbook",
       "track": "linux-engineer",
       "tier": "free",
-      "attribution": "The Arch Linux Project. Free documentation, redistributable with attribution."
+      "attribution": "The Arch Linux Project. Free documentation, redistributable with attribution.",
+      "titlePrefix": "The Arch Linux Handbook",
+      "tags": [
+        "linux",
+        "arch",
+        "packaging",
+        "sysadmin"
+      ],
+      "profile": "manual"
     },
     {
       "id": "bash-scripting",
@@ -89,7 +157,15 @@
       "track": "linux-engineer",
       "tier": "free",
       "attribution": "Introduction to Bash Scripting. Free to redistribute with attribution.",
-      "headingRule": "structural"
+      "titlePrefix": "Introduction to Bash Scripting",
+      "tags": [
+        "linux",
+        "bash",
+        "shell",
+        "scripting",
+        "automation"
+      ],
+      "profile": "slides"
     },
     {
       "id": "pragmatic-systemd",
@@ -98,7 +174,15 @@
       "track": "linux-engineer",
       "tier": "free",
       "attribution": "Open Source DevCon 2023. Free to redistribute with attribution.",
-      "headingRule": "structural"
+      "titlePrefix": "Pragmatic systemd",
+      "tags": [
+        "linux",
+        "systemd",
+        "services",
+        "init",
+        "production"
+      ],
+      "profile": "slides"
     },
     {
       "id": "compiling-code",
@@ -106,7 +190,15 @@
       "title": "Developer Guide to Compiling Code",
       "track": "systems-kernel",
       "tier": "free",
-      "attribution": "Open Source DevCon 2023. Free to redistribute with attribution."
+      "attribution": "Open Source DevCon 2023. Free to redistribute with attribution.",
+      "titlePrefix": "Compiling Code",
+      "tags": [
+        "compilers",
+        "toolchain",
+        "build-systems",
+        "c"
+      ],
+      "profile": "slides"
     },
     {
       "id": "virtualization",
@@ -115,7 +207,14 @@
       "track": "systems-kernel",
       "tier": "free",
       "attribution": "Open Source DevCon 2023. Free to redistribute with attribution.",
-      "headingRule": "structural"
+      "titlePrefix": "Virtualization",
+      "tags": [
+        "virtualization",
+        "hypervisor",
+        "containers",
+        "operations"
+      ],
+      "profile": "slides"
     },
     {
       "id": "unix-programming",
@@ -123,7 +222,16 @@
       "title": "UNIX Programming FAQ \u2014 Processes, Memory, Communication, Networking and Shell Scripting",
       "track": "systems-kernel",
       "tier": "premium",
-      "attribution": "The UNIX Programming FAQ. Free to redistribute with attribution."
+      "attribution": "The UNIX Programming FAQ. Free to redistribute with attribution.",
+      "titlePrefix": "UNIX Programming FAQ",
+      "tags": [
+        "unix",
+        "systems-programming",
+        "processes",
+        "memory",
+        "ipc"
+      ],
+      "profile": "manual"
     },
     {
       "id": "design-44bsd",
@@ -131,7 +239,16 @@
       "title": "The Design and Implementation of the 4.4BSD Operating System",
       "track": "systems-kernel",
       "tier": "premium",
-      "attribution": "The Design and Implementation of the 4.4BSD Operating System, by Marshall Kirk and Michael Stoll. Redistributable with attribution."
+      "attribution": "The Design and Implementation of the 4.4BSD Operating System, by Marshall Kirk and Michael Stoll. Redistributable with attribution.",
+      "titlePrefix": "The Design and Implementation of 4.4BSD",
+      "tags": [
+        "bsd",
+        "kernel",
+        "internals",
+        "history",
+        "unix"
+      ],
+      "profile": "manual"
     },
     {
       "id": "freebsd-handbook",
@@ -140,7 +257,8 @@
       "track": "bsd-internals",
       "tier": "free",
       "attribution": "The FreeBSD Project. Free documentation, redistributable with the copyright notice intact.",
-      "existing": true
+      "existing": true,
+      "profile": "numbered"
     },
     {
       "id": "freebsd-developers",
@@ -148,7 +266,15 @@
       "title": "The FreeBSD Developer's Handbook",
       "track": "bsd-internals",
       "tier": "premium",
-      "attribution": "The FreeBSD Project. Free documentation, redistributable with the copyright notice intact."
+      "attribution": "The FreeBSD Project. Free documentation, redistributable with the copyright notice intact.",
+      "titlePrefix": "The FreeBSD Developer's Handbook",
+      "tags": [
+        "bsd",
+        "freebsd",
+        "internals",
+        "toolchains"
+      ],
+      "profile": "manual"
     },
     {
       "id": "freebsd-jails",
@@ -156,7 +282,16 @@
       "title": "FreeBSD Mastery \u2014 Jails",
       "track": "bsd-internals",
       "tier": "premium",
-      "attribution": "FreeBSD Mastery: Jails. Free to redistribute with attribution."
+      "attribution": "FreeBSD Mastery: Jails. Free to redistribute with attribution.",
+      "titlePrefix": "FreeBSD Mastery \u00b7 Jails",
+      "tags": [
+        "bsd",
+        "freebsd",
+        "jails",
+        "containers",
+        "security"
+      ],
+      "profile": "manual"
     },
     {
       "id": "book-of-pf",
@@ -164,7 +299,15 @@
       "title": "The Book of PF, 3rd Edition",
       "track": "bsd-internals",
       "tier": "premium",
-      "attribution": "The Book of PF, 3rd Edition, by Peter Welch. Free to redistribute with attribution."
+      "attribution": "The Book of PF, 3rd Edition, by Peter Welch. Free to redistribute with attribution.",
+      "titlePrefix": "The Book of PF",
+      "tags": [
+        "firewall",
+        "pf",
+        "networking",
+        "security"
+      ],
+      "profile": "manual"
     },
     {
       "id": "bind9",
@@ -172,7 +315,15 @@
       "title": "BIND 9 Administrator Reference Manual",
       "track": "networking-dns",
       "tier": "premium",
-      "attribution": "BIND 9 Administrator Reference Manual, by ISC. Free to redistribute with attribution."
+      "attribution": "BIND 9 Administrator Reference Manual, by ISC. Free to redistribute with attribution.",
+      "titlePrefix": "BIND 9 Administrator Reference Manual",
+      "tags": [
+        "dns",
+        "bind9",
+        "networking",
+        "infrastructure"
+      ],
+      "profile": "numbered"
     },
     {
       "id": "beej-network",
@@ -180,7 +331,15 @@
       "title": "Beej's Guide to Network Programming",
       "track": "networking-dns",
       "tier": "premium",
-      "attribution": "Beej's Guide to Network Programming, by Brian Raiter. Free to redistribute with attribution."
+      "attribution": "Beej's Guide to Network Programming, by Brian Raiter. Free to redistribute with attribution.",
+      "titlePrefix": "Beej's Guide to Network Programming",
+      "tags": [
+        "network-programming",
+        "sockets",
+        "c",
+        "tcp-ip"
+      ],
+      "profile": "numbered"
     },
     {
       "id": "nginx-cookbook",
@@ -188,7 +347,15 @@
       "title": "The Complete NGINX Cookbook",
       "track": "web-performance",
       "tier": "premium",
-      "attribution": "The Complete NGINX Cookbook, by Packt. Free to redistribute with attribution."
+      "attribution": "The Complete NGINX Cookbook, by Packt. Free to redistribute with attribution.",
+      "titlePrefix": "The Complete NGINX Cookbook",
+      "tags": [
+        "nginx",
+        "web-server",
+        "reverse-proxy",
+        "operations"
+      ],
+      "profile": "numbered"
     },
     {
       "id": "nginx-practical",
@@ -196,7 +363,15 @@
       "title": "nginx \u2014 A Practical Guide to High Performance",
       "track": "web-performance",
       "tier": "premium",
-      "attribution": "nginx: A Practical Guide to High Performance, by Stephen Corona. Free to redistribute with attribution."
+      "attribution": "nginx: A Practical Guide to High Performance, by Stephen Corona. Free to redistribute with attribution.",
+      "titlePrefix": "nginx \u00b7 A Practical Guide",
+      "tags": [
+        "nginx",
+        "performance",
+        "web-server",
+        "tuning"
+      ],
+      "profile": "manual"
     },
     {
       "id": "eloquent-javascript",
@@ -204,7 +379,14 @@
       "title": "Eloquent JavaScript",
       "track": "javascript",
       "tier": "premium",
-      "attribution": "Eloquent JavaScript, by Marijn Haverbeke. Free to redistribute with attribution."
+      "attribution": "Eloquent JavaScript, by Marijn Haverbeke. Free to redistribute with attribution.",
+      "titlePrefix": "Eloquent JavaScript",
+      "tags": [
+        "javascript",
+        "programming",
+        "web"
+      ],
+      "profile": "numbered"
     },
     {
       "id": "mastering-javascript",
@@ -213,7 +395,13 @@
       "track": "javascript",
       "tier": "premium",
       "attribution": "Mastering JavaScript: The Complete Guide. Free to redistribute with attribution.",
-      "headingRule": "structural"
+      "titlePrefix": "Mastering JavaScript",
+      "tags": [
+        "javascript",
+        "programming",
+        "advanced"
+      ],
+      "profile": "numbered"
     },
     {
       "id": "sqlite-tutorial",
@@ -222,7 +410,14 @@
       "track": "data-scripting",
       "tier": "free",
       "attribution": "SQLite Tutorial. Free to redistribute with attribution.",
-      "headingRule": "structural"
+      "titlePrefix": "SQLite Tutorial",
+      "tags": [
+        "sqlite",
+        "sql",
+        "databases",
+        "embedded"
+      ],
+      "profile": "prose"
     },
     {
       "id": "lec-sqlite",
@@ -231,7 +426,14 @@
       "track": "data-scripting",
       "tier": "free",
       "attribution": "SQLite and sqlite3, a lecture from Stanford's Statistical Computing & Programming course by Shawn Santo. Free to redistribute with attribution.",
-      "headingRule": "structural"
+      "titlePrefix": "SQLite and sqlite3",
+      "tags": [
+        "sqlite",
+        "sql",
+        "databases",
+        "statistics"
+      ],
+      "profile": "slides"
     },
     {
       "id": "beej-python",
@@ -239,7 +441,14 @@
       "title": "Beej's Guide to Python Programming",
       "track": "data-scripting",
       "tier": "free",
-      "attribution": "Beej's Guide to Python Programming, by Brian Raiter. Free to redistribute with attribution."
+      "attribution": "Beej's Guide to Python Programming, by Brian Raiter. Free to redistribute with attribution.",
+      "titlePrefix": "Beej's Guide to Python Programming",
+      "tags": [
+        "python",
+        "programming",
+        "scripting"
+      ],
+      "profile": "numbered"
     },
     {
       "id": "lua",
@@ -248,7 +457,13 @@
       "track": "data-scripting",
       "tier": "free",
       "attribution": "Open Source DevCon 2023. Free to redistribute with attribution.",
-      "headingRule": "structural"
+      "titlePrefix": "Lua",
+      "tags": [
+        "lua",
+        "scripting",
+        "embedded"
+      ],
+      "profile": "slides"
     },
     {
       "id": "beej-git",
@@ -256,7 +471,14 @@
       "title": "Beej's Guide to Git",
       "track": "git-ops",
       "tier": "free",
-      "attribution": "Beej's Guide to Git, by Brian Raiter. Free to redistribute with attribution."
+      "attribution": "Beej's Guide to Git, by Brian Raiter. Free to redistribute with attribution.",
+      "titlePrefix": "Beej's Guide to Git",
+      "tags": [
+        "git",
+        "version-control",
+        "devops"
+      ],
+      "profile": "numbered"
     },
     {
       "id": "ubuntu-cli-cheatsheet",
@@ -264,7 +486,15 @@
       "title": "Ubuntu Server CLI Cheat Sheet 2024",
       "track": "git-ops",
       "tier": "free",
-      "attribution": "Ubuntu Server CLI Cheat Sheet 2024. Free to redistribute with attribution."
+      "attribution": "Ubuntu Server CLI Cheat Sheet 2024. Free to redistribute with attribution.",
+      "titlePrefix": "Ubuntu Server CLI Cheat Sheet",
+      "tags": [
+        "ubuntu",
+        "cli",
+        "cheatsheet",
+        "sysadmin"
+      ],
+      "profile": "slides"
     },
     {
       "id": "note-core-basics",
@@ -273,8 +503,8 @@
       "track": "linux-engineer",
       "tier": "free",
       "attribution": "Written for this repository.",
-      "headingRule": "structural",
-      "existing": true
+      "existing": true,
+      "profile": "markdown"
     },
     {
       "id": "note-freebsd-basics",
@@ -283,8 +513,8 @@
       "track": "bsd-internals",
       "tier": "free",
       "attribution": "Written for this repository.",
-      "headingRule": "structural",
-      "existing": true
+      "existing": true,
+      "profile": "markdown"
     },
     {
       "id": "note-pkg-managers",
@@ -293,8 +523,8 @@
       "track": "linux-engineer",
       "tier": "free",
       "attribution": "Written for this repository.",
-      "headingRule": "structural",
-      "existing": true
+      "existing": true,
+      "profile": "markdown"
     }
   ]
 }

@@ -263,7 +263,7 @@ flagged `Caution` — that is fixed, so folder links now verify as `Trusted`.
 
 ## 9. Still open
 
-The domain. `lock.ugaplex.com` is functional but does not carry the brand.
+The domain is settled: **`drops.ugaplex.com`**.
 Everything else is decided; changing the domain later is a canonical URL, an
 `og:url`, a robots/sitemap entry and one DNS record.
 

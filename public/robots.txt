@@ -3,4 +3,4 @@ Allow: /
 Disallow: /api/
 Disallow: /admin
 
-Sitemap: https://lock.ugaplex.com/sitemap.xml
+Sitemap: https://drops.ugaplex.com/sitemap.xml
