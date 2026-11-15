@@ -51,7 +51,37 @@ three curated notes.
 
 ---
 
-## 2. Target
+## 2. Decisions (locked)
+
+**All 29 sources**, curated. The four LPI LPIC-1 documents (010-160, 101-500,
+102-500, 701-200) are kept **as a series** — same exam, four revisions,
+deliberately.
+
+**Drive layout** mirrors `kb/books/<slug>/` exactly. The whole `kb/` directory
+is uploaded once; the path in Drive is the path in the repository.
+
+**Pricing is mixed, to drive traffic and take some revenue:**
+
+| Tier | Unlock | Token | Price | What goes in it |
+| --- | --- | --- | --- | --- |
+| Free | `free_ad` | — | — | Beginner and foundational material: all LPI *Learning Material* (the four LPIC-1 revisions, LPIC-2, LPIC-3, LPIC-5), the FreeBSD and Arch handbooks, Bash scripting, the short admin drills, the curated notes. |
+| Premium | `paid_ad` / `paid_pure` | USDT | **5.00 – 10.00 USDT** | Senior and specialist material: BIND 9, both NGINX books, The Book of PF, FreeBSD Jails, the 4.4BSD design, the UNIX Programming FAQ, Eloquent and Mastering JavaScript, Compiling Code, Virtualization, the Beej network and Python guides. |
+
+The premium tier is gated at **5 USDT minimum, 10 USDT maximum** per drop.
+`paid_pure` (ad-free) is used for the deep specialist chapters; `paid_ad` for
+the rest, so a buyer can still take the sponsored-task route.
+
+**Two kinds of piece**, not one:
+
+| Kind | Size | Purpose |
+| --- | --- | --- |
+| **Chapter** | 12,000 – 18,000 words | The deep material, one chapter or a coherent group of sections. |
+| **Drill** | 500 – 3,000 words | A short, task-shaped recipe: "reset a forgotten root password", "find the process eating your RAM", "rotate an expired certificate". Specific, searchable, and the things people actually search for at 2am. |
+
+Drills are extracted from the same sources, not invented. They are the traffic
+carriers; the chapters are the substance.
+
+## 3. Target
 
 | | Pieces |
 | --- | ---: |
@@ -69,7 +99,31 @@ constraint.
 
 ---
 
-## 3. Phase A — Catalogue (read-only, no content written)
+## 4. Phase A — Catalogue (read-only, no content written) — **DONE**
+
+Produced by `npm run kb:catalog`:
+
+- `kb/sources.json` — the 34-source inventory: id, file, track, pricing tier,
+  attribution, heading rule, and which sources are already built.
+- `catalog/catalog.json` — per source: pages, words, the heading tree, and the
+  proposed cut for every piece.
+- `catalog/catalog.md` — the same thing as a review table.
+
+**34 sources · 1,965,149 words · 114 proposed chapter pieces** from the 31
+sources that are not built yet, on top of the 48 existing pieces.
+
+The heading detector needed four rounds of correction, each of which is
+recorded in the script:
+
+1. The paragraph rejoiner was merging headings into the paragraph above them.
+2. The tree assembly collapsed everything into a single root.
+3. Numbered *list items* ("1. A script to list…") read as section headings.
+4. The markdown heading rule was matching every shell `# comment`.
+
+Sources whose structure the generic detector still cannot see — Eloquent
+JavaScript, The Book of PF, nginx practical, Mastering JavaScript — get a
+per-book rule in Phase B. They are visible in `catalog/catalog.md` rather than
+silently wrong.
 
 Build `kb/catalog.json` — one entry per source document:
 
@@ -100,7 +154,7 @@ table.
 
 ---
 
-## 4. Phase B — Extraction and splitting engine
+## 5. Phase B — Extraction and splitting engine
 
 `scripts/build-kb.mjs` — one deterministic pass per source:
 
@@ -130,7 +184,7 @@ paragraph splits are the common failure.
 
 ---
 
-## 5. Phase C — Refinement
+## 6. Phase C — Refinement
 
 This is where "refined and perfect" is actually earned. Every piece gets:
 
@@ -151,7 +205,7 @@ the same series.
 
 ---
 
-## 6. Phase D — Organisation
+## 7. Phase D — Organisation
 
 The library is organised two ways at once, because buyers want both.
 
@@ -193,7 +247,7 @@ bundle offer later.
 
 ---
 
-## 7. Phase E — Publish
+## 8. Phase E — Publish
 
 1. `kb/drive-links.json` is regenerated with a slot for every piece.
 2. You upload the `kb/` tree to Drive — the directory structure mirrors it,
@@ -207,25 +261,15 @@ flagged `Caution` — that is fixed, so folder links now verify as `Trusted`.
 
 ---
 
-## 8. Decisions needed before Phase B
+## 9. Still open
 
-1. **Pricing.** Free (`free_ad`) for all of them to build traffic, paid, or a
-   mix — free for the LPI and handbook material, paid for the premium tracks
-   (NGINX performance, BIND, Eloquent JavaScript)? The feed card shows the
-   price, so it is a visible positioning decision.
-2. **Do you want all 29 sources?** All of them is ~200 drops; a curated ~120
-   is easier to keep refined. The three overlapping LPI LPIC-1 documents
-   (010-160, 101-500, 102-500, 701-200) cover the same exam at different
-   revisions — worth keeping all four as a series, or trimming to the
-   current objectives?
-3. **Drive layout** — mirror `kb/books/<slug>/` exactly (one folder per
-   source document), or one folder per piece?
-4. **Naming.** The plan keeps `LockDrop` as the product and `lock.ugaplex.com`
-   as the domain.
+The domain. `lock.ugaplex.com` is functional but does not carry the brand.
+Everything else is decided; changing the domain later is a canonical URL, an
+`og:url`, a robots/sitemap entry and one DNS record.
 
 ---
 
-## 9. What is already done
+## 10. What is already done
 
 - The 48 existing pieces are built, checked and committed.
 - `scripts/check-kb.mjs` validates front matter, the manifest, TOC furniture
