@@ -1,5 +1,6 @@
 ---
 id: freebsd-34
+track: bsd-internals
 title: "Advanced Networking"
 slug: freebsd-34-advanced-networking
 source: "FreeBSD Handbook"

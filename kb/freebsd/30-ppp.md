@@ -1,5 +1,6 @@
 ---
 id: freebsd-30
+track: bsd-internals
 title: "PPP"
 slug: freebsd-30-ppp
 source: "FreeBSD Handbook"

@@ -1,5 +1,6 @@
 ---
 id: freebsd-04
+track: bsd-internals
 title: "Installing Applications: Packages and Ports"
 slug: freebsd-04-packages-and-ports
 source: "FreeBSD Handbook"

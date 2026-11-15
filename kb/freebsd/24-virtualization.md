@@ -1,5 +1,6 @@
 ---
 id: freebsd-24
+track: bsd-internals
 title: "Virtualization"
 slug: freebsd-24-virtualization
 source: "FreeBSD Handbook"

@@ -1,5 +1,6 @@
 ---
 id: note-pkg-managers
+track: linux-engineer
 title: "Package Manager Comparison Across Linux, BSD and Windows"
 slug: note-pkg-managers
 source: "Curated notes"

@@ -1,5 +1,6 @@
 ---
 id: freebsd-18
+track: bsd-internals
 title: "Mandatory Access Control"
 slug: freebsd-18-mandatory-access-control
 source: "FreeBSD Handbook"

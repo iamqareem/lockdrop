@@ -1,5 +1,6 @@
 ---
 id: note-freebsd-basics
+track: bsd-internals
 title: "FreeBSD Basics and How It Differs from Linux"
 slug: note-freebsd-basics
 source: "Curated notes"

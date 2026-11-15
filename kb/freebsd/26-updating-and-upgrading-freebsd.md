@@ -1,5 +1,6 @@
 ---
 id: freebsd-26
+track: bsd-internals
 title: "Updating and Upgrading FreeBSD"
 slug: freebsd-26-updating-and-upgrading-freebsd
 source: "FreeBSD Handbook"

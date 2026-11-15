@@ -1,5 +1,6 @@
 ---
 id: freebsd-29
+track: bsd-internals
 title: "Serial Communications"
 slug: freebsd-29-serial-communications
 source: "FreeBSD Handbook"

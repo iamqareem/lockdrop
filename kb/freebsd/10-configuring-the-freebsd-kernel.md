@@ -1,5 +1,6 @@
 ---
 id: freebsd-10
+track: bsd-internals
 title: "Configuring the FreeBSD Kernel"
 slug: freebsd-10-configuring-the-freebsd-kernel
 source: "FreeBSD Handbook"

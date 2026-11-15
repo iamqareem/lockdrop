@@ -1,5 +1,6 @@
 ---
 id: linux-01
+track: linux-engineer
 title: "Linux Origins and the Open Source Application Landscape"
 slug: 01-linux-origins-and-open-source
 source: "LPI Learning Material 010-160"

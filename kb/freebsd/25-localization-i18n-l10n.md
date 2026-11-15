@@ -1,5 +1,6 @@
 ---
 id: freebsd-25
+track: bsd-internals
 title: "Localization: i18n and L10n Usage and Setup"
 slug: freebsd-25-localization-i18n-l10n
 source: "FreeBSD Handbook"

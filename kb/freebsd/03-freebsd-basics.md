@@ -1,5 +1,6 @@
 ---
 id: freebsd-03
+track: bsd-internals
 title: "FreeBSD Basics"
 slug: freebsd-03-freebsd-basics
 source: "FreeBSD Handbook"

@@ -1,5 +1,6 @@
 ---
 id: freebsd-11
+track: bsd-internals
 title: "Printing"
 slug: freebsd-11-printing
 source: "FreeBSD Handbook"

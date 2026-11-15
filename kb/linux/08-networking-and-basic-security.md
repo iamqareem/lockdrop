@@ -1,5 +1,6 @@
 ---
 id: linux-08
+track: linux-engineer
 title: "Your Computer on the Network and Basic Security"
 slug: 08-networking-and-basic-security
 source: "LPI Learning Material 010-160"

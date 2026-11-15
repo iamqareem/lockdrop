@@ -1,5 +1,6 @@
 ---
 id: freebsd-14
+track: bsd-internals
 title: "Configuration, Services, Logging and Power Management"
 slug: freebsd-14-configuration-services-and-power
 source: "FreeBSD Handbook"

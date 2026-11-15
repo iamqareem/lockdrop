@@ -1,5 +1,6 @@
 ---
 id: freebsd-31
+track: bsd-internals
 title: "Electronic Mail"
 slug: freebsd-31-electronic-mail
 source: "FreeBSD Handbook"

@@ -1,5 +1,6 @@
 ---
 id: linux-09
+track: linux-engineer
 title: "Creating Users and Groups, and Managing Permissions and Ownership"
 slug: 09-users-groups-and-file-permissions
 source: "LPI Learning Material 010-160"

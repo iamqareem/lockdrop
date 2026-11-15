@@ -1,5 +1,6 @@
 ---
 id: freebsd-19
+track: bsd-internals
 title: "Security Event Auditing"
 slug: freebsd-19-security-event-auditing
 source: "FreeBSD Handbook"

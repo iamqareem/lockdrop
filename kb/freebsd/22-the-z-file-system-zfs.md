@@ -1,5 +1,6 @@
 ---
 id: freebsd-22
+track: bsd-internals
 title: "The Z File System (ZFS)"
 slug: freebsd-22-the-z-file-system-zfs
 source: "FreeBSD Handbook"

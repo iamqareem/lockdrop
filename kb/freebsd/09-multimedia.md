@@ -1,5 +1,6 @@
 ---
 id: freebsd-09
+track: bsd-internals
 title: "Multimedia"
 slug: freebsd-09-multimedia
 source: "FreeBSD Handbook"

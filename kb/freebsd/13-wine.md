@@ -1,5 +1,6 @@
 ---
 id: freebsd-13
+track: bsd-internals
 title: "WINE"
 slug: freebsd-13-wine
 source: "FreeBSD Handbook"

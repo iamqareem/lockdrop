@@ -1,5 +1,6 @@
 ---
 id: freebsd-01
+track: bsd-internals
 title: "Introduction to FreeBSD"
 slug: freebsd-01-introduction
 source: "FreeBSD Handbook"

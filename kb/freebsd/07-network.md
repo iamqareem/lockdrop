@@ -1,5 +1,6 @@
 ---
 id: freebsd-07
+track: bsd-internals
 title: "Network"
 slug: freebsd-07-network
 source: "FreeBSD Handbook"

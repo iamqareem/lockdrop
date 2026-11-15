@@ -1,5 +1,6 @@
 ---
 id: linux-05
+track: linux-engineer
 title: "Archiving Files and Searching and Extracting Data"
 slug: 05-archiving-and-searching-data
 source: "LPI Learning Material 010-160"

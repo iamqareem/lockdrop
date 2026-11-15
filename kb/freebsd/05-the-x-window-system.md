@@ -1,5 +1,6 @@
 ---
 id: freebsd-05
+track: bsd-internals
 title: "The X Window System"
 slug: freebsd-05-the-x-window-system
 source: "FreeBSD Handbook"

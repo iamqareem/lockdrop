@@ -1,5 +1,6 @@
 ---
 id: readme-freebsd
+track: bsd-internals
 title: "FreeBSD Path — The Handbook, Chapter by Chapter"
 slug: readme-freebsd
 source: "Knowledge base index"

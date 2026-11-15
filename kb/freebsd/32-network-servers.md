@@ -1,5 +1,6 @@
 ---
 id: freebsd-32
+track: bsd-internals
 title: "Network Servers"
 slug: freebsd-32-network-servers
 source: "FreeBSD Handbook"

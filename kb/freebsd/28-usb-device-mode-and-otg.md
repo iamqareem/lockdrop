@@ -1,5 +1,6 @@
 ---
 id: freebsd-28
+track: bsd-internals
 title: "USB Device Mode and USB OTG"
 slug: freebsd-28-usb-device-mode-and-otg
 source: "FreeBSD Handbook"

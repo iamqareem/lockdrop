@@ -1,5 +1,6 @@
 ---
 id: freebsd-06
+track: bsd-internals
 title: "Wayland on FreeBSD"
 slug: freebsd-06-wayland-on-freebsd
 source: "FreeBSD Handbook"

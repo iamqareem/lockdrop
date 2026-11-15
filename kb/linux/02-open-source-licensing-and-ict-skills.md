@@ -1,5 +1,6 @@
 ---
 id: linux-02
+track: linux-engineer
 title: "Open Source Licensing, ICT Skills and Working in Linux"
 slug: 02-open-source-licensing-and-ict-skills
 source: "LPI Learning Material 010-160"

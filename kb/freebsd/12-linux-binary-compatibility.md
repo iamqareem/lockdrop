@@ -1,5 +1,6 @@
 ---
 id: freebsd-12
+track: bsd-internals
 title: "Linux Binary Compatibility"
 slug: freebsd-12-linux-binary-compatibility
 source: "FreeBSD Handbook"

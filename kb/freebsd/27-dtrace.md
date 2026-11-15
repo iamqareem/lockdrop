@@ -1,5 +1,6 @@
 ---
 id: freebsd-27
+track: bsd-internals
 title: "DTrace"
 slug: freebsd-27-dtrace
 source: "FreeBSD Handbook"

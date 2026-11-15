@@ -1,5 +1,6 @@
 ---
 id: linux-07
+track: linux-engineer
 title: "Understanding Computer Hardware and Where Data Is Stored"
 slug: 07-hardware-and-where-data-is-stored
 source: "LPI Learning Material 010-160"

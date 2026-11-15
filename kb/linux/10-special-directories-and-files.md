@@ -1,5 +1,6 @@
 ---
 id: linux-10
+track: linux-engineer
 title: "Special Directories and Files"
 slug: 10-special-directories-and-files
 source: "LPI Learning Material 010-160"

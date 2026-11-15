@@ -1,5 +1,6 @@
 ---
 id: note-core-basics
+track: linux-engineer
 title: "Linux Permissions and Core Facts"
 slug: note-core-basics
 source: "Curated notes"

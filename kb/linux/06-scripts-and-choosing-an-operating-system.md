@@ -1,5 +1,6 @@
 ---
 id: linux-06
+track: linux-engineer
 title: "Turning Commands into Scripts and Choosing an Operating System"
 slug: 06-scripts-and-choosing-an-operating-system
 source: "LPI Learning Material 010-160"

@@ -64,6 +64,8 @@ function frontMatter(block) {
       continue;
     }
     if (value.startsWith('"') && value.endsWith('"')) value = value.slice(1, -1);
+    // Some pieces were written with a trailing comma on the line.
+    value = value.replace(/,$/, "").trim();
     data[key] = value;
   }
   return data;

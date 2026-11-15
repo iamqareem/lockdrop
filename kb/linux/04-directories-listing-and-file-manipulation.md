@@ -1,5 +1,6 @@
 ---
 id: linux-04
+track: linux-engineer
 title: "Directories, Listing Files and Creating, Moving and Deleting Files"
 slug: 04-directories-listing-and-file-manipulation
 source: "LPI Learning Material 010-160"

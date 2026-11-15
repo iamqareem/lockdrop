@@ -1,5 +1,6 @@
 ---
 id: freebsd-02
+track: bsd-internals
 title: "Installing FreeBSD"
 slug: freebsd-02-installing-freebsd
 source: "FreeBSD Handbook"

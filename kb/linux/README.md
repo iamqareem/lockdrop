@@ -1,5 +1,6 @@
 ---
 id: readme-linux
+track: linux-engineer
 title: "Linux Path — LPIC-1 Study Guide"
 slug: readme-linux
 source: "Knowledge base index"

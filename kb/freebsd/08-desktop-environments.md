@@ -1,5 +1,6 @@
 ---
 id: freebsd-08
+track: bsd-internals
 title: "Desktop Environments"
 slug: freebsd-08-desktop-environments
 source: "FreeBSD Handbook"

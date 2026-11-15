@@ -1,5 +1,6 @@
 ---
 id: freebsd-15
+track: bsd-internals
 title: "The FreeBSD Booting Process"
 slug: freebsd-15-the-freebsd-booting-process
 source: "FreeBSD Handbook"

@@ -1,5 +1,6 @@
 ---
 id: freebsd-16
+track: bsd-internals
 title: "Security"
 slug: freebsd-16-security
 source: "FreeBSD Handbook"

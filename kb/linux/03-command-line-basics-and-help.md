@@ -1,5 +1,6 @@
 ---
 id: linux-03
+track: linux-engineer
 title: "Command Line Basics and Getting Help"
 slug: 03-command-line-basics-and-help
 source: "LPI Learning Material 010-160"
