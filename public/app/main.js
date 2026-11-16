@@ -78,18 +78,60 @@ function topbarHtml(activeView) {
     </header>`;
 }
 
+/**
+ * The bottom bar.
+ *
+ * On a phone this is the only navigation there is, so it is a row of icons:
+ * the two destinations, the wallet and the search. They are all the same
+ * size and the same weight, and the theme toggle sits alone in the corner.
+ */
 function bottomNavHtml(activeView) {
+  const items = [
+    { id: "create", href: "#/lock", label: "Lock a link", icon: "lock" },
+    { id: "feed", href: "#/", label: "Drops", icon: "drops" },
+  ];
+
   return `
     <nav class="bottomnav">
-      ${navItems()
-        .map(
-          (item) => `
-        <a href="${item.href}" class="${activeView === item.id ? "is-active" : ""}">
-          ${icon(item.icon, "", 15)}<span>${item.label}</span>
+      <div class="bottomnav-row">
+        ${items
+          .map(
+            (item) => `
+        <a href="${item.href}" class="nav-icon ${
+          activeView === item.id ? "is-active" : ""
+        }" aria-label="${escapeHtml(item.label)}">
+          ${icon(item.icon, "", 18)}
         </a>`
-        )
-        .join("")}
+          )
+          .join("")}
+        ${walletIconHtml()}
+        <button type="button" class="nav-icon" id="searchOpenBtn"
+          aria-label="Search the drops">${icon("search", "", 18)}</button>
+      </div>
+      <button type="button" class="nav-theme" data-theme-toggle aria-label="Toggle theme">
+        ${icon(state.isDarkMode ? "sun" : "moon", "", 16)}
+      </button>
     </nav>`;
+}
+
+/**
+ * The wallet, as one of the icons in the bottom bar.
+ *
+ * It is an account rather than a destination, so it carries no label.
+ */
+function walletIconHtml() {
+  return `
+    <button type="button" class="nav-icon" data-connect aria-label="Connect wallet" ${
+      state.connecting ? "disabled" : ""
+    }>
+      ${
+        state.walletAddress
+          ? `<span class="mono nav-wallet-addr">${escapeHtml(
+              shortAddress(state.walletAddress)
+            )}</span>`
+          : icon("wallet", "", 18)
+      }
+    </button>`;
 }
 
 function footerHtml() {
@@ -110,22 +152,6 @@ export function renderShell(activeView, mainHtml) {
   root.innerHTML = `
     <div class="shell is-${escapeHtml(activeView)}">
       ${topbarHtml(activeView)}
-      <div class="mobile-tools">
-        <button type="button" class="tool-btn" data-theme-toggle aria-label="Toggle theme">
-          ${state.isDarkMode ? icon("sun", "", 15) : icon("moon", "", 15)}
-        </button>
-        <button type="button" class="tool-btn" data-connect aria-label="Connect wallet" ${
-          state.connecting ? "disabled" : ""
-        }>
-          ${
-            state.walletAddress
-              ? `<span class="mono tool-addr">${escapeHtml(
-                  shortAddress(state.walletAddress)
-                )}</span>`
-              : icon("wallet", "", 15)
-          }
-        </button>
-      </div>
       <main class="main is-${escapeHtml(activeView)}">
         ${
           state.walletError
@@ -139,6 +165,15 @@ export function renderShell(activeView, mainHtml) {
       ${footerHtml()}
       ${bottomNavHtml(activeView)}
     </div>`;
+
+  document.getElementById("searchOpenBtn")?.addEventListener("click", () => {
+    state.searchOpen = true;
+    if (parseHash().view !== "feed") {
+      location.hash = "#/";
+      return;
+    }
+    document.getElementById("feedSearch")?.focus();
+  });
 
   document.querySelectorAll("[data-theme-toggle]").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -265,12 +300,13 @@ function paintWalletButtons() {
     : `${icon("wallet", "", 15)}<span>Connect Wallet</span>`;
 
   document.querySelectorAll("[data-connect]").forEach((btn) => {
-    btn.innerHTML = btn.classList.contains("tool-btn")
+    const compact = btn.classList.contains("nav-icon");
+    btn.innerHTML = compact
       ? state.walletAddress
-        ? `<span class="mono tool-addr">${escapeHtml(
+        ? `<span class="mono nav-wallet-addr">${escapeHtml(
             shortAddress(state.walletAddress)
           )}</span>`
-        : icon("wallet", "", 15)
+        : icon("wallet", "", 18)
       : short;
   });
 }
@@ -283,8 +319,7 @@ function paintWalletButtons() {
  */
 function paintThemeButtons() {
   document.querySelectorAll("[data-theme-toggle]").forEach((btn) => {
-    const size = btn.classList.contains("tool-btn") ? 15 : 16;
-    btn.innerHTML = state.isDarkMode ? icon("sun", "", size) : icon("moon", "", size);
+    btn.innerHTML = state.isDarkMode ? icon("sun", "", 16) : icon("moon", "", 16);
   });
 }
 

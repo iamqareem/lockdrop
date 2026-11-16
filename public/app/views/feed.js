@@ -75,12 +75,10 @@ function cardHtml(drop) {
 }
 
 /**
- * The toolbar. One control for browsing, one for adding — and, from tablet
- * upwards, the theme and the wallet.
+ * The toolbar. One control for browsing, one for adding — and nothing else.
  *
- * The two utility controls live in the top bar on a desktop, but the feed
- * has its own toolbar and the tools belong next to "Lock a link" rather than
- * a screen away from the page they act on.
+ * The theme and the wallet live in the top nav panel from tablet upwards,
+ * and in the bottom bar on a phone. Either way they are never here.
  */
 function toolbarHtml() {
   const active = CATEGORIES.find((c) => c.id === state.feedCategory);
@@ -93,25 +91,7 @@ function toolbarHtml() {
           active ? active.label : "Categories"
         )}</span>
       </button>
-      <div class="feed-toolbar-right">
-        <div class="feed-tools">
-          <button type="button" class="tool-btn" data-theme-toggle aria-label="Toggle theme">
-            ${icon(state.isDarkMode ? "sun" : "moon", "", 15)}
-          </button>
-          <button type="button" class="tool-btn" data-connect aria-label="Connect wallet" ${
-            state.connecting ? "disabled" : ""
-          }>
-            ${
-              state.walletAddress
-                ? `<span class="mono tool-addr">${escapeHtml(
-                    shortAddress(state.walletAddress)
-                  )}</span>`
-                : icon("wallet", "", 15)
-            }
-          </button>
-        </div>
-        <a href="#/lock" class="btn btn-secondary">Lock a link</a>
-      </div>
+      <a href="#/lock" class="btn btn-secondary feed-tool-cta">Lock a link</a>
     </div>`;
 }
 
@@ -273,6 +253,10 @@ function paintComposer() {
 
   const status = document.getElementById("composerStatus");
   if (status) status.textContent = statusText();
+
+  // The shell is rebuilt on every route change, so the composing flag has
+  // to be carried across rather than remembered.
+  setComposing(state.searchOpen);
 }
 
 function paintToolbar() {
@@ -426,9 +410,23 @@ function wireModal() {
   });
 }
 
+/**
+ * Marks the page as composing.
+ *
+ * On a phone the composer takes the whole bottom while it is open: the icon
+ * bar and the theme toggle step out of the way, and the search is left
+ * alone on the bottom edge.
+ */
+function setComposing(on) {
+  state.searchOpen = on;
+  document.querySelector(".shell")?.classList.toggle("is-composing", on);
+}
+
 function wireFeed() {
   const input = document.getElementById("feedSearch");
   if (input) {
+    input.addEventListener("focus", () => setComposing(true));
+    input.addEventListener("blur", () => setComposing(false));
     input.addEventListener("input", (e) => {
       state.searchQuery = e.target.value;
       paintComposer();
@@ -493,6 +491,13 @@ function feedBodyHtml() {
 export async function renderFeedView() {
   renderShell("feed", feedBodyHtml());
   wireFeed();
+
+  // The search icon on another view asks for the search, so the composer
+  // comes up focused once the feed is on screen.
+  if (state.searchOpen) {
+    document.getElementById("feedSearch")?.focus();
+  }
+
   await loadFeed();
   /*
    * The counts are read afterwards, not alongside: the feed is the thing

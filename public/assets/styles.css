@@ -62,6 +62,8 @@
 
   --shell-max: 1180px;
   --bottom-nav-height: 66px;
+  /* The nav pill: the link height plus the padding under it. */
+  --nav-height: 52px;
 
   /* The composer: the one vivid element, docked along the bottom. */
   --composer-height: 52px;
@@ -170,7 +172,10 @@ a {
   display: none;
 }
 
-@media (min-width: 1024px) {
+/*
+ * From tablet upwards the top nav panel is the navigation.
+ */
+@media (min-width: 768px) {
   .topbar {
     display: block;
   }
@@ -280,6 +285,21 @@ a {
   padding-bottom: calc(var(--composer-dock-height) + 40px + env(safe-area-inset-bottom));
 }
 
+/*
+ * On a phone the composer is not there until the search is opened, so the
+ * page only has to clear the icon bar.
+ */
+@media (max-width: 767px) {
+  .main.is-feed {
+    padding-bottom: calc(84px + env(safe-area-inset-bottom));
+  }
+
+  /* The icon bar has a Lock in it; the toolbar does not need another. */
+  .feed-toolbar .feed-tool-cta {
+    display: none;
+  }
+}
+
 @media (min-width: 1024px) {
   .main {
     padding: 40px 24px 72px;
@@ -297,74 +317,114 @@ a {
 /* ------------------------------------------------------------ bottom nav */
 
 /*
- * A transparent bar with the buttons floating on it. The container never
- * catches a tap — only the pills do — so the content behind stays usable.
+ * On a phone this is the only navigation there is, so it is one row of
+ * icons: the two destinations, the wallet and the search, all the same size
+ * and the same weight.
+ *
+ * The container never catches a tap — only the row and the theme toggle do —
+ * so the content behind stays usable.
  */
 .bottomnav {
   position: fixed;
   left: 0;
   right: 0;
-  bottom: calc(var(--composer-dock-height) + env(safe-area-inset-bottom));
+  bottom: calc(16px + env(safe-area-inset-bottom));
   z-index: 40;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px;
-  padding: 0 16px 12px;
+  padding: 0 16px;
   background: transparent;
   pointer-events: none;
 }
 
-@media (min-width: 1024px) {
+/* From tablet upwards the top nav panel takes over. */
+@media (min-width: 768px) {
   .bottomnav {
     display: none;
   }
 }
 
-/*
- * The feed is the front door, and it needs no navigation bar: the composer
- * is the hero at the bottom and "Lock a link" sits in the toolbar. The pill
- * would only be in the way.
- */
-.shell.is-feed .bottomnav {
-  display: none;
-}
-
-.bottomnav a {
+.bottomnav-row {
   pointer-events: auto;
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-width: 116px;
-  height: 40px;
-  padding: 0 20px;
+  gap: 2px;
+  padding: 4px;
   border-radius: 999px;
   border: 1px solid var(--border);
   background: color-mix(in srgb, var(--surface) 94%, transparent);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   box-shadow: var(--shadow-float);
-  color: var(--text-muted);
-  font-size: var(--fs-sm);
-  font-weight: 500;
-  transition: transform 0.12s ease, background 0.15s ease, color 0.15s ease,
-    border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.bottomnav a:active {
-  transform: scale(0.96);
+/*
+ * The theme toggle, alone in the corner. It is a personal setting, not
+ * navigation, so it does not belong in the row.
+ */
+.nav-theme {
+  position: absolute;
+  right: 16px;
+  bottom: 0;
+  pointer-events: auto;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: var(--shadow-float);
+  color: var(--text-subtle);
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
 }
 
-.bottomnav a:hover {
+.nav-theme:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+/* Every icon in the row is the same object. */
+.nav-icon {
+  pointer-events: auto;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-subtle);
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease, transform 0.12s ease;
+}
+
+.nav-icon:hover {
   color: var(--text);
 }
 
-.bottomnav a.is-active {
-  background: var(--inverse);
-  border-color: var(--inverse);
-  color: var(--inverse-fg);
-  box-shadow: var(--shadow), 0 0 0 4px color-mix(in srgb, var(--text) 7%, transparent);
+.nav-icon:active {
+  transform: scale(0.94);
+}
+
+.nav-icon.is-active {
+  color: var(--text);
+  background: var(--surface-2);
+}
+
+.nav-icon:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.nav-wallet-addr {
+  font-size: 9px;
+  letter-spacing: -0.03em;
+  padding: 0 2px;
 }
 
 /* --------------------------------------------------------------- buttons */
@@ -874,38 +934,13 @@ a {
  * The theme toggle and the wallet are the same two controls everywhere; only
  * their home changes.
  *
- *   feed, phone           the floating cluster in the corner
- *   feed, tablet upwards  the feed toolbar, beside "Lock a link"
- *   other views, phone
- *   and tablet            the floating cluster
- *   other views, desktop  the top bar
+ *   phone            the bottom bar, with the theme alone in the corner
+ *   tablet upwards   the right of the top nav panel
  */
-.feed-tools {
-  display: none;
-  align-items: center;
-  gap: 8px;
-}
-
 @media (min-width: 768px) {
-  .feed-tools {
-    display: flex;
-  }
-  /* The feed's toolbar carries them now, so the cluster steps aside. */
-  .shell.is-feed .mobile-tools {
+  .nav-theme {
     display: none;
   }
-}
-
-@media (min-width: 1024px) {
-  /* The top bar carries them on every view but the feed. */
-  .mobile-tools {
-    display: none;
-  }
-}
-
-/* The feed has a toolbar of its own, so it does not need them up top. */
-.shell.is-feed .topbar-tools {
-  display: none;
 }
 
 .feed-tool {
@@ -1705,87 +1740,41 @@ pre.code {
   color: var(--text);
 }
 
-/* ------------------------------------------------------- the mobile tools */
+/* ------------------------------------------------------ the mobile tools */
 
 /*
- * The floating cluster: the theme toggle and the wallet, for the views that
- * have no toolbar of their own and the screens too narrow for one.
- *
- * It sits in the bottom-right, clear of the bottom nav's centred pill and of
- * the page header, so nothing is ever covered.
+ * When the search takes over the bottom of a phone, everything else steps
+ * out of the way: the icon bar and the theme toggle fade, and the composer
+ * is left alone on the bottom edge.
  */
-.mobile-tools {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  position: fixed;
-  right: 14px;
-  bottom: calc(var(--bottom-nav-height) + 12px + env(safe-area-inset-bottom));
-  z-index: 41;
-}
-
-/*
- * The feed has a composer instead of a nav pill, so the cluster sits directly
- * above it.
- */
-.shell.is-feed .mobile-tools {
-  bottom: calc(var(--composer-dock-height) + 12px + env(safe-area-inset-bottom));
-}
-
-@media (min-width: 1024px) {
-  /* No nav pill on a desktop, so the cluster can sit at the very bottom. */
-  .shell:not(.is-feed) .mobile-tools {
-    bottom: calc(18px + env(safe-area-inset-bottom));
+@media (max-width: 767px) {
+  .shell.is-composing .bottomnav,
+  .shell.is-composing .nav-theme {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
   }
-}
 
-.tool-btn {
-  display: grid;
-  place-items: center;
-  min-width: 36px;
-  height: 36px;
-  padding: 0 10px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: color-mix(in srgb, var(--surface) 88%, transparent);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: color 0.15s ease, border-color 0.15s ease;
-}
+  .bottomnav,
+  .nav-theme {
+    transition: opacity 0.18s ease, transform 0.18s ease;
+  }
 
-.tool-btn:hover {
-  color: var(--text);
-  border-color: var(--border-strong);
-}
+  /*
+   * On a phone the composer only exists while the search is open. Tapping
+   * the magnifier in the bottom bar brings it up and takes the whole bottom.
+   */
+  .composer-dock {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(16px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
 
-.tool-btn:disabled {
-  opacity: 0.55;
-  cursor: default;
-}
-
-.tool-addr {
-  font-size: 10.5px;
-  letter-spacing: -0.01em;
-}
-
-/*
- * In the toolbar the controls are part of a row of solid buttons rather than
- * floating over the page, so they are opaque.
- */
-.feed-tools .tool-btn {
-  background: var(--surface);
-}
-
-.feed-tools .tool-btn:hover {
-  border-color: var(--border-strong);
-}
-
-@media (min-width: 1024px) {
-  .mobile-tools {
-    display: none;
+  .shell.is-composing .composer-dock {
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
   }
 }
 
