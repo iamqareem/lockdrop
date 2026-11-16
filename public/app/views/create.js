@@ -13,7 +13,7 @@ import { api } from "../api.js";
 import { getConfig } from "../config.js";
 import { state, notify } from "../state.js";
 import { renderShell, render } from "../main.js";
-import { brandMark } from "../icons.js";
+import { brandMark, icon } from "../icons.js";
 import { CATEGORIES, CATEGORY_BY_ID, quickCheck } from "../categories.js";
 import { feeTierFor } from "../shared/drop.js";
 import { escapeHtml, debounce, copyText, isAddress } from "../util.js";
@@ -63,15 +63,15 @@ function modeTier(mode) {
   return feeTierFor(mode);
 }
 
+const STEP_LABELS = ["name", "link", "price"];
+
 function stepperHtml(step) {
   return `
-    <div class="stepper">
-      ${[1, 2, 3]
-        .map(
-          (n) => `<span class="stepper-dot ${n <= step ? "is-done" : ""}"></span>`
-        )
-        .join("")}
-      <span class="stepper-label">Step ${step} of 3</span>
+    <div class="steps">
+      ${STEP_LABELS.map(
+        (label, i) =>
+          `<span class="${i + 1 === step ? "is-current" : ""}">${i + 1} ${label}</span>`
+      ).join('<span aria-hidden="true">·</span>')}
     </div>`;
 }
 
@@ -174,22 +174,44 @@ function reportHtml(report) {
     </div>`;
 }
 
+/**
+ * Step one is a prompt, not a form. The name is the only thing asked for,
+ * and the category modal opens as soon as the name makes sense.
+ */
 function stepOneHtml() {
   return `
-    <div class="stack">
-      <div class="field">
-        <label for="wizardTitle">What are you sharing?</label>
-        <input id="wizardTitle" type="text" maxlength="120" placeholder="Design assets pack"
-          value="${escapeHtml(state.title)}" />
-      </div>
-      <div class="field">
-        <span class="field-label">Resource category</span>
+    <div class="prompt">
+      <p class="prompt-ask">What are you sharing?</p>
+      <input id="wizardTitle" type="text" maxlength="120" class="prompt-field"
+        placeholder="Name what you are sharing" autocomplete="off"
+        value="${escapeHtml(state.title)}" />
+      <p class="prompt-hint">
+        press <kbd>enter</kbd> to choose a category
+      </p>
+    </div>
+    <div id="step1Error" class="alert alert-error hidden" style="margin-top:16px"></div>`;
+}
+
+/**
+ * The category modal. Picking a mark is the confirmation — there is no second
+ * button to press.
+ */
+function categoryModalHtml() {
+  if (!state.categoryModalOpen) return "";
+  return `
+    <div class="modal-backdrop" id="categoryModalBackdrop">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="categoryModalTitle">
+        <div class="modal-head">
+          <div>
+            <h2 class="modal-title" id="categoryModalTitle">What kind of resource is this?</h2>
+            <p class="modal-subtitle">Pick the service it lives on, so the link can be checked against it.</p>
+          </div>
+          <button id="closeCategoryModal" type="button" class="icon-btn" aria-label="Close">
+            ${icon("close", "", 14)}
+          </button>
+        </div>
         ${categoryGridHtml()}
       </div>
-      <div id="step1Error" class="alert alert-error hidden"></div>
-      <button id="nextStep1Btn" type="button" class="btn btn-primary btn-block">
-        Continue to the link
-      </button>
     </div>`;
 }
 
@@ -350,19 +372,36 @@ export function renderCreateView() {
   const steps = { 1: stepOneHtml, 2: stepTwoHtml, 3: stepThreeHtml };
   const html = steps[state.wizardStep]();
 
-  renderShell(
-    "create",
-    `
+  // Step one is just a prompt — no card around it.
+  const body =
+    state.wizardStep === 1
+      ? `<div class="narrow">${html}</div>`
+      : `
     <div class="narrow">
       <div class="panel panel-lg">
         ${stepperHtml(state.wizardStep)}
         ${html}
       </div>
       ${successHtml()}
-    </div>`
-  );
+    </div>`;
+
+  renderShell("create", `${body}${categoryModalHtml()}`);
 
   wireCreateView();
+}
+
+let categoryModalTimer = null;
+
+/** Opens the category modal shortly after the name is filled in. */
+function openCategoryModalSoon() {
+  if (categoryModalTimer) clearTimeout(categoryModalTimer);
+  categoryModalTimer = setTimeout(() => {
+    if (state.wizardStep !== 1) return;
+    if (state.title.trim().length < 3) return;
+    if (state.categoryModalOpen) return;
+    state.categoryModalOpen = true;
+    renderCreateView();
+  }, 800);
 }
 
 function showError(id, message) {
@@ -435,29 +474,60 @@ const debouncedVerify = debounce(() => {
 }, 900);
 
 function wireCreateView() {
-  document.getElementById("wizardTitle")?.addEventListener("input", (e) => {
-    state.title = e.target.value;
-  });
+  const titleInput = document.getElementById("wizardTitle");
+
+  if (titleInput) {
+    titleInput.addEventListener("input", (e) => {
+      state.title = e.target.value;
+      clearError("step1Error");
+      // The category modal opens once the name makes sense — on Enter, or
+      // once they stop typing.
+      if (state.title.trim().length >= 3) {
+        if (!state.categoryModalOpen) openCategoryModalSoon();
+      } else {
+        state.categoryModalOpen = false;
+      }
+    });
+
+    titleInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (state.title.trim().length < 3) {
+          showError("step1Error", "Give the resource a name of at least 3 characters.");
+          return;
+        }
+        clearError("step1Error");
+        state.categoryModalOpen = true;
+        renderCreateView();
+        document.querySelector(".category-option")?.focus();
+      }
+      if (e.key === "Escape" && state.categoryModalOpen) {
+        state.categoryModalOpen = false;
+        renderCreateView();
+        titleInput.focus();
+      }
+    });
+  }
 
   document.querySelectorAll("[data-category]").forEach((btn) => {
     btn.addEventListener("click", () => {
       state.categoryId = btn.getAttribute("data-category") || "";
       state.report = null;
+      state.categoryModalOpen = false;
+      state.wizardStep = 2;
       renderCreateView();
     });
   });
 
-  document.getElementById("nextStep1Btn")?.addEventListener("click", () => {
-    if (!state.title.trim() || state.title.trim().length < 3) {
-      showError("step1Error", "Give the resource a name of at least 3 characters.");
-      return;
-    }
-    if (!state.categoryId) {
-      showError("step1Error", "Pick a category so the link can be verified against it.");
-      return;
-    }
-    clearError("step1Error");
-    state.wizardStep = 2;
+  document.getElementById("closeCategoryModal")?.addEventListener("click", () => {
+    state.categoryModalOpen = false;
+    renderCreateView();
+    document.getElementById("wizardTitle")?.focus();
+  });
+
+  document.getElementById("categoryModalBackdrop")?.addEventListener("click", (e) => {
+    if (e.target.id !== "categoryModalBackdrop") return;
+    state.categoryModalOpen = false;
     renderCreateView();
   });
 

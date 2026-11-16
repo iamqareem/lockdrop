@@ -14,6 +14,7 @@ export const state = {
 
   /* wizard */
   wizardStep: 1,
+  categoryModalOpen: false,
   title: "",
   categoryId: "",
   url: "",
