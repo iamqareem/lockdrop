@@ -16,6 +16,16 @@
 	Strict-Transport-Security: max-age=31536000; includeSubDomains
 	Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://telegram.org https://sad.adsgram.ai https://*.googlesyndication.com https://*.monetag.com https://*.adsterra.com https://*.propellerads.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://*.turso.io https://api.turso.tech https://polygon-bor-rpc.publicnode.com https://*.googlesyndication.com https://*.monetag.com; frame-src 'self' https://*.googlesyndication.com https://*.monetag.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
 
+# The app modules are not content-hashed — there is no build step — so the
+# browser has to revalidate them, or a deploy would leave people running the
+# old JavaScript for hours. The edge still caches them for the world.
+# (scripts/stamp.mjs also gives every module a versioned URL, so a returning
+# visitor fetches the new code immediately.)
+/app/*
+	Cache-Control: public, no-cache, s-maxage=86400, must-revalidate
+
+# The assets carry a version in their URL too, so the week-long TTL is safe:
+# a new version is a new URL, and the old one is simply never asked for again.
 /assets/*
 	Cache-Control: public, max-age=604800
 

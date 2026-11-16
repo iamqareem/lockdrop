@@ -26,16 +26,18 @@ export function parseHash() {
     const dropId = hash.slice("#/drop/".length).trim();
     if (dropId) return { view: "drop", dropId };
   }
+  if (hash === "#/lock") return { view: "create" };
   if (hash === "#/drops") return { view: "feed" };
   if (hash === "#/admin") return { view: "admin" };
   if (hash === "#/contract") return { view: "contract" };
-  return { view: "create" };
+  // The feed is the front door.
+  return { view: "feed" };
 }
 
 function navItems() {
   return [
-    { id: "create", href: "#/", label: "Lock", icon: "lock" },
-    { id: "feed", href: "#/drops", label: "Drops", icon: "drops" },
+    { id: "create", href: "#/lock", label: "Lock", icon: "lock" },
+    { id: "feed", href: "#/", label: "Drops", icon: "drops" },
   ];
 }
 
@@ -59,10 +61,10 @@ function topbarHtml(activeView) {
             .join("")}
         </nav>
         <div class="topbar-actions">
-          <button id="themeToggleBtn" type="button" class="icon-btn" aria-label="Toggle theme">
+          <button type="button" class="icon-btn" data-theme-toggle aria-label="Toggle theme">
             ${state.isDarkMode ? icon("sun", "", 16) : icon("moon", "", 16)}
           </button>
-          <button id="connectBtn" type="button" class="btn btn-primary" ${
+          <button id="connectBtn" type="button" class="btn btn-primary" data-connect ${
             state.connecting ? "disabled" : ""
           }>
             ${
@@ -108,6 +110,22 @@ export function renderShell(activeView, mainHtml) {
   root.innerHTML = `
     <div class="shell">
       ${topbarHtml(activeView)}
+      <div class="mobile-tools">
+        <button type="button" class="tool-btn" data-theme-toggle aria-label="Toggle theme">
+          ${state.isDarkMode ? icon("sun", "", 15) : icon("moon", "", 15)}
+        </button>
+        <button type="button" class="tool-btn" data-connect aria-label="Connect wallet" ${
+          state.connecting ? "disabled" : ""
+        }>
+          ${
+            state.walletAddress
+              ? `<span class="mono tool-addr">${escapeHtml(
+                  shortAddress(state.walletAddress)
+                )}</span>`
+              : icon("wallet", "", 15)
+          }
+        </button>
+      </div>
       <main class="main">
         ${
           state.walletError
@@ -122,26 +140,28 @@ export function renderShell(activeView, mainHtml) {
       ${bottomNavHtml(activeView)}
     </div>`;
 
-  document.getElementById("themeToggleBtn")?.addEventListener("click", () => {
-    setDarkMode(!state.isDarkMode);
+  document.querySelectorAll("[data-theme-toggle]").forEach((btn) => {
+    btn.addEventListener("click", () => setDarkMode(!state.isDarkMode));
   });
 
-  document.getElementById("connectBtn")?.addEventListener("click", async () => {
-    state.connecting = true;
-    state.walletError = "";
-    notify();
-    try {
-      const { connectWallet } = await import("./wallet.js");
-      state.walletAddress = await connectWallet();
-      // The connected wallet is the natural payout address.
-      state.sellerWallet = state.walletAddress;
-    } catch (err) {
-      state.walletError = err instanceof Error ? err.message : "Wallet connection failed.";
-    } finally {
-      state.connecting = false;
+  document.querySelectorAll("[data-connect]").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      state.connecting = true;
+      state.walletError = "";
       notify();
-      render();
-    }
+      try {
+        const { connectWallet } = await import("./wallet.js");
+        state.walletAddress = await connectWallet();
+        // The connected wallet is the natural payout address.
+        state.sellerWallet = state.walletAddress;
+      } catch (err) {
+        state.walletError = err instanceof Error ? err.message : "Wallet connection failed.";
+      } finally {
+        state.connecting = false;
+        notify();
+        render();
+      }
+    });
   });
 }
 

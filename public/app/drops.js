@@ -44,6 +44,35 @@ export async function listDrops({ category = "", cursor = "", limit = 40 } = {})
   };
 }
 
+/**
+ * Searches the feed.
+ *
+ * The browser reads Turso directly, so this is a query rather than a call to
+ * the backend — the title, the summary and the category are all public.
+ */
+export async function searchDrops({ term = "", category = "", limit = 40 }) {
+  const where = ["status = 'active'"];
+  const args = [];
+
+  const needle = term.trim();
+  if (needle) {
+    where.push("(title LIKE ? OR summary LIKE ? OR category LIKE ?)");
+    const like = `%${needle}%`;
+    args.push(like, like, like);
+  }
+  if (category) {
+    where.push("category_id = ?");
+    args.push(category);
+  }
+
+  const rows = await query(
+    `SELECT ${COLUMNS} FROM drops WHERE ${where.join(" AND ")} ` +
+      "ORDER BY created_at DESC LIMIT ?",
+    [...args, limit]
+  );
+  return { drops: rows.map(toPublicDrop), hasMore: rows.length >= limit };
+}
+
 /** A single drop's public metadata. */
 export async function getDrop(id) {
   const rows = await query(`SELECT ${COLUMNS} FROM drops WHERE id = ? LIMIT 1`, [

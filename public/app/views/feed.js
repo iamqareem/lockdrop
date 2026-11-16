@@ -5,13 +5,14 @@
  * descriptive enough that you can judge a drop from the card alone —
  * brand, category, verdict, price and freshness.
  */
-import { listDrops } from "../drops.js";
+import { listDrops, searchDrops } from "../drops.js";
 import { getConfig } from "../config.js";
 import { state, notify } from "../state.js";
 import { renderShell, render } from "../main.js";
-import { brandMark } from "../icons.js";
+import { brandMark, icon } from "../icons.js";
 import { CATEGORIES } from "../categories.js";
 import {
+  debounce,
   escapeHtml,
   timeAgo,
   formatPrice,
@@ -19,6 +20,13 @@ import {
   verdictSlug,
   modeLabel,
 } from "../util.js";
+
+/** Runs the search, debounced so a fast typist makes one query. */
+const runSearch = debounce(() => {
+  state.drops = [];
+  state.feedLoading = true;
+  renderFeedView();
+}, 260);
 
 function cardHtml(drop) {
   const score = Math.max(0, Math.min(100, drop.verdictScore ?? 0));
@@ -55,20 +63,48 @@ function cardHtml(drop) {
     </a>`;
 }
 
+/**
+ * The categories, as one quiet scrollable line rather than a row of pills.
+ * It reads like a table of contents and takes a single line of height.
+ */
 function filtersHtml() {
-  const chips = [{ id: "", label: "All" }].concat(
+  const chips = [{ id: "", label: "Everything" }].concat(
     CATEGORIES.map((c) => ({ id: c.id, label: c.label }))
   );
   return `
-    <div class="feed-filters">
+    <nav class="feed-filters" aria-label="Filter by category">
       ${chips
         .map(
-          (chip) => `
-        <button type="button" class="chip ${
+          (chip, i) => `
+        ${i > 0 ? '<span class="feed-sep" aria-hidden="true">·</span>' : ""}
+        <button type="button" class="feed-filter ${
           state.feedCategory === chip.id ? "is-active" : ""
         }" data-filter="${escapeHtml(chip.id)}">${escapeHtml(chip.label)}</button>`
         )
         .join("")}
+    </nav>`;
+}
+
+/**
+ * The search control. A magnifier that opens into a field, so the header
+ * stays quiet until someone asks for it.
+ */
+function searchHtml() {
+  const open = Boolean(state.searchOpen);
+  return `
+    <div class="search ${open ? "is-open" : ""}">
+      ${
+        open
+          ? `<input id="feedSearch" type="search" class="search-field"
+               placeholder="Search the drops" autocomplete="off"
+               value="${escapeHtml(state.searchQuery || "")}" />`
+          : ""
+      }
+      <button type="button" class="icon-btn" id="searchToggleBtn"
+        aria-label="${open ? "Close search" : "Search"}"
+        aria-expanded="${open ? "true" : "false"}">
+        ${icon(open ? "close" : "search", "", 15)}
+      </button>
     </div>`;
 }
 
@@ -94,13 +130,25 @@ export async function renderFeedView() {
   }
 
   try {
-    const data = await listDrops({
-      limit: 40,
-      category: state.feedCategory,
-    });
-    state.drops = data.drops ?? [];
-    state.feedCursor = data.nextCursor ?? null;
-    state.feedHasMore = Boolean(data.hasMore);
+    const term = (state.searchQuery || "").trim();
+    if (term) {
+      const found = await searchDrops({
+        term,
+        category: state.feedCategory,
+        limit: 40,
+      });
+      state.drops = found.drops ?? [];
+      state.feedCursor = null;
+      state.feedHasMore = false;
+    } else {
+      const data = await listDrops({
+        limit: 40,
+        category: state.feedCategory,
+      });
+      state.drops = data.drops ?? [];
+      state.feedCursor = data.nextCursor ?? null;
+      state.feedHasMore = Boolean(data.hasMore);
+    }
   } catch (err) {
     state.drops = [];
     state.feedCursor = null;
@@ -108,9 +156,18 @@ export async function renderFeedView() {
     const message = err instanceof Error ? err.message : "Could not load the feed.";
     renderShell(
       "feed",
-      `<div class="feed-header"><div>
-         <h1 class="feed-title">Drop feed</h1>
-         <p class="feed-subtitle">Everything locked on LockDrop, newest first.</p>
+    `<div class="feed-header">
+         <div class="feed-heading">
+           <h1 class="feed-title">Drop feed</h1>
+           <p class="feed-subtitle">Everything locked on LockDrop, newest first.</p>
+         </div>
+         <div class="feed-actions">
+           ${searchHtml()}
+           <a href="#/lock" class="btn btn-primary">Lock a link</a>
+         </div>
+       </div>
+       ${filtersHtml()}
+       <div style="height:14px"></div>
        </div></div>
        <div class="alert alert-error">${escapeHtml(message)}</div>`
     );
@@ -126,19 +183,26 @@ export async function renderFeedView() {
     "feed",
     `
     <div class="feed-header">
-      <div>
+      <div class="feed-heading">
         <h1 class="feed-title">Drop feed</h1>
         <p class="feed-subtitle">${state.drops.length} lock${
           state.drops.length === 1 ? "" : "s"
-        } · every link ${escapeHtml(aiLabel)} before it is published.</p>
+        } · every link ${escapeHtml(aiLabel)} before it is published</p>
       </div>
-      <a href="#/" class="btn btn-primary">${"Lock a link"}</a>
+      <div class="feed-actions">
+        ${searchHtml()}
+        <a href="#/lock" class="btn btn-primary">Lock a link</a>
+      </div>
     </div>
     ${filtersHtml()}
-    <div style="height:18px"></div>
+    <div style="height:14px"></div>
     ${
       state.drops.length === 0
-        ? `<div class="panel empty">Nothing published here yet.</div>`
+        ? `<div class="panel empty">${
+            state.searchQuery
+              ? "Nothing matches that search."
+              : "Nothing published here yet."
+          }</div>`
         : `<div class="feed">${state.drops.map(cardHtml).join("")}</div>`
     }
     ${
@@ -149,6 +213,32 @@ export async function renderFeedView() {
         : ""
     }`
   );
+
+  document.getElementById("searchToggleBtn")?.addEventListener("click", () => {
+    state.searchOpen = !state.searchOpen;
+    if (!state.searchOpen) {
+      state.searchQuery = "";
+      state.drops = [];
+      state.feedLoading = true;
+    }
+    renderFeedView();
+    if (state.searchOpen) document.getElementById("feedSearch")?.focus();
+  });
+
+  const searchField = document.getElementById("feedSearch");
+  if (searchField) {
+    searchField.addEventListener("input", (e) => {
+      state.searchQuery = e.target.value;
+      runSearch();
+    });
+    searchField.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        state.searchOpen = false;
+        state.searchQuery = "";
+        renderFeedView();
+      }
+    });
+  }
 
   document.querySelectorAll("[data-filter]").forEach((btn) => {
     btn.addEventListener("click", () => {

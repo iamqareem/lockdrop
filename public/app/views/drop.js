@@ -30,7 +30,7 @@ function detailHtml(drop) {
 
   return `
     <div class="narrow stack">
-      <a href="#/drops" class="crumb">← Back to the feed</a>
+      <a href="#/" class="crumb">← Back to the feed</a>
 
       <div class="panel panel-lg stack">
         <div>

@@ -35,6 +35,8 @@ export const state = {
   feedHasMore: false,
   feedLoading: true,
   feedCategory: "",
+  searchOpen: false,
+  searchQuery: "",
 
   /* drop detail */
   drop: null,

@@ -6,7 +6,7 @@
   "description": "Peer-to-peer escrow for selling file and link access on Polygon PoS. Vanilla JavaScript throughout \u2014 no build step, no transpiler.",
   "scripts": {
     "dev": "wrangler pages dev public --port 8788",
-    "deploy": "wrangler pages deploy public",
+    "deploy": "node scripts/stamp.mjs && wrangler pages deploy .pages",
     "lint": "node scripts/lint.mjs",
     "check": "node scripts/check-abi.mjs && node scripts/check-contract.mjs && node scripts/check-categories.js && node scripts/check-frontend.mjs && node scripts/check-kb.mjs && node scripts/check-turso-read.mjs",
     "contract:build": "hardhat compile --build-profile production && node scripts/build-contract-artifact.mjs",

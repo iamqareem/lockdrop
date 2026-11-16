@@ -802,8 +802,19 @@ a {
   align-items: flex-end;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 22px;
+  margin-bottom: 14px;
   flex-wrap: wrap;
+}
+
+.feed-heading {
+  min-width: 0;
+}
+
+.feed-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
 }
 
 .feed-title {
@@ -814,37 +825,60 @@ a {
 }
 
 .feed-subtitle {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin: 4px 0 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text-subtle);
+  margin: 6px 0 0;
 }
 
+/*
+ * The categories are one line, not a row of pills. It reads like a table of
+ * contents, takes a single line of height, and scrolls sideways when it has
+ * to.
+ */
 .feed-filters {
   display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--border);
 }
 
-.chip {
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text-muted);
-  padding: 6px 12px;
-  font-size: 11.5px;
+.feed-filters::-webkit-scrollbar {
+  display: none;
+}
+
+.feed-sep {
+  color: var(--border-strong);
+  flex-shrink: 0;
+}
+
+.feed-filter {
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  padding: 9px 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text-subtle);
   cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  transition: color 0.15s ease;
 }
 
-.chip:hover {
-  background: var(--surface-2);
+.feed-filter:hover {
+  color: var(--text-muted);
+}
+
+.feed-filter.is-active {
   color: var(--text);
-}
-
-.chip.is-active {
-  background: var(--inverse);
-  border-color: var(--inverse);
-  color: var(--inverse-fg);
 }
 
 /* Pinterest-style masonry using CSS multi-column. */
@@ -1455,4 +1489,140 @@ pre.code {
   background: var(--surface);
   color: var(--text);
   box-shadow: var(--shadow-sm);
+}
+
+/* ----------------------------------------------------------------- search */
+
+/*
+ * A magnifier that opens into a field, so the header stays quiet until
+ * someone asks for it.
+ */
+.search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-field {
+  height: 36px;
+  width: 220px;
+  max-width: 46vw;
+  padding: 0 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  color: var(--text);
+  animation: search-in 0.16s ease;
+}
+
+.search-field:focus {
+  outline: none;
+  border-color: var(--text);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--text) 7%, transparent);
+}
+
+.search-field::placeholder {
+  color: var(--text-subtle);
+}
+
+.search-field::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+@keyframes search-in {
+  from { opacity: 0; width: 90px; }
+}
+
+/* ------------------------------------------------------- the mobile tools */
+
+/*
+ * The top bar only exists on desktop, so on a phone the theme toggle and the
+ * wallet live in a small floating cluster in the corner. It sits at the
+ * bottom-right, clear of the bottom nav's centred pill and of the page
+ * header, so nothing is ever covered.
+ */
+.mobile-tools {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: fixed;
+  right: 14px;
+  bottom: calc(var(--bottom-nav-height) + 14px);
+  z-index: 41;
+}
+
+.tool-btn {
+  display: grid;
+  place-items: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.tool-btn:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+.tool-btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.tool-addr {
+  font-size: 10.5px;
+  letter-spacing: -0.01em;
+}
+
+@media (min-width: 1024px) {
+  .mobile-tools {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------- scrollbars */
+
+/*
+ * Scrollbars are part of the interface, so they get the same treatment as
+ * everything else: thin, warm, and almost invisible until they are used.
+ */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-subtle);
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
 }
