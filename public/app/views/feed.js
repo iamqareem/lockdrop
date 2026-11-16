@@ -1,39 +1,49 @@
 /**
  * The drop feed.
  *
- * A Pinterest-style masonry of text postcards: minimal, monochrome, and
- * descriptive enough that you can judge a drop from the card alone —
- * brand, category, verdict, price and freshness.
+ * The page is deliberately quiet: a toolbar, a masonry of cards, and one
+ * vivid search composer docked along the bottom. The composer is the hero —
+ * it is the only thing on the page that moves, and it is always in reach.
+ *
+ * Typing queries Turso straight from the browser and repaints the feed in
+ * place. Only the list is re-rendered, never the whole shell, so the input
+ * keeps its focus and the caret keeps its position while the user types.
  */
-import { listDrops, searchDrops } from "../drops.js";
-import { getConfig } from "../config.js";
-import { state, notify } from "../state.js";
-import { renderShell, render } from "../main.js";
+import { listDrops, searchDrops, countByCategory } from "../drops.js";
+import { state } from "../state.js";
+import { renderShell } from "../main.js";
 import { brandMark, icon } from "../icons.js";
 import { CATEGORIES } from "../categories.js";
 import {
-  debounce,
   escapeHtml,
   timeAgo,
   formatPrice,
   verdictClass,
   verdictSlug,
-  modeLabel,
 } from "../util.js";
 
-/** Runs the search, debounced so a fast typist makes one query. */
-const runSearch = debounce(() => {
-  state.drops = [];
-  state.feedLoading = true;
-  renderFeedView();
-}, 260);
+/** Fast enough that the page feels like it is answering you. */
+const SEARCH_DEBOUNCE = 110;
+
+/** Guards against a slow response landing on top of a newer one. */
+let requestId = 0;
+
+/** The query currently in flight, so the next one can cancel it. */
+let inFlight = null;
+
+/** The debounce timer for the composer. */
+let searchTimer = null;
+
+/** The document-level Escape handler, re-bound on every render. */
+let escapeHandler = null;
 
 function cardHtml(drop) {
   const score = Math.max(0, Math.min(100, drop.verdictScore ?? 0));
   const slug = verdictSlug(drop.verdict);
-  const price = drop.unlockMode === "free_ad" || drop.isAdminAd
-    ? "Free"
-    : formatPrice(drop.price, drop.tokenSymbol);
+  const price =
+    drop.unlockMode === "free_ad" || drop.isAdminAd
+      ? "Free"
+      : formatPrice(drop.price, drop.tokenSymbol);
 
   return `
     <a class="card" href="#/drop/${escapeHtml(drop.id)}">
@@ -64,210 +74,399 @@ function cardHtml(drop) {
 }
 
 /**
- * The categories, as one quiet scrollable line rather than a row of pills.
- * It reads like a table of contents and takes a single line of height.
+ * The toolbar. One control for browsing, one for adding — and nothing else.
  */
-function filtersHtml() {
-  const chips = [{ id: "", label: "Everything" }].concat(
-    CATEGORIES.map((c) => ({ id: c.id, label: c.label }))
-  );
+function toolbarHtml() {
+  const active = CATEGORIES.find((c) => c.id === state.feedCategory);
   return `
-    <nav class="feed-filters" aria-label="Filter by category">
-      ${chips
-        .map(
-          (chip, i) => `
-        ${i > 0 ? '<span class="feed-sep" aria-hidden="true">·</span>' : ""}
-        <button type="button" class="feed-filter ${
-          state.feedCategory === chip.id ? "is-active" : ""
-        }" data-filter="${escapeHtml(chip.id)}">${escapeHtml(chip.label)}</button>`
-        )
-        .join("")}
-    </nav>`;
-}
-
-/**
- * The search control. A magnifier that opens into a field, so the header
- * stays quiet until someone asks for it.
- */
-function searchHtml() {
-  const open = Boolean(state.searchOpen);
-  return `
-    <div class="search ${open ? "is-open" : ""}">
-      ${
-        open
-          ? `<input id="feedSearch" type="search" class="search-field"
-               placeholder="Search the drops" autocomplete="off"
-               value="${escapeHtml(state.searchQuery || "")}" />`
-          : ""
-      }
-      <button type="button" class="icon-btn" id="searchToggleBtn"
-        aria-label="${open ? "Close search" : "Search"}"
-        aria-expanded="${open ? "true" : "false"}">
-        ${icon(open ? "close" : "search", "", 15)}
+    <div class="feed-toolbar">
+      <button type="button" class="feed-tool" id="categoryBtn"
+        aria-haspopup="dialog" aria-expanded="${state.feedCategoryModalOpen}">
+        ${icon("chevronDown", "", 13)}
+        <span id="categoryLabel">${escapeHtml(
+          active ? active.label : "Categories"
+        )}</span>
       </button>
+      <a href="#/lock" class="btn btn-secondary">Lock a link</a>
     </div>`;
 }
 
-function skeletonHtml() {
-  return `<div class="feed">${Array.from({ length: 6 })
-    .map(() => `<div class="skeleton" style="height:170px;margin-bottom:16px"></div>`)
-    .join("")}</div>`;
+/**
+ * The status line inside the composer.
+ *
+ * It carries the count the old subtitle used to carry, in the one place
+ * where a count belongs — next to the thing that produced it.
+ */
+function statusText() {
+  if (state.searchStatus === "searching") return "searching";
+  if (state.searchStatus === "error") return "unavailable";
+  if (state.searchStatus === "ready") {
+    const n = state.searchCount;
+    return `${n} ${n === 1 ? "result" : "results"}`;
+  }
+  if (state.feedBusy) return "loading";
+  const n = state.drops.length;
+  return `${n} ${n === 1 ? "drop" : "drops"}`;
 }
 
-export async function renderFeedView() {
-  renderShell("feed", `<div class="narrow"><div class="empty">Loading the feed…</div></div>`);
+/**
+ * The composer — the one vivid thing on the page.
+ */
+function composerHtml() {
+  return `
+    <div class="composer${state.searchQuery ? " has-text" : ""}" role="search">
+      <span class="composer-icon">${icon("search", "", 16)}</span>
+      <input id="feedSearch" type="search" class="composer-input"
+        placeholder="Search the drops" aria-label="Search the drops"
+        autocomplete="off" spellcheck="false"
+        value="${escapeHtml(state.searchQuery)}" />
+      <span class="composer-status" id="composerStatus">${escapeHtml(
+        statusText()
+      )}</span>
+      <button type="button" class="composer-clear" id="searchClearBtn"
+        aria-label="Clear the search">${icon("close", "", 13)}</button>
+    </div>`;
+}
 
-  if (state.feedLoading && state.drops.length === 0) {
-    renderShell(
-      "feed",
-      `<div class="feed-header">
-         <div>
-           <h1 class="feed-title">Drop feed</h1>
-           <p class="feed-subtitle">Everything locked on LockDrop, newest first.</p>
-         </div>
-       </div>${skeletonHtml()}`
-    );
+/**
+ * The category picker.
+ *
+ * A modal rather than a strip of links: one control in the toolbar, and the
+ * categories appear only when they are asked for.
+ */
+function categoryModalHtml() {
+  if (!state.feedCategoryModalOpen) return "";
+  const counts = state.categoryCounts ?? {};
+  const total = Object.values(counts).reduce((sum, n) => sum + n, 0);
+
+  const option = (id, label, hint) => `
+    <button type="button" class="category-option ${
+      state.feedCategory === id ? "is-active" : ""
+    }" data-feed-category="${escapeHtml(id)}">
+      ${brandMark(id || "all", "brand-mark", 16)}
+      <span class="category-option-text">
+        <span class="category-option-name">${escapeHtml(label)}</span>
+        <span class="category-option-hint">${escapeHtml(hint)}</span>
+      </span>
+      <span class="category-count" data-count-for="${escapeHtml(id)}">${
+        id ? (counts[id] ?? 0) : total
+      }</span>
+    </button>`;
+
+  return `
+    <div class="modal-backdrop" id="feedCategoryBackdrop">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="feedCategoryTitle">
+        <div class="modal-head">
+          <div>
+            <h2 class="modal-title" id="feedCategoryTitle">Browse by category</h2>
+            <p class="modal-subtitle">Everything that is locked, grouped by where it lives.</p>
+          </div>
+          <button id="closeFeedCategory" type="button" class="icon-btn" aria-label="Close">
+            ${icon("close", "", 14)}
+          </button>
+        </div>
+        <div class="category-grid">
+          ${option("", "Everything", "all drops")}
+          ${CATEGORIES.map((cat) => option(cat.id, cat.label, cat.hint)).join("")}
+        </div>
+      </div>
+    </div>`;
+}
+
+/**
+ * The list itself.
+ *
+ * Only this is repainted while the user types, which is why the composer
+ * keeps its focus.
+ */
+function listHtml() {
+  if (state.feedLoading && !state.feedLoaded) {
+    return `<div class="feed">${Array.from({ length: 6 })
+      .map(
+        () => `<div class="skeleton" style="height:170px;margin-bottom:16px"></div>`
+      )
+      .join("")}</div>`;
   }
+
+  if (state.drops.length === 0) {
+    const category = CATEGORIES.find((c) => c.id === state.feedCategory);
+    const where = category ? ` in ${category.label}` : "";
+    let message;
+    if (state.searchQuery) {
+      message = `Nothing matches “${escapeHtml(state.searchQuery)}”${where}.`;
+    } else if (category) {
+      message = `Nothing in ${escapeHtml(category.label)} yet.`;
+    } else {
+      message = "Nothing published yet.";
+    }
+    return `<div class="panel empty">${message}</div>`;
+  }
+
+  const cards = `<div class="feed">${state.drops.map(cardHtml).join("")}</div>`;
+  if (!state.feedHasMore) return cards;
+  return `${cards}
+    <div class="feed-more">
+      <button id="loadMoreBtn" type="button" class="btn btn-secondary">Load more</button>
+    </div>`;
+}
+
+/* ------------------------------------------------------------------ paint */
+
+function paintFeed() {
+  const slot = document.getElementById("feedSlot");
+  if (!slot) return;
+  slot.innerHTML = listHtml();
+  slot.classList.toggle(
+    "is-busy",
+    state.searchStatus === "searching" || state.feedBusy
+  );
+  document.getElementById("loadMoreBtn")?.addEventListener("click", loadMore);
+}
+
+/**
+ * Repaints the composer without touching the input.
+ *
+ * The text is only written back when it has drifted from the state, which
+ * happens when the state changed from somewhere else — the clear button, the
+ * Escape key. While the user is typing they are always the same, so the
+ * caret never moves.
+ */
+function paintComposer() {
+  const composer = document.querySelector(".composer");
+  if (!composer) return;
+  composer.classList.toggle("has-text", Boolean(state.searchQuery));
+
+  const input = document.getElementById("feedSearch");
+  if (input && input.value !== state.searchQuery) {
+    input.value = state.searchQuery;
+    const end = state.searchQuery.length;
+    input.setSelectionRange(end, end);
+  }
+
+  const status = document.getElementById("composerStatus");
+  if (status) status.textContent = statusText();
+}
+
+function paintToolbar() {
+  const label = document.getElementById("categoryLabel");
+  if (!label) return;
+  const active = CATEGORIES.find((c) => c.id === state.feedCategory);
+  label.textContent = active ? active.label : "Categories";
+}
+
+function paintModal() {
+  const slot = document.getElementById("feedModalSlot");
+  if (!slot) return;
+  slot.innerHTML = categoryModalHtml();
+  wireModal();
+}
+
+/* ------------------------------------------------------------------- load */
+
+/**
+ * Fetches the feed — or the search results — and paints them.
+ *
+ * A new call cancels the one in flight and takes the request number with
+ * it, so a slow answer can never overwrite a newer one.
+ */
+async function loadFeed() {
+  const id = ++requestId;
+  if (inFlight) {
+    inFlight.abort();
+    inFlight = null;
+  }
+  const controller = new AbortController();
+  inFlight = controller;
+
+  const term = (state.searchQuery || "").trim();
+  const searching = Boolean(term);
+  state.searchStatus = searching ? "searching" : "idle";
+  state.feedBusy = true;
+  // The skeleton is only for the very first paint. Afterwards the old cards
+  // stay on screen, dimmed, until the new ones arrive.
+  state.feedLoading = !state.feedLoaded && state.drops.length === 0;
+  paintFeed();
+  paintComposer();
 
   try {
-    const term = (state.searchQuery || "").trim();
-    if (term) {
-      const found = await searchDrops({
-        term,
-        category: state.feedCategory,
-        limit: 40,
-      });
-      state.drops = found.drops ?? [];
-      state.feedCursor = null;
-      state.feedHasMore = false;
-    } else {
-      const data = await listDrops({
-        limit: 40,
-        category: state.feedCategory,
-      });
-      state.drops = data.drops ?? [];
-      state.feedCursor = data.nextCursor ?? null;
-      state.feedHasMore = Boolean(data.hasMore);
-    }
+    const data = searching
+      ? await searchDrops({
+          term,
+          category: state.feedCategory,
+          limit: 40,
+          signal: controller.signal,
+        })
+      : await listDrops({ limit: 40, category: state.feedCategory });
+
+    if (id !== requestId) return;
+    state.drops = data.drops ?? [];
+    state.feedCursor = data.nextCursor ?? null;
+    state.feedHasMore = Boolean(data.hasMore);
+    state.searchCount = state.drops.length;
+    state.searchStatus = searching ? "ready" : "idle";
+    state.feedLoaded = true;
   } catch (err) {
+    if (id !== requestId) return;
+    if (err && err.name === "AbortError") return;
     state.drops = [];
-    state.feedCursor = null;
     state.feedHasMore = false;
-    const message = err instanceof Error ? err.message : "Could not load the feed.";
-    renderShell(
-      "feed",
-    `<div class="feed-header">
-         <div class="feed-heading">
-           <h1 class="feed-title">Drop feed</h1>
-           <p class="feed-subtitle">Everything locked on LockDrop, newest first.</p>
-         </div>
-         <div class="feed-actions">
-           ${searchHtml()}
-           <a href="#/lock" class="btn btn-primary">Lock a link</a>
-         </div>
-       </div>
-       ${filtersHtml()}
-       <div style="height:14px"></div>
-       </div></div>
-       <div class="alert alert-error">${escapeHtml(message)}</div>`
-    );
-    return;
+    state.searchStatus = "error";
+    state.feedLoaded = true;
   } finally {
+    if (id !== requestId) return;
     state.feedLoading = false;
+    state.feedBusy = false;
+    inFlight = null;
+    paintFeed();
+    paintComposer();
   }
+}
 
-  const config = getConfig();
-  const aiLabel = config.features?.ai ? "AI-verified" : "locally verified";
+/** Debounced so a fast typist makes one query, not one per keystroke. */
+function scheduleSearch() {
+  if (searchTimer) clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => {
+    searchTimer = null;
+    loadFeed();
+  }, SEARCH_DEBOUNCE);
+}
 
-  renderShell(
-    "feed",
-    `
-    <div class="feed-header">
-      <div class="feed-heading">
-        <h1 class="feed-title">Drop feed</h1>
-        <p class="feed-subtitle">${state.drops.length} lock${
-          state.drops.length === 1 ? "" : "s"
-        } · every link ${escapeHtml(aiLabel)} before it is published</p>
-      </div>
-      <div class="feed-actions">
-        ${searchHtml()}
-        <a href="#/lock" class="btn btn-primary">Lock a link</a>
-      </div>
-    </div>
-    ${filtersHtml()}
-    <div style="height:14px"></div>
-    ${
-      state.drops.length === 0
-        ? `<div class="panel empty">${
-            state.searchQuery
-              ? "Nothing matches that search."
-              : "Nothing published here yet."
-          }</div>`
-        : `<div class="feed">${state.drops.map(cardHtml).join("")}</div>`
-    }
-    ${
-      state.feedHasMore
-        ? `<div style="text-align:center;margin-top:12px">
-             <button id="loadMoreBtn" type="button" class="btn btn-secondary">Load more</button>
-           </div>`
-        : ""
-    }`
-  );
-
-  document.getElementById("searchToggleBtn")?.addEventListener("click", () => {
-    state.searchOpen = !state.searchOpen;
-    if (!state.searchOpen) {
-      state.searchQuery = "";
-      state.drops = [];
-      state.feedLoading = true;
-    }
-    renderFeedView();
-    if (state.searchOpen) document.getElementById("feedSearch")?.focus();
-  });
-
-  const searchField = document.getElementById("feedSearch");
-  if (searchField) {
-    searchField.addEventListener("input", (e) => {
-      state.searchQuery = e.target.value;
-      runSearch();
+async function loadMore() {
+  const btn = document.getElementById("loadMoreBtn");
+  if (!btn || btn.disabled) return;
+  btn.disabled = true;
+  btn.textContent = "Loading…";
+  try {
+    const data = await listDrops({
+      limit: 40,
+      category: state.feedCategory,
+      cursor: state.feedCursor,
     });
-    searchField.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        state.searchOpen = false;
+    state.drops = state.drops.concat(data.drops ?? []);
+    state.feedCursor = data.nextCursor ?? null;
+    state.feedHasMore = Boolean(data.hasMore);
+  } catch {
+    /* the list stays as it is */
+  }
+  paintFeed();
+  paintComposer();
+}
+
+/** Reads the category counts the first time the picker is opened. */
+async function loadCategoryCounts() {
+  if (state.categoryCounts) return;
+  try {
+    state.categoryCounts = await countByCategory();
+    paintCounts();
+  } catch {
+    /* the counts are a nicety, not a requirement */
+  }
+}
+
+function paintCounts() {
+  const counts = state.categoryCounts;
+  if (!counts) return;
+  const total = Object.values(counts).reduce((sum, n) => sum + n, 0);
+  document.querySelectorAll("[data-count-for]").forEach((span) => {
+    const id = span.getAttribute("data-count-for") || "";
+    span.textContent = String(id ? counts[id] ?? 0 : total);
+  });
+}
+
+/* ------------------------------------------------------------------ wire */
+
+function closeCategoryModal() {
+  state.feedCategoryModalOpen = false;
+  paintModal();
+  document.getElementById("categoryBtn")?.focus();
+}
+
+function wireModal() {
+  document.getElementById("closeFeedCategory")?.addEventListener("click", closeCategoryModal);
+  document.getElementById("feedCategoryBackdrop")?.addEventListener("click", (e) => {
+    if (e.target.id !== "feedCategoryBackdrop") return;
+    closeCategoryModal();
+  });
+  document.querySelectorAll("[data-feed-category]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      state.feedCategory = btn.getAttribute("data-feed-category") || "";
+      state.feedCategoryModalOpen = false;
+      paintModal();
+      paintToolbar();
+      loadFeed();
+    });
+  });
+}
+
+function wireFeed() {
+  const input = document.getElementById("feedSearch");
+  if (input) {
+    input.addEventListener("input", (e) => {
+      state.searchQuery = e.target.value;
+      paintComposer();
+      scheduleSearch();
+    });
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && state.searchQuery) {
+        e.preventDefault();
         state.searchQuery = "";
-        renderFeedView();
+        paintComposer();
+        loadFeed();
+        input.focus();
+        return;
+      }
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (searchTimer) {
+          clearTimeout(searchTimer);
+          searchTimer = null;
+        }
+        loadFeed();
       }
     });
   }
 
-  document.querySelectorAll("[data-filter]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      state.feedCategory = btn.getAttribute("data-filter") || "";
-      state.drops = [];
-      state.feedCursor = null;
-      state.feedHasMore = false;
-      state.feedLoading = true;
-      renderFeedView();
-    });
+  document.getElementById("searchClearBtn")?.addEventListener("click", () => {
+    state.searchQuery = "";
+    paintComposer();
+    document.getElementById("feedSearch")?.focus();
+    loadFeed();
   });
 
-  document.getElementById("loadMoreBtn")?.addEventListener("click", async () => {
-    const btn = document.getElementById("loadMoreBtn");
-    btn.disabled = true;
-    btn.textContent = "Loading…";
-    try {
-      const data = await listDrops({
-        limit: 40,
-        category: state.feedCategory,
-        cursor: state.feedCursor,
-      });
-      state.drops = [...state.drops, ...(data.drops ?? [])];
-      state.feedCursor = data.nextCursor ?? null;
-      state.feedHasMore = Boolean(data.hasMore);
-    } catch {
-      /* keep what we have */
-    }
-    notify();
-    renderFeedView();
+  document.getElementById("categoryBtn")?.addEventListener("click", () => {
+    state.feedCategoryModalOpen = true;
+    paintModal();
+    loadCategoryCounts();
+    document.getElementById("closeFeedCategory")?.focus();
   });
+
+  wireModal();
+
+  if (escapeHandler) document.removeEventListener("keydown", escapeHandler);
+  escapeHandler = (e) => {
+    if (e.key === "Escape" && state.feedCategoryModalOpen) {
+      state.feedCategoryModalOpen = false;
+      paintModal();
+    }
+  };
+  document.addEventListener("keydown", escapeHandler);
+}
+
+/* ------------------------------------------------------------------ view */
+
+function feedBodyHtml() {
+  return `
+    ${toolbarHtml()}
+    <div id="feedSlot" class="feed-slot">${listHtml()}</div>
+    <div class="composer-dock">${composerHtml()}</div>
+    <div id="feedModalSlot">${categoryModalHtml()}</div>`;
+}
+
+export async function renderFeedView() {
+  renderShell("feed", feedBodyHtml());
+  wireFeed();
+  // The counts are read in the background so the picker opens with them
+  // already there.
+  loadCategoryCounts();
+  await loadFeed();
 }

@@ -49,8 +49,15 @@ export async function listDrops({ category = "", cursor = "", limit = 40 } = {})
  *
  * The browser reads Turso directly, so this is a query rather than a call to
  * the backend — the title, the summary and the category are all public.
+ *
+ * `signal` lets the caller cancel a search that has been superseded.
  */
-export async function searchDrops({ term = "", category = "", limit = 40 }) {
+export async function searchDrops({
+  term = "",
+  category = "",
+  limit = 40,
+  signal,
+} = {}) {
   const where = ["status = 'active'"];
   const args = [];
 
@@ -68,9 +75,28 @@ export async function searchDrops({ term = "", category = "", limit = 40 }) {
   const rows = await query(
     `SELECT ${COLUMNS} FROM drops WHERE ${where.join(" AND ")} ` +
       "ORDER BY created_at DESC LIMIT ?",
-    [...args, limit]
+    [...args, limit],
+    { signal }
   );
   return { drops: rows.map(toPublicDrop), hasMore: rows.length >= limit };
+}
+
+/**
+ * How many drops each category holds.
+ *
+ * The category picker shows these, so the counts are read once and cached
+ * rather than fetched on every open.
+ */
+export async function countByCategory() {
+  const rows = await query(
+    "SELECT category_id AS id, count(*) AS n FROM drops " +
+      "WHERE status = 'active' GROUP BY category_id"
+  );
+  const counts = {};
+  for (const row of rows) {
+    counts[String(row.id)] = Number(row.n ?? 0);
+  }
+  return counts;
 }
 
 /** A single drop's public metadata. */

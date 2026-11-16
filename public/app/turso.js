@@ -73,8 +73,12 @@ export function isTursoConfigured() {
 /**
  * Runs a SELECT against Turso and returns plain row objects.
  * Read-only by construction: the token cannot write.
+ *
+ * `signal` aborts the request. The browser uses it to cancel a search that
+ * has already been superseded by a newer one, so a slow response never
+ * lands on top of a fresher one.
  */
-export async function query(sql, args = []) {
+export async function query(sql, args = [], { signal } = {}) {
   if (!isTursoConfigured()) {
     throw new Error("The Turso read configuration is missing.");
   }
@@ -94,6 +98,7 @@ export async function query(sql, args = []) {
         { type: "close" },
       ],
     }),
+    signal,
   });
 
   if (!res.ok) {

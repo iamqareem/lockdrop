@@ -34,9 +34,19 @@ export const state = {
   feedCursor: null,
   feedHasMore: false,
   feedLoading: true,
+  /** True while a query is in flight, so the list can dim instead of blink. */
+  feedBusy: false,
+  /** True once the feed has been fetched at least once. */
+  feedLoaded: false,
   feedCategory: "",
-  searchOpen: false,
+  /** The category picker, as a modal rather than a strip of links. */
+  feedCategoryModalOpen: false,
+  /** How many drops each category holds, read when the picker opens. */
+  categoryCounts: null,
   searchQuery: "",
+  /** "idle" | "searching" | "ready" | "error". */
+  searchStatus: "idle",
+  searchCount: 0,
 
   /* drop detail */
   drop: null,

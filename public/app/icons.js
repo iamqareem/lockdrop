@@ -50,6 +50,10 @@ const CUSTOM = {
   media: [
     "M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zM9.5 6.5v11l9-5.5z",
   ],
+  // Everything: four squares, for the unfiltered view.
+  all: [
+    "M3.5 3.5h7v7h-7zM13.5 3.5h7v7h-7zM3.5 13.5h7v7h-7zM13.5 13.5h7v7h-7z",
+  ],
 };
 
 /** Filled brand marks, keyed by category id. */
@@ -64,6 +68,7 @@ export const BRAND_MARKS = {
   download: CUSTOM.download,
   document: CUSTOM.document,
   media: CUSTOM.media,
+  all: CUSTOM.all,
 };
 
 /**
@@ -103,6 +108,8 @@ const STROKE = {
   spinner: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"/>',
   search: '<path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>',
   plus: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>',
+  chevronDown:
+    '<path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>',
 };
 
 /** Renders a stroked UI icon. */

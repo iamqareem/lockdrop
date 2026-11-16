@@ -108,7 +108,7 @@ function footerHtml() {
 
 export function renderShell(activeView, mainHtml) {
   root.innerHTML = `
-    <div class="shell">
+    <div class="shell is-${escapeHtml(activeView)}">
       ${topbarHtml(activeView)}
       <div class="mobile-tools">
         <button type="button" class="tool-btn" data-theme-toggle aria-label="Toggle theme">
@@ -126,7 +126,7 @@ export function renderShell(activeView, mainHtml) {
           }
         </button>
       </div>
-      <main class="main">
+      <main class="main is-${escapeHtml(activeView)}">
         ${
           state.walletError
             ? `<div class="alert alert-error" style="margin-bottom:18px">${escapeHtml(

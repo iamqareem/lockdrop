@@ -62,6 +62,10 @@
 
   --shell-max: 1180px;
   --bottom-nav-height: 66px;
+
+  /* The composer: the one vivid element, docked along the bottom. */
+  --composer-height: 52px;
+  --composer-dock-height: 92px;
 }
 
 .dark {
@@ -265,12 +269,23 @@ a {
   width: 100%;
   max-width: var(--shell-max);
   margin: 0 auto;
-  padding: 28px 20px calc(var(--bottom-nav-height) + 32px);
+  padding: 28px 20px calc(var(--bottom-nav-height) + 36px + env(safe-area-inset-bottom));
+}
+
+/*
+ * The feed reserves room for the composer as well, because the composer is
+ * docked over the bottom of the page.
+ */
+.main.is-feed {
+  padding-bottom: calc(var(--composer-dock-height) + 40px + env(safe-area-inset-bottom));
 }
 
 @media (min-width: 1024px) {
   .main {
-    padding: 40px 24px 64px;
+    padding: 40px 24px 72px;
+  }
+  .main.is-feed {
+    padding-bottom: calc(var(--composer-dock-height) + 40px);
   }
 }
 
@@ -289,13 +304,13 @@ a {
   position: fixed;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: calc(var(--composer-dock-height) + env(safe-area-inset-bottom));
   z-index: 40;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 12px;
-  padding: 0 16px calc(18px + env(safe-area-inset-bottom));
+  padding: 0 16px 12px;
   background: transparent;
   pointer-events: none;
 }
@@ -304,6 +319,15 @@ a {
   .bottomnav {
     display: none;
   }
+}
+
+/*
+ * The feed is the front door, and it needs no navigation bar: the composer
+ * is the hero at the bottom and "Lock a link" sits in the toolbar. The pill
+ * would only be in the way.
+ */
+.shell.is-feed .bottomnav {
+  display: none;
 }
 
 .bottomnav a {
@@ -733,6 +757,19 @@ a {
   margin-top: 1px;
 }
 
+/* How many drops a category holds. */
+.category-count {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  color: var(--text-subtle);
+}
+
+.category-option.is-active .category-count {
+  color: var(--text-muted);
+}
+
 /* --------------------------------------------------------------- verdict */
 
 /*
@@ -797,26 +834,6 @@ a {
 
 /* ------------------------------------------------------------- the feed */
 
-.feed-header {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 14px;
-  flex-wrap: wrap;
-}
-
-.feed-heading {
-  min-width: 0;
-}
-
-.feed-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
 .feed-title {
   font-family: var(--font-display);
   font-size: 22px;
@@ -835,50 +852,54 @@ a {
 }
 
 /*
- * The categories are one line, not a row of pills. It reads like a table of
- * contents, takes a single line of height, and scrolls sideways when it has
- * to.
+ * The categories live in a modal, not in a strip of links, so the page keeps
+ * one line of chrome above the feed and nothing else.
  */
-.feed-filters {
+.feed-toolbar {
   display: flex;
   align-items: center;
-  gap: 10px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  padding-bottom: 2px;
-  border-bottom: 1px solid var(--border);
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
 }
 
-.feed-filters::-webkit-scrollbar {
-  display: none;
-}
-
-.feed-sep {
-  color: var(--border-strong);
-  flex-shrink: 0;
-}
-
-.feed-filter {
-  flex-shrink: 0;
-  border: none;
-  background: transparent;
-  padding: 9px 0;
+.feed-tool {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
   font-family: var(--font-mono);
   font-size: var(--fs-micro);
   font-weight: 500;
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  color: var(--text-subtle);
   cursor: pointer;
-  transition: color 0.15s ease;
+  transition: color 0.15s ease, border-color 0.15s ease;
 }
 
-.feed-filter:hover {
-  color: var(--text-muted);
-}
-
-.feed-filter.is-active {
+.feed-tool:hover {
   color: var(--text);
+  border-color: var(--border-strong);
+}
+
+/* The list is the only thing that repaints while the user types. */
+.feed-slot {
+  transition: opacity 0.16s ease;
+}
+
+.feed-slot.is-busy {
+  opacity: 0.42;
+}
+
+.feed-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
 }
 
 /* Pinterest-style masonry using CSS multi-column. */
@@ -1491,48 +1512,118 @@ pre.code {
   box-shadow: var(--shadow-sm);
 }
 
-/* ----------------------------------------------------------------- search */
+/* ---------------------------------------------------------- the composer */
 
 /*
- * A magnifier that opens into a field, so the header stays quiet until
- * someone asks for it.
+ * The composer is the hero of the feed.
+ *
+ * One vivid, inverted field, docked along the bottom of the viewport, always
+ * in reach. It is the only thing on the page that moves: the feed repaints
+ * underneath it while the user types.
+ *
+ * The dock fades the page out behind it, so the content dissolves into the
+ * composer instead of being cut off by it. On small screens the fade reaches
+ * further, to cover the nav pill that floats above.
  */
-.search {
+.composer-dock {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 39;
+  display: flex;
+  align-items: flex-end;
+  height: var(--composer-dock-height);
+  padding: 0 20px calc(14px + env(safe-area-inset-bottom));
+  pointer-events: none;
+  background: linear-gradient(to top, var(--bg) 42%, transparent);
+}
+
+.composer {
+  pointer-events: auto;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  height: var(--composer-height);
+  padding: 0 8px 0 16px;
+  border-radius: 999px;
+  background: var(--inverse);
+  color: var(--inverse-fg);
+  box-shadow: var(--shadow-float);
+  transition: box-shadow 0.18s ease;
 }
 
-.search-field {
-  height: 36px;
-  width: 220px;
-  max-width: 46vw;
-  padding: 0 12px;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  background: var(--surface);
+.composer:focus-within {
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--text) 12%, transparent),
+    var(--shadow-float);
+}
+
+.composer-icon {
+  display: grid;
+  place-items: center;
+  color: var(--inverse-fg);
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+.composer-input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: none;
+  background: transparent;
+  color: var(--inverse-fg);
   font-family: var(--font-sans);
-  font-size: var(--fs-sm);
-  color: var(--text);
-  animation: search-in 0.16s ease;
+  font-size: var(--fs-md);
+  line-height: 1;
 }
 
-.search-field:focus {
+.composer-input:focus {
   outline: none;
-  border-color: var(--text);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--text) 7%, transparent);
 }
 
-.search-field::placeholder {
-  color: var(--text-subtle);
+.composer-input::placeholder {
+  color: color-mix(in srgb, var(--inverse-fg) 42%, transparent);
 }
 
-.search-field::-webkit-search-cancel-button {
+.composer-input::-webkit-search-cancel-button {
   appearance: none;
 }
 
-@keyframes search-in {
-  from { opacity: 0; width: 90px; }
+.composer-status {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--inverse-fg) 55%, transparent);
+  white-space: nowrap;
+}
+
+.composer-clear {
+  display: none;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--inverse-fg) 14%, transparent);
+  color: var(--inverse-fg);
+  cursor: pointer;
+}
+
+.composer.has-text .composer-clear {
+  display: grid;
+}
+
+.composer-clear:hover {
+  background: color-mix(in srgb, var(--inverse-fg) 24%, transparent);
 }
 
 /* ------------------------------------------------------- the mobile tools */
@@ -1550,8 +1641,17 @@ pre.code {
   gap: 8px;
   position: fixed;
   right: 14px;
-  bottom: calc(var(--bottom-nav-height) + 14px);
+  bottom: calc(
+    var(--composer-dock-height) + var(--bottom-nav-height) + env(safe-area-inset-bottom)
+  );
   z-index: 41;
+}
+
+/*
+ * The feed has no nav pill, so the cluster sits directly above the composer.
+ */
+.shell.is-feed .mobile-tools {
+  bottom: calc(var(--composer-dock-height) + 12px + env(safe-area-inset-bottom));
 }
 
 .tool-btn {
