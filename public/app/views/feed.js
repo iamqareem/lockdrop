@@ -16,6 +16,7 @@ import { brandMark, icon } from "../icons.js";
 import { CATEGORIES } from "../categories.js";
 import {
   escapeHtml,
+  shortAddress,
   timeAgo,
   formatPrice,
   verdictClass,
@@ -74,7 +75,12 @@ function cardHtml(drop) {
 }
 
 /**
- * The toolbar. One control for browsing, one for adding — and nothing else.
+ * The toolbar. One control for browsing, one for adding — and, from tablet
+ * upwards, the theme and the wallet.
+ *
+ * The two utility controls live in the top bar on a desktop, but the feed
+ * has its own toolbar and the tools belong next to "Lock a link" rather than
+ * a screen away from the page they act on.
  */
 function toolbarHtml() {
   const active = CATEGORIES.find((c) => c.id === state.feedCategory);
@@ -87,7 +93,25 @@ function toolbarHtml() {
           active ? active.label : "Categories"
         )}</span>
       </button>
-      <a href="#/lock" class="btn btn-secondary">Lock a link</a>
+      <div class="feed-toolbar-right">
+        <div class="feed-tools">
+          <button type="button" class="tool-btn" data-theme-toggle aria-label="Toggle theme">
+            ${icon(state.isDarkMode ? "sun" : "moon", "", 15)}
+          </button>
+          <button type="button" class="tool-btn" data-connect aria-label="Connect wallet" ${
+            state.connecting ? "disabled" : ""
+          }>
+            ${
+              state.walletAddress
+                ? `<span class="mono tool-addr">${escapeHtml(
+                    shortAddress(state.walletAddress)
+                  )}</span>`
+                : icon("wallet", "", 15)
+            }
+          </button>
+        </div>
+        <a href="#/lock" class="btn btn-secondary">Lock a link</a>
+      </div>
     </div>`;
 }
 

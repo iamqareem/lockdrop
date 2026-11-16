@@ -60,11 +60,11 @@ function topbarHtml(activeView) {
             )
             .join("")}
         </nav>
-        <div class="topbar-actions">
+        <div class="topbar-actions topbar-tools">
           <button type="button" class="icon-btn" data-theme-toggle aria-label="Toggle theme">
             ${state.isDarkMode ? icon("sun", "", 16) : icon("moon", "", 16)}
           </button>
-          <button id="connectBtn" type="button" class="btn btn-primary" data-connect ${
+          <button type="button" class="btn btn-primary" data-connect ${
             state.connecting ? "disabled" : ""
           }>
             ${
@@ -141,7 +141,12 @@ export function renderShell(activeView, mainHtml) {
     </div>`;
 
   document.querySelectorAll("[data-theme-toggle]").forEach((btn) => {
-    btn.addEventListener("click", () => setDarkMode(!state.isDarkMode));
+    btn.addEventListener("click", () => {
+      setDarkMode(!state.isDarkMode);
+      // The glyph is baked into the markup, so it is swapped in place
+      // rather than re-rendering the view behind it.
+      paintThemeButtons();
+    });
   });
 
   document.querySelectorAll("[data-connect]").forEach((btn) => {
@@ -267,6 +272,19 @@ function paintWalletButtons() {
           )}</span>`
         : icon("wallet", "", 15)
       : short;
+  });
+}
+
+/**
+ * Repaints the theme toggles.
+ *
+ * The sun and the moon are baked into the markup, so the glyph has to be
+ * swapped by hand when the theme changes.
+ */
+function paintThemeButtons() {
+  document.querySelectorAll("[data-theme-toggle]").forEach((btn) => {
+    const size = btn.classList.contains("tool-btn") ? 15 : 16;
+    btn.innerHTML = state.isDarkMode ? icon("sun", "", size) : icon("moon", "", size);
   });
 }
 

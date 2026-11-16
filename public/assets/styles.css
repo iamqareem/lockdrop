@@ -863,6 +863,51 @@ a {
   margin-bottom: 18px;
 }
 
+.feed-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/*
+ * The theme toggle and the wallet are the same two controls everywhere; only
+ * their home changes.
+ *
+ *   feed, phone           the floating cluster in the corner
+ *   feed, tablet upwards  the feed toolbar, beside "Lock a link"
+ *   other views, phone
+ *   and tablet            the floating cluster
+ *   other views, desktop  the top bar
+ */
+.feed-tools {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (min-width: 768px) {
+  .feed-tools {
+    display: flex;
+  }
+  /* The feed's toolbar carries them now, so the cluster steps aside. */
+  .shell.is-feed .mobile-tools {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* The top bar carries them on every view but the feed. */
+  .mobile-tools {
+    display: none;
+  }
+}
+
+/* The feed has a toolbar of its own, so it does not need them up top. */
+.shell.is-feed .topbar-tools {
+  display: none;
+}
+
 .feed-tool {
   display: inline-flex;
   align-items: center;
@@ -1663,10 +1708,11 @@ pre.code {
 /* ------------------------------------------------------- the mobile tools */
 
 /*
- * The top bar only exists on desktop, so on a phone the theme toggle and the
- * wallet live in a small floating cluster in the corner. It sits at the
- * bottom-right, clear of the bottom nav's centred pill and of the page
- * header, so nothing is ever covered.
+ * The floating cluster: the theme toggle and the wallet, for the views that
+ * have no toolbar of their own and the screens too narrow for one.
+ *
+ * It sits in the bottom-right, clear of the bottom nav's centred pill and of
+ * the page header, so nothing is ever covered.
  */
 .mobile-tools {
   display: flex;
@@ -1675,17 +1721,23 @@ pre.code {
   gap: 8px;
   position: fixed;
   right: 14px;
-  bottom: calc(
-    var(--composer-dock-height) + var(--bottom-nav-height) + env(safe-area-inset-bottom)
-  );
+  bottom: calc(var(--bottom-nav-height) + 12px + env(safe-area-inset-bottom));
   z-index: 41;
 }
 
 /*
- * The feed has no nav pill, so the cluster sits directly above the composer.
+ * The feed has a composer instead of a nav pill, so the cluster sits directly
+ * above it.
  */
 .shell.is-feed .mobile-tools {
   bottom: calc(var(--composer-dock-height) + 12px + env(safe-area-inset-bottom));
+}
+
+@media (min-width: 1024px) {
+  /* No nav pill on a desktop, so the cluster can sit at the very bottom. */
+  .shell:not(.is-feed) .mobile-tools {
+    bottom: calc(18px + env(safe-area-inset-bottom));
+  }
 }
 
 .tool-btn {
@@ -1717,6 +1769,18 @@ pre.code {
 .tool-addr {
   font-size: 10.5px;
   letter-spacing: -0.01em;
+}
+
+/*
+ * In the toolbar the controls are part of a row of solid buttons rather than
+ * floating over the page, so they are opaque.
+ */
+.feed-tools .tool-btn {
+  background: var(--surface);
+}
+
+.feed-tools .tool-btn:hover {
+  border-color: var(--border-strong);
 }
 
 @media (min-width: 1024px) {
