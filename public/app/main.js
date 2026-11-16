@@ -201,23 +201,73 @@ export async function boot() {
     window.Telegram.WebApp.expand();
   }
 
-  // Two independent sources. The Turso read config is what the feed needs;
-  // the gateway config is what locking and unlocking need. Neither blocks
-  // the other.
-  const [turso, gateway] = await Promise.all([
-    loadTursoConfig(),
-    loadConfig(),
-  ]);
+  /*
+   * Two independent sources. The Turso read config is what the feed needs;
+   * the gateway config is what locking and unlocking need. Neither blocks
+   * the other, and neither blocks the first paint — the feed reads Turso
+   * directly, so the escrow gateway has no say in when the page appears.
+   */
+  const tursoReady = loadTursoConfig().then((config) => {
+    state.tursoReady = Boolean(config);
+    return config;
+  });
 
-  state.tursoReady = Boolean(turso);
-  state.escrowReady = Boolean(gateway?.escrowAddress);
-  state.walletAddress = await restoreAccount();
-  if (state.walletAddress && !state.sellerWallet) {
-    state.sellerWallet = state.walletAddress;
-  }
+  loadConfig()
+    .then((gateway) => {
+      state.escrowReady = Boolean(gateway?.escrowAddress);
+      // The feed does not care; the wizard does. Only re-render if that is
+      // what is on screen, so the feed is never fetched twice.
+      if (state.escrowReady && parseHash().view !== "feed") render();
+    })
+    .catch(() => {
+      /* the escrow gateway is optional for reading the feed */
+    });
+
+  await tursoReady;
 
   window.addEventListener("hashchange", render);
   render();
+
+  /*
+   * The wallet is not needed to read the feed, and asking the provider for
+   * an account is a network round trip of its own. It is restored in the
+   * background so it never delays the first paint.
+   */
+  restoreAccount()
+    .then((address) => {
+      state.walletAddress = address;
+      if (address && !state.sellerWallet) {
+        state.sellerWallet = address;
+      }
+      paintWalletButtons();
+      // The wizard and the drop view read the wallet; the feed does not.
+      if (parseHash().view !== "feed") render();
+    })
+    .catch(() => {
+      /* no wallet, or the provider refused — the feed does not care */
+    });
+}
+
+/**
+ * Repaints the wallet buttons in place.
+ *
+ * The address can arrive after the first paint, and re-rendering the whole
+ * view to show it would throw the feed away and fetch it again.
+ */
+function paintWalletButtons() {
+  const short = state.walletAddress
+    ? `<span class="mono">${escapeHtml(shortAddress(state.walletAddress))}</span>`
+    : `${icon("wallet", "", 15)}<span>Connect Wallet</span>`;
+
+  document.querySelectorAll("[data-connect]").forEach((btn) => {
+    btn.innerHTML = btn.classList.contains("tool-btn")
+      ? state.walletAddress
+        ? `<span class="mono tool-addr">${escapeHtml(
+            shortAddress(state.walletAddress)
+          )}</span>`
+        : icon("wallet", "", 15)
+      : short;
+  });
 }
 
 /* Surface failures instead of leaving the boot placeholder on screen. */

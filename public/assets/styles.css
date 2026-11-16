@@ -1517,13 +1517,17 @@ pre.code {
 /*
  * The composer is the hero of the feed.
  *
- * One vivid, inverted field, docked along the bottom of the viewport, always
- * in reach. It is the only thing on the page that moves: the feed repaints
- * underneath it while the user types.
+ * One field, docked along the bottom of the viewport, always in reach. It is
+ * the only thing on the page that moves: the feed repaints underneath it
+ * while the user types.
+ *
+ * It sits in the page rather than against it. The bar takes the tone of the
+ * theme — light on a light page, dark on a dark one — and a firm border is
+ * what makes it read as a distinct object. The contrast comes from the edge,
+ * not from a slab of black.
  *
  * The dock fades the page out behind it, so the content dissolves into the
- * composer instead of being cut off by it. On small screens the fade reaches
- * further, to cover the nav pill that floats above.
+ * composer instead of being cut off by it.
  */
 .composer-dock {
   position: fixed;
@@ -1550,24 +1554,47 @@ pre.code {
   height: var(--composer-height);
   padding: 0 8px 0 16px;
   border-radius: 999px;
-  background: var(--inverse);
-  color: var(--inverse-fg);
-  box-shadow: var(--shadow-float);
-  transition: box-shadow 0.18s ease;
+  border: 1px solid color-mix(in srgb, var(--text) 22%, transparent);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+/*
+ * The edge is the contrast. It tightens as the composer comes to life: a
+ * query in flight firms it up, the pointer firms it a little more, and
+ * focus takes it all the way.
+ */
+.composer.is-busy {
+  border-color: color-mix(in srgb, var(--text) 30%, transparent);
+}
+
+.composer:hover {
+  border-color: color-mix(in srgb, var(--text) 34%, transparent);
 }
 
 .composer:focus-within {
+  border-color: var(--text);
   box-shadow:
-    0 0 0 3px color-mix(in srgb, var(--text) 12%, transparent),
-    var(--shadow-float);
+    0 0 0 3px color-mix(in srgb, var(--text) 9%, transparent),
+    var(--shadow);
 }
 
 .composer-icon {
   display: grid;
   place-items: center;
-  color: var(--inverse-fg);
-  opacity: 0.5;
+  color: var(--text-subtle);
   flex-shrink: 0;
+  transition: color 0.18s ease;
+}
+
+.composer:hover .composer-icon,
+.composer:focus-within .composer-icon {
+  color: var(--text-muted);
 }
 
 .composer-input {
@@ -1576,7 +1603,7 @@ pre.code {
   height: 100%;
   border: none;
   background: transparent;
-  color: var(--inverse-fg);
+  color: var(--text);
   font-family: var(--font-sans);
   font-size: var(--fs-md);
   line-height: 1;
@@ -1587,7 +1614,7 @@ pre.code {
 }
 
 .composer-input::placeholder {
-  color: color-mix(in srgb, var(--inverse-fg) 42%, transparent);
+  color: var(--text-subtle);
 }
 
 .composer-input::-webkit-search-cancel-button {
@@ -1601,8 +1628,13 @@ pre.code {
   font-weight: 500;
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--inverse-fg) 55%, transparent);
+  color: var(--text-subtle);
   white-space: nowrap;
+  transition: color 0.18s ease;
+}
+
+.composer:focus-within .composer-status {
+  color: var(--text-muted);
 }
 
 .composer-clear {
@@ -1613,9 +1645,10 @@ pre.code {
   flex-shrink: 0;
   border: none;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--inverse-fg) 14%, transparent);
-  color: var(--inverse-fg);
+  background: var(--surface-2);
+  color: var(--text-muted);
   cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
 .composer.has-text .composer-clear {
@@ -1623,7 +1656,8 @@ pre.code {
 }
 
 .composer-clear:hover {
-  background: color-mix(in srgb, var(--inverse-fg) 24%, transparent);
+  background: var(--surface-3);
+  color: var(--text);
 }
 
 /* ------------------------------------------------------- the mobile tools */

@@ -37,10 +37,34 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!--
+      The browser reads Turso directly, so the connection to the database is
+      opened while the page is still parsing. Otherwise the first feed query
+      pays for the DNS lookup and the TLS handshake on its own.
+    -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..700;1,14..32,400..700&family=JetBrains+Mono:wght@400;500;600&display=swap"
-      rel="stylesheet"
+      rel="preconnect"
+      href="https://lockdrop-mwanja.aws-ap-south-1.turso.io"
+      crossorigin
     />
+    <!--
+      The font stylesheet is loaded without blocking the render. The page
+      paints immediately in the system stack — which is San Francisco on an
+      Apple device — and swaps when the webfonts arrive, instead of holding
+      the whole page hostage to a third-party server.
+    -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..700;1,14..32,400..700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..700;1,14..32,400..700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      />
+    </noscript>
     <link rel="stylesheet" href="/assets/styles.css" />
 
     <script src="https://telegram.org/js/telegram-web-app.js" async></script>

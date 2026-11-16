@@ -235,6 +235,10 @@ function paintComposer() {
   const composer = document.querySelector(".composer");
   if (!composer) return;
   composer.classList.toggle("has-text", Boolean(state.searchQuery));
+  composer.classList.toggle(
+    "is-busy",
+    state.searchStatus === "searching" || state.feedBusy
+  );
 
   const input = document.getElementById("feedSearch");
   if (input && input.value !== state.searchQuery) {
@@ -465,8 +469,11 @@ function feedBodyHtml() {
 export async function renderFeedView() {
   renderShell("feed", feedBodyHtml());
   wireFeed();
-  // The counts are read in the background so the picker opens with them
-  // already there.
-  loadCategoryCounts();
   await loadFeed();
+  /*
+   * The counts are read afterwards, not alongside: the feed is the thing
+   * the visitor came for, and two queries at once only make both of them
+   * slower. The picker opens with the counts already there.
+   */
+  loadCategoryCounts();
 }
