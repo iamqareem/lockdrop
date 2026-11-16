@@ -133,6 +133,8 @@ export function renderShell(activeView, mainHtml) {
     try {
       const { connectWallet } = await import("./wallet.js");
       state.walletAddress = await connectWallet();
+      // The connected wallet is the natural payout address.
+      state.sellerWallet = state.walletAddress;
     } catch (err) {
       state.walletError = err instanceof Error ? err.message : "Wallet connection failed.";
     } finally {
@@ -190,6 +192,9 @@ export async function boot() {
   state.tursoReady = Boolean(turso);
   state.escrowReady = Boolean(gateway?.escrowAddress);
   state.walletAddress = await restoreAccount();
+  if (state.walletAddress && !state.sellerWallet) {
+    state.sellerWallet = state.walletAddress;
+  }
 
   window.addEventListener("hashchange", render);
   render();

@@ -182,11 +182,16 @@ function stepOneHtml() {
   return `
     <div class="prompt">
       <p class="prompt-ask">What are you sharing?</p>
-      <input id="wizardTitle" type="text" maxlength="120" class="prompt-field"
-        placeholder="Name what you are sharing" autocomplete="off"
-        value="${escapeHtml(state.title)}" />
+      <div class="prompt-row">
+        <input id="wizardTitle" type="text" maxlength="120" class="prompt-field"
+          placeholder="Name what you are sharing" autocomplete="off"
+          value="${escapeHtml(state.title)}" />
+        <button id="nameGoBtn" type="button" class="prompt-go" aria-label="Continue">
+          ${icon("arrowRight", "", 14)}
+        </button>
+      </div>
       <p class="prompt-hint">
-        press <kbd>enter</kbd> to choose a category
+        press <kbd>enter</kbd> or tap the arrow to choose a category
       </p>
     </div>
     <div id="step1Error" class="alert alert-error hidden" style="margin-top:16px"></div>`;
@@ -218,34 +223,33 @@ function categoryModalHtml() {
 function stepTwoHtml() {
   const category = CATEGORY_BY_ID.get(state.categoryId);
   return `
-    <div class="stack">
-      <div class="panel" style="background:var(--surface-2);padding:14px">
-        <div class="tiny subtle">Selected resource</div>
-        <div style="font-weight:600;font-size:13px;margin-top:2px">
-          ${escapeHtml(state.title)}
-          <span class="subtle" style="font-weight:400">· ${escapeHtml(category?.label ?? "")}</span>
-        </div>
-      </div>
-
-      <div class="field">
-        <label for="wizardUrl">Destination link</label>
+    <div class="prompt">
+      <p class="prompt-ask">Where does it live?</p>
+      <div class="prompt-row">
         <input id="wizardUrl" type="url" inputmode="url" spellcheck="false"
+          class="prompt-field is-mono"
           placeholder="${escapeHtml(category?.hint ?? "https://…")}"
           value="${escapeHtml(state.url)}" />
-        <span id="urlHint" class="hint">Must be a ${escapeHtml(category?.label ?? "")} link.</span>
-      </div>
-
-      <div class="btn-row">
-        <button id="prevStep2Btn" type="button" class="btn btn-secondary">← Back</button>
-        <button id="verifyBtn" type="button" class="btn btn-secondary grow">Verify link</button>
-        <button id="nextStep2Btn" type="button" class="btn btn-primary grow" disabled>
-          Continue
+        <button id="verifyBtn" type="button" class="prompt-go" aria-label="Verify the link">
+          ${icon("arrowRight", "", 14)}
         </button>
       </div>
+      <p class="prompt-hint" id="urlHint">
+        checked against ${escapeHtml(category?.label ?? "the category")} before it can be locked
+      </p>
+    </div>
 
-      <div id="step2Error" class="alert alert-error hidden"></div>
-      <div id="reportBox">${reportHtml(state.report)}</div>
-    </div>`;
+    <div class="prompt-meta">
+      <button id="prevStep2Btn" type="button" class="btn btn-ghost">
+        ${icon("back", "", 13)} Back
+      </button>
+      <button id="nextStep2Btn" type="button" class="btn btn-primary" disabled>
+        Continue
+      </button>
+    </div>
+
+    <div id="step2Error" class="alert alert-error hidden" style="margin-top:16px"></div>
+    <div id="reportBox" style="margin-top:16px">${reportHtml(state.report)}</div>`;
 }
 
 function stepThreeHtml() {
@@ -259,85 +263,85 @@ function stepThreeHtml() {
   const net = price * (1 - feeBps / 10000);
 
   return `
-    <div class="stack">
-      <div class="panel" style="background:var(--surface-2);padding:14px">
-        <div class="kv"><dt>Resource</dt><dd style="font-family:var(--font-sans)">${escapeHtml(
-          state.title
-        )}</dd></div>
-        <div class="kv"><dt>Category</dt><dd style="font-family:var(--font-sans)">${escapeHtml(
-          CATEGORY_BY_ID.get(state.categoryId)?.label ?? ""
-        )}</dd></div>
-        <div class="kv"><dt>Verdict</dt><dd><span class="verdict verdict-${escapeHtml(
+    <div class="prompt">
+      <p class="prompt-ask">What is it worth?</p>
+      <div class="prompt-row">
+        <input id="step3Price" type="text" inputmode="decimal" class="prompt-field is-mono"
+          placeholder="0.00" value="${escapeHtml(state.price)}" />
+        <span class="prompt-unit">${escapeHtml(token.symbol)}</span>
+        <button id="lockBtn" type="button" class="prompt-go" aria-label="Lock the link">
+          ${icon("arrowRight", "", 14)}
+        </button>
+      </div>
+      <p class="prompt-hint">
+        ${
+          isFree
+            ? "free to unlock — a sponsored task opens it"
+            : `platform fee ${feePercent}% — you keep ${net.toFixed(4)} ${escapeHtml(
+                token.symbol
+              )}`
+        }
+      </p>
+    </div>
+
+    <div class="prompt-meta">
+      <button id="prevStep3Btn" type="button" class="btn btn-ghost">
+        ${icon("back", "", 13)} Back
+      </button>
+    </div>
+
+    <div class="panel" style="margin-top:18px">
+      <div class="prompt-meta" style="margin-bottom:16px">
+        <span class="label-mono">${escapeHtml(state.title)}</span>
+        <span class="verdict verdict-${escapeHtml(
           state.report?.verdict ?? "Checked"
         )}"><span class="verdict-dot"></span>${escapeHtml(
           state.report?.verdict ?? "Checked"
-        )}</span></dd></div>
+        )}</span>
       </div>
 
-      <div class="field">
-        <span class="field-label">Unlock mode</span>
-        <div class="segmented">
-          ${UNLOCK_MODES.map(
-            (m) => `
-            <button type="button" class="${state.unlockMode === m.id ? "is-active" : ""}" data-mode="${m.id}">
-              ${escapeHtml(m.label)}
-            </button>`
-          ).join("")}
-        </div>
-        <span class="hint">${escapeHtml(mode.hint)}</span>
-      </div>
-
-      ${
-        isFree
-          ? ""
-          : `
-        <div class="grid-2">
-          <div class="field">
-            <span class="field-label">Token</span>
-            <div class="segmented">
-              ${TOKENS.map(
-                (t) => `
-                <button type="button" class="${
-                  state.tokenAddress === t.address ? "is-active" : ""
-                }" data-token="${t.address}">${t.symbol}</button>`
-              ).join("")}
-            </div>
+      <div class="stack">
+        <div class="field">
+          <span class="label-mono">Unlock mode</span>
+          <div class="segmented">
+            ${UNLOCK_MODES.map(
+              (m) => `
+              <button type="button" class="${
+                state.unlockMode === m.id ? "is-active" : ""
+              }" data-mode="${m.id}">${escapeHtml(m.label)}</button>`
+            ).join("")}
           </div>
-          <div class="field">
-            <label for="step3Price">Price (${escapeHtml(token.symbol)})</label>
-            <input id="step3Price" type="number" inputmode="decimal" step="0.0001" min="0.0001"
-              value="${escapeHtml(state.price)}" />
+          <span class="hint">${escapeHtml(mode.hint)}</span>
+        </div>
+
+        ${
+          isFree
+            ? ""
+            : `
+        <div class="field">
+          <span class="label-mono">Token</span>
+          <div class="segmented">
+            ${TOKENS.map(
+              (t) => `
+              <button type="button" class="${
+                state.tokenAddress === t.address ? "is-active" : ""
+              }" data-token="${t.address}">${t.symbol}</button>`
+            ).join("")}
           </div>
         </div>
 
         <div class="field">
-          <label for="step3Seller">Your payout wallet (Polygon)</label>
-          <input id="step3Seller" type="text" spellcheck="false" class="mono"
+          <span class="label-mono">Your payout wallet</span>
+          <input id="step3Seller" type="text" spellcheck="false" class="input mono"
             placeholder="0x…" value="${escapeHtml(state.sellerWallet)}" />
-          <span class="hint">Payments land here. Connect a wallet to fill it automatically.</span>
-        </div>
-
-        <div class="panel" style="background:var(--surface-2);padding:14px">
-          <div class="kv">
-            <dt>Platform fee</dt>
-            <dd>${feePercent}%${fee ? ` <span class="subtle">(${
-              fee.tier === 1 ? "premium tier" : "standard tier"
-            })</span>` : ""}</dd>          </div>
-          <div class="kv"><dt>You receive</dt><dd style="color:var(--ok)">${net.toFixed(
-            4
-          )} ${escapeHtml(token.symbol)}</dd></div>
+          <span class="hint">Connect a wallet to fill it automatically.</span>
         </div>`
-      }
-
-      <div id="step3Error" class="alert alert-error hidden"></div>
-
-      <div class="btn-row">
-        <button id="prevStep3Btn" type="button" class="btn btn-secondary">← Back</button>
-        <button id="lockBtn" type="button" class="btn btn-primary grow" ${
-          state.creating ? "disabled" : ""
-        }>${state.creating ? "Locking…" : "Lock link in escrow"}</button>
+        }
       </div>
-    </div>`;
+    </div>
+
+    <div id="step3Error" class="alert alert-error hidden" style="margin-top:16px"></div>
+  `;
 }
 
 function successHtml() {
@@ -446,7 +450,8 @@ async function runVerification() {
   const btn = document.getElementById("verifyBtn");
   if (btn) {
     btn.disabled = true;
-    btn.textContent = "Verifying…";
+    btn.classList.add("is-busy");
+    btn.setAttribute("aria-busy", "true");
   }
 
   try {
@@ -463,7 +468,8 @@ async function runVerification() {
     state.verifying = false;
     if (btn) {
       btn.disabled = false;
-      btn.textContent = "Verify link";
+      btn.classList.remove("is-busy");
+      btn.removeAttribute("aria-busy");
     }
     renderReport();
   }
@@ -517,6 +523,17 @@ function wireCreateView() {
       state.wizardStep = 2;
       renderCreateView();
     });
+  });
+
+  document.getElementById("nameGoBtn")?.addEventListener("click", () => {
+    if (state.title.trim().length < 3) {
+      showError("step1Error", "Give the resource a name of at least 3 characters.");
+      return;
+    }
+    clearError("step1Error");
+    state.categoryModalOpen = true;
+    renderCreateView();
+    document.querySelector(".category-option")?.focus();
   });
 
   document.getElementById("closeCategoryModal")?.addEventListener("click", () => {
@@ -608,7 +625,8 @@ function wireCreateView() {
     const btn = document.getElementById("lockBtn");
     state.creating = true;
     btn.disabled = true;
-    btn.textContent = "Locking…";
+    btn.classList.add("is-busy");
+    btn.setAttribute("aria-busy", "true");
 
     const token = TOKENS.find((t) => t.address === state.tokenAddress) ?? TOKENS[0];
 
@@ -635,7 +653,8 @@ function wireCreateView() {
     } catch (err) {
       state.creating = false;
       btn.disabled = false;
-      btn.textContent = "Lock link in escrow";
+      btn.classList.remove("is-busy");
+      btn.removeAttribute("aria-busy");
       const message = err instanceof Error ? err.message : "Could not lock the link.";
       showError("step3Error", message);
       if (err?.payload?.report) {
