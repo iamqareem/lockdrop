@@ -314,6 +314,36 @@ a {
   margin: 0 auto;
 }
 
+/*
+ * Step one of the wizard is a question, not a form. The main area is a
+ * column of the shell's height, and the prompt is centred in it —
+ * horizontally and vertically — the way a command palette's is. The later
+ * steps are working forms and stay at the top where their stepper is.
+ */
+.main.is-create {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Auto margins cancel flex stretch, so the width has to be explicit. */
+.main.is-create .narrow {
+  width: 100%;
+}
+
+.prompt-stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* The prompt carried top padding for its old home at the top of the page. */
+.prompt-stage .prompt {
+  width: 100%;
+  padding: 0;
+}
+
 /* ------------------------------------------------------------ bottom nav */
 
 /*

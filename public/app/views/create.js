@@ -376,10 +376,11 @@ export function renderCreateView() {
   const steps = { 1: stepOneHtml, 2: stepTwoHtml, 3: stepThreeHtml };
   const html = steps[state.wizardStep]();
 
-  // Step one is just a prompt — no card around it.
+  // Step one is just a prompt — no card around it, and it sits in the
+  // middle of the screen rather than at the top of it.
   const body =
     state.wizardStep === 1
-      ? `<div class="narrow">${html}</div>`
+      ? `<div class="narrow prompt-stage">${html}</div>`
       : `
     <div class="narrow">
       <div class="panel panel-lg">
