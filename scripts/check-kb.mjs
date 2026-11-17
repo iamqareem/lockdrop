@@ -89,11 +89,13 @@ if (leaders.length) {
 
 /* 3. The manifest matches the files on disk. */
 const manifestPath = join(kb, "manifest.json");
+const parts = existsSync(manifestPath)
+  ? (JSON.parse(readFileSync(manifestPath, "utf8")).parts ?? [])
+  : [];
 if (!existsSync(manifestPath)) {
   fail("kb/manifest.json is missing");
 } else {
   const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
-  const parts = manifest.parts ?? [];
 
   const listed = new Set(parts.map((p) => p.file));
   const onDisk = new Set(pieces.map((f) => relative(kb, f).split("\\").join("/")));
@@ -132,6 +134,37 @@ if (!existsSync(manifestPath)) {
   );
   if (badWords.length) fail(`${badWords.length} part(s) have no word count`);
   else ok("every part records a word count");
+}
+
+/* 3.5 The curation file covers every part exactly once. */
+const curationPath = join(kb, "curation.json");
+if (!existsSync(curationPath)) {
+  fail("kb/curation.json is missing");
+} else {
+  const curation = JSON.parse(readFileSync(curationPath, "utf8"));
+  const knownForms = ["roadmap-part", "single", "reference"];
+  const knownStates = ["raw", "refined", "shipped"];
+
+  const ids = parts.map((p) => p.id);
+  const curated = Object.keys(curation.pieces ?? {});
+  const notCurated = ids.filter((id) => !curated.includes(id));
+  const stale = curated.filter((id) => !ids.includes(id));
+
+  if (notCurated.length) fail(`${notCurated.length} part(s) missing from curation.json: ${notCurated.slice(0, 3)}`);
+  else if (stale.length) fail(`curation.json lists ${stale.length} unknown id(s): ${stale.slice(0, 3)}`);
+  else ok(`curation.json covers all ${ids.length} part(s)`);
+
+  const bad = ids
+    .map((id) => [id, curation.pieces?.[id]])
+    .filter(([, c]) => c && (!knownForms.includes(c.form) || !knownStates.includes(c.state)));
+  if (bad.length) fail(`bad form/state on ${bad.length} curation entrie(s): ${bad.slice(0, 3)}`);
+  else ok("every curation entry uses a known form and state");
+
+  const orphanRoadmaps = [...new Set(
+    ids.map((id) => curation.pieces?.[id]).filter((c) => c?.roadmap && !curation.roadmaps?.[c.roadmap])
+  )];
+  if (orphanRoadmaps.length) fail(`roadmap(s) not declared in curation.json: ${orphanRoadmaps.slice(0, 3)}`);
+  else ok("every roadmap reference is declared");
 }
 
 /* 4. The Drive link scaffold is present. */

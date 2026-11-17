@@ -7,25 +7,16 @@ source: "FreeBSD Handbook"
 sourceSection: "Chapter 2 — Installing FreeBSD"
 topic: "I"
 tags: [freebsd, unix, installation, bsdinstall]
-summary: "A complete walkthrough of the bsdinstall installer: media, disk layout, firmware, networking, users and hardening."
+summary: "From image to first boot: write the media, answer bsdinstall's questions with intent — disk, network, users, hardening — and know which toggle does what before it writes to disk."
 ---
 # Chapter 2. Installing FreeBSD
 
-## 2.1. Synopsis
+> **TL;DR** · *for anyone about to put FreeBSD on hardware, real or virtual.*
+> - Three image families exist: VM disks, SD-card images, and installer media — this chapter is about the third.
+> - The installer is bsdinstall, and every screen it shows you is decoded here: keymap, hostname, components, disk layout (ZFS or UFS), network, users, services, hardening.
+> - Nothing touches the disk until the final commit, and the [ Live CD ] option lets you boot a full FreeBSD before you promise anything.
 
-FreeBSD supports different architectures including amd64, ARM®, RISC-V®, and PowerPC®. Depending on the architecture and platform, different images can be downloaded to install or directly run FreeBSD. The image types are:
-
-- Virtual Machine disk images, such as qcow2, vmdk, vhd, and raw device images. These are not installation images, but images that have FreeBSD preinstalled and ready for post-installation tasks. Virtual machine images are also commonly used in cloud environments.
-- SD card images, for embedded systems such as Raspberry Pi. These files must be uncompressed and written as a raw image to an SD card, from which the board will boot.
-- Installation images to boot from an ISO or USB device to install FreeBSD on a drive for the usual desktop, laptop, or server system.
-
-  The rest of this chapter describes the third case, explaining how to install FreeBSD using the textbased installation program named bsdinstall. There may be minor differences between the installer and what is shown here, so use this chapter as a general guide rather than as a set of literal instructions. After reading this chapter, you will know:
-
-- How to obtain FreeBSD images and create FreeBSD installation media.
-- How to start bsdinstall.
-- The questions bsdinstall will ask, what they mean, and how to answer them.
-- How to troubleshoot a failed installation.
-- How to access a live version of FreeBSD before committing to an installation.
+> **2026 note:** the worked examples reference `13.1-RELEASE`; substitute the current release you downloaded — the flow is unchanged. Newer installers differ only in detail: more components in the component list, and the hardening menu now includes options such as `hide_jail` shown here.
 
 ## 2.2. Minimum Hardware Requirements
 
@@ -566,7 +557,7 @@ Here is a summary of the services that can be enabled in this menu:
 - local_unbound - Enable the DNS local unbound. It is necessary to keep in mind that this is a configuration only meant for use as a local caching forwarding resolver. If the objective is to set up a resolver for the entire network, install dns/unbound.
 - sshd - The Secure Shell (SSH) daemon is used to remotely access a system over an encrypted connection. Only enable this service if the system should be available for remote logins.
 - moused - Enable this service if the mouse will be used from the command-line system console.
-- ntpdate - Enable automatic clock synchronization at boot time. Note that the functionality of this program is now available in the ntpd(8) daemon and the ntpdate(8) utility will soon be retired.
+- ntpdate - Enable automatic clock synchronization at boot time. Deprecated: prefer ntpd(8), which covers the same need and is actively maintained.
 - ntpd - The Network Time Protocol (NTP) daemon for automatic clock synchronization. Enable this service if you wish to synchronise your system clock with a remote time server or pool.
 - powerd - System power control utility for power control and energy saving.
 - dumpdev - Crash dumps are useful when debugging issues with the system, so users are encouraged to enable them.

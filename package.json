@@ -8,6 +8,7 @@
     "dev": "wrangler pages dev public --port 8788",
     "deploy": "node scripts/stamp.mjs && wrangler pages deploy .pages",
     "lint": "node scripts/lint.mjs",
+    "kb:report": "node scripts/kb-report.mjs",
     "check": "node scripts/check-abi.mjs && node scripts/check-contract.mjs && node scripts/check-categories.js && node scripts/check-frontend.mjs && node scripts/check-kb.mjs && node scripts/check-turso-read.mjs",
     "contract:build": "hardhat compile --build-profile production && node scripts/build-contract-artifact.mjs",
     "contract:test": "hardhat test nodejs",

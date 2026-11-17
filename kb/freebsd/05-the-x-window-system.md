@@ -7,22 +7,16 @@ source: "FreeBSD Handbook"
 sourceSection: "Chapter 5 — The X Window System"
 topic: "I"
 tags: [freebsd, unix, x11, xorg, graphics]
-summary: "Installing and configuring X11 and Xorg on FreeBSD, including syncing, startx, xfce4 and desktop setup."
+summary: "A working graphical FreeBSD: install Xorg, pick the right driver for your GPU, skip the xorg.conf myth, and get from startx to a desktop environment or XDM login."
 ---
 # Chapter 5. The X Window System
 
-## 5.1. Synopsis
+> **TL;DR** · *for anyone whose FreeBSD boots to a login prompt and wants pixels.*
+> - Install the `xorg` meta-package, add your user to the `video` group, and let auto-detection do its job — no `xorg.conf` unless something actually fails.
+> - The driver table decodes every GPU family: Intel and AMD take `drm-kmod`, NVIDIA takes the proprietary driver, VESA/SCFB cover the rest.
+> - Ends with TrueType fonts and graphical logins through XDM.
 
-An installation of FreeBSD using bsdinstall does not automatically install a graphical user interface. This chapter describes how to install and configure Xorg, which provides the open source X Window System used to provide a graphical environment. It then describes how to find and install a desktop environment or window manager. Before reading this chapter, you should:
-
-- Know how to install additional third-party software as described in Installing Applications: Packages and Ports.
-
-  After reading this chapter, you will know:
-
-- The various components of the X Window System, and how they interoperate.
-- How to install and configure Xorg.
-- How to use TrueType® fonts in Xorg.
-- How to set up your system for graphical logins (XDM).
+> **2026 note:** this chapter is about Xorg, which remains the well-trodden path on FreeBSD. Wayland has since grown into its own chapter — the next one — and is the direction of travel for most desktop environments. Read both before choosing; the GPU driver setup here applies to Wayland too.
 
 ## 5.2. Installing Xorg
 

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-15T16:47:04.181Z",
+  "generated": "2026-11-17T05:34:26.435Z",
   "parts": [
     {
       "id": "arch-handbook-01",
@@ -1628,10 +1628,27 @@
       "words": 7503
     },
     {
+      "id": "freebsd-roadmap",
+      "file": "freebsd/00-roadmap.md",
+      "title": "The FreeBSD Handbook — one roadmap, 35 chapters",
+      "summary": "The whole FreeBSD Handbook as one ordered path: four stages from first boot to DTrace, with a one-line promise for every chapter so you always know where you are and what it buys you.",
+      "tags": [
+        "freebsd",
+        "roadmap",
+        "bsd",
+        "unix",
+        "sysadmin"
+      ],
+      "track": "bsd-internals",
+      "tier": "free",
+      "category": "gdrive",
+      "words": 875
+    },
+    {
       "id": "freebsd-01",
       "file": "freebsd/01-introduction.md",
       "title": "Introduction to FreeBSD",
-      "summary": "What FreeBSD is, where it came from, the goals of the project and how its open source development model works.",
+      "summary": "Why one permissive licence and thirty years of Unix lineage put FreeBSD inside consoles, firewalls and CDNs — and how a project with no owner ships an entire operating system.",
       "tags": [
         "freebsd",
         "unix",
@@ -1641,13 +1658,13 @@
       "track": "bsd-internals",
       "tier": "free",
       "category": "gdrive",
-      "words": 3256
+      "words": 3195
     },
     {
       "id": "freebsd-02",
       "file": "freebsd/02-installing-freebsd.md",
       "title": "Installing FreeBSD",
-      "summary": "A complete walkthrough of the bsdinstall installer: media, disk layout, firmware, networking, users and hardening.",
+      "summary": "From image to first boot: write the media, answer bsdinstall's questions with intent — disk, network, users, hardening — and know which toggle does what before it writes to disk.",
       "tags": [
         "freebsd",
         "unix",
@@ -1657,13 +1674,13 @@
       "track": "bsd-internals",
       "tier": "free",
       "category": "gdrive",
-      "words": 9203
+      "words": 9085
     },
     {
       "id": "freebsd-03",
       "file": "freebsd/03-freebsd-basics.md",
       "title": "FreeBSD Basics",
-      "summary": "The day-to-day fundamentals: consoles, users and groups, file permissions, the filesystem tree, processes and shells.",
+      "summary": "The working vocabulary every UNIX-like system assumes: virtual consoles, accounts and groups, rwx and file flags, the directory tree, mounting, signals, and the shell that ties it all together.",
       "tags": [
         "freebsd",
         "unix",
@@ -1674,13 +1691,13 @@
       "track": "bsd-internals",
       "tier": "free",
       "category": "gdrive",
-      "words": 12113
+      "words": 12020
     },
     {
       "id": "freebsd-04",
       "file": "freebsd/04-packages-and-ports.md",
       "title": "Installing Applications: Packages and Ports",
-      "summary": "Two ways to install third-party software on FreeBSD: the binary pkg system and building from the Ports Collection.",
+      "summary": "Two roads to every application: a signed binary from pkg in seconds, or a build from Ports with exactly the options you chose. When each wins, and what to do when an install fails.",
       "tags": [
         "freebsd",
         "unix",
@@ -1691,13 +1708,13 @@
       "track": "bsd-internals",
       "tier": "free",
       "category": "gdrive",
-      "words": 6974
+      "words": 6923
     },
     {
       "id": "freebsd-05",
       "file": "freebsd/05-the-x-window-system.md",
       "title": "The X Window System",
-      "summary": "Installing and configuring X11 and Xorg on FreeBSD, including syncing, startx, xfce4 and desktop setup.",
+      "summary": "A working graphical FreeBSD: install Xorg, pick the right driver for your GPU, skip the xorg.conf myth, and get from startx to a desktop environment or XDM login.",
       "tags": [
         "freebsd",
         "unix",
@@ -1708,7 +1725,7 @@
       "track": "bsd-internals",
       "tier": "free",
       "category": "gdrive",
-      "words": 2777
+      "words": 2781
     },
     {
       "id": "freebsd-06",

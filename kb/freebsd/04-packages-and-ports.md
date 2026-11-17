@@ -7,20 +7,14 @@ source: "FreeBSD Handbook"
 sourceSection: "Chapter 4 — Installing Applications: Packages and Ports"
 topic: "I"
 tags: [freebsd, unix, pkg, ports, packages]
-summary: "Two ways to install third-party software on FreeBSD: the binary pkg system and building from the Ports Collection."
+summary: "Two roads to every application: a signed binary from pkg in seconds, or a build from Ports with exactly the options you chose. When each wins, and what to do when an install fails."
 ---
 # Chapter 4. Installing Applications: Packages and Ports
 
-## 4.1. Synopsis
-
-FreeBSD is bundled with a rich collection of system tools as part of the base system. In addition, FreeBSD provides two complementary technologies for installing third-party software: the FreeBSD Ports Collection, for installing from source, and packages, for installing from pre-built binaries. Either method may be used to install software from local media or from the network. After reading this chapter, you will know:
-
-- The difference between binary packages and ports.
-- How to find third-party software that has been ported to FreeBSD.
-- How to manage binary packages using pkg.
-- How to build third-party software from source using the Ports Collection.
-- How to find the files installed with the application for post-installation configuration.
-- What to do if a software installation fails.
+> **TL;DR** · *for anyone who has installed FreeBSD and now needs software on it.*
+> - Packages (pkg) are pre-built and signed; Ports compiles from source with your options. Both resolve dependencies.
+> - Pick pkg for speed and predictability, Ports for custom build options, licence edge cases, or patches of your own.
+> - Covers the Quarterly/Latest branch choice, searching, auditing installed software with `pkg audit -F`, and finding which files an install actually laid down.
 
 ## 4.2. Overview of Software Installation
 

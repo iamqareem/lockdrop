@@ -7,32 +7,17 @@ source: "FreeBSD Handbook"
 sourceSection: "Chapter 1 — Introduction"
 topic: "I"
 tags: [freebsd, unix, history, open-source]
-summary: "What FreeBSD is, where it came from, the goals of the project and how its open source development model works."
+summary: "Why one permissive licence and thirty years of Unix lineage put FreeBSD inside consoles, firewalls and CDNs — and how a project with no owner ships an entire operating system."
 ---
-**Part I: Getting Started**
 
-This part of the handbook is for users and administrators who are new to FreeBSD. These chapters:
-
-- Introduce FreeBSD.
-- Guide readers through the installation process.
-- Teach UNIX® basics and fundamentals.
-- Show how to install the wealth of third party applications available for FreeBSD.
-- Introduce X, the UNIX® windowing system, and detail how to configure a desktop environment that makes users more productive.
-- Introduce Wayland, a new display server for UNIX®.
-
-  The number of forward references in the text have been kept to a minimum so that this section can be read from front to back with minimal page flipping.
+> **TL;DR** · *for anyone weighing FreeBSD against a Linux distro, or about to install it.*
+> - FreeBSD pairs a permissive licence with an integrated stack: ZFS, jails, a serious TCP/IP stack and 36,000+ packages, all from one repository.
+> - It runs quietly in demanding places — game consoles, content-delivery networks, routers and appliances — where "good enough" is not.
+> - There is no company that owns it: a core team, thousands of committers and a foundation hold it together, which is exactly what the second half of this chapter explains.
 
 # Chapter 1. Introduction
 
-## 1.1. Synopsis
-
-Thank you for your interest in FreeBSD! The following chapter covers various aspects of the FreeBSD Project, such as its history, goals, development model, and so on. After reading this chapter you will know:
-
-- How FreeBSD relates to other computer operating systems.
-- The history of the FreeBSD Project.
-- The goals of the FreeBSD Project.
-- The basics of the FreeBSD open-source development model.
-- And of course: where the name "FreeBSD" comes from.
+> **2026 note:** the text below was written when FreeBSD still shipped on physical media. You will download an image, verify it, and write it to a USB stick — chapter 2 walks through it. Where the chapter counts packages or mentions CD-ROMs, read "the current release".
 
 ## 1.2. Welcome to FreeBSD!
 
@@ -71,7 +56,7 @@ The applications to which FreeBSD can be put are truly limited only by your own 
 - Desktop: FreeBSD makes a fine choice for an inexpensive desktop solution using the freely available X11 server and Wayland display server. FreeBSD offers a choice from many opensource desktop environments, including the standard GNOME and KDE graphical user interfaces. FreeBSD can even boot "diskless" from a central server, making individual workstations even cheaper and easier to administer.
 - Software Development: The basic FreeBSD system comes with a full suite of development tools including a full C/C++ compiler and debugger suite. Support for many other languages are also available through the ports and packages collection.
 
-  FreeBSD is available to download free of charge, or can be obtained on either CD-ROM or DVD. Please see Obtaining FreeBSD for more information about obtaining FreeBSD.
+  FreeBSD is available to download free of charge from the project's release servers.
 
 ### 1.2.2. Who Uses FreeBSD?
 

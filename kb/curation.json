@@ -1,0 +1,847 @@
+{
+  "updated": "2026-11-17",
+  "_": "Curation state for every manifest part. form: roadmap-part | single | reference. state: raw | refined | shipped. The kb:report script reads this.",
+  "roadmaps": {
+    "arch-handbook": {
+      "title": "The Arch Linux Handbook",
+      "refined": 0,
+      "total": 3
+    },
+    "beej-git": {
+      "title": "Beej's Guide to Git",
+      "refined": 0,
+      "total": 5
+    },
+    "beej-network": {
+      "title": "Beej's Guide to Network Programming",
+      "refined": 0,
+      "total": 5
+    },
+    "beej-python": {
+      "title": "Beej's Guide to Python (IPC and sockets)",
+      "refined": 0,
+      "total": 6
+    },
+    "book-of-pf": {
+      "title": "The Book of PF — packet filtering on BSD",
+      "refined": 0,
+      "total": 7
+    },
+    "eloquent-javascript": {
+      "title": "Eloquent JavaScript, the core chapters",
+      "refined": 0,
+      "total": 3
+    },
+    "freebsd-developers": {
+      "title": "The FreeBSD Developer's Handbook",
+      "refined": 0,
+      "total": 2
+    },
+    "freebsd-jails": {
+      "title": "FreeBSD jails, from first cell to full fleet",
+      "refined": 0,
+      "total": 4
+    },
+    "linux-from-scratch": {
+      "title": "Linux From Scratch 12.2",
+      "refined": 0,
+      "total": 2
+    },
+    "lpi-020-100": {
+      "title": "LPI Linux Essentials 020-100",
+      "refined": 0,
+      "total": 6
+    },
+    "lpi-030-100": {
+      "title": "LPI 030-100",
+      "refined": 0,
+      "total": 5
+    },
+    "lpi-050-100": {
+      "title": "LPI 050-100",
+      "refined": 0,
+      "total": 6
+    },
+    "lpi-101-500": {
+      "title": "LPIC-1 exam 101-500",
+      "refined": 0,
+      "total": 8
+    },
+    "lpi-102-500": {
+      "title": "LPIC-1 exam 102-500",
+      "refined": 0,
+      "total": 8
+    },
+    "lpi-701-200": {
+      "title": "LPI DevOps 701-200",
+      "refined": 0,
+      "total": 8
+    },
+    "mastering-javascript": {
+      "title": "Mastering JavaScript",
+      "refined": 0,
+      "total": 2
+    },
+    "nginx-practical": {
+      "title": "Practical nginx",
+      "refined": 0,
+      "total": 2
+    },
+    "pragmatic-systemd": {
+      "title": "systemd, the pragmatic path",
+      "refined": 0,
+      "total": 3
+    },
+    "unix-programming": {
+      "title": "Unix programming, the standard way",
+      "refined": 0,
+      "total": 2
+    },
+    "freebsd-handbook": {
+      "title": "The FreeBSD Handbook, chapter by chapter",
+      "refined": 0,
+      "total": 35,
+      "refining": "stage 1 (chapters 01–06) — 01–05 done"
+    },
+    "linux-essentials": {
+      "title": "Linux fundamentals, from origins to permissions",
+      "refined": 0,
+      "total": 10
+    }
+  },
+  "pieces": {
+    "arch-handbook-01": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "arch-handbook"
+    },
+    "arch-handbook-02": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "arch-handbook"
+    },
+    "arch-handbook-03": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "arch-handbook"
+    },
+    "bash-scripting-01": {
+      "state": "raw",
+      "form": "single"
+    },
+    "beej-git-01": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "beej-git"
+    },
+    "beej-git-02": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "beej-git"
+    },
+    "beej-git-03": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "beej-git"
+    },
+    "beej-git-04": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "beej-git"
+    },
+    "beej-git-05": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "beej-git"
+    },
+    "beej-network-01": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "beej-network"
+    },
+    "beej-network-02": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "beej-network"
+    },
+    "beej-network-03": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "beej-network"
+    },
+    "beej-network-04": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "beej-network"
+    },
+    "beej-network-05": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "beej-network"
+    },
+    "beej-python-01": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "beej-python"
+    },
+    "beej-python-02": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "beej-python"
+    },
+    "beej-python-03": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "beej-python"
+    },
+    "beej-python-04": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "beej-python"
+    },
+    "beej-python-05": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "beej-python"
+    },
+    "beej-python-06": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "beej-python"
+    },
+    "bind9-01": {
+      "state": "raw",
+      "form": "reference"
+    },
+    "bind9-02": {
+      "state": "raw",
+      "form": "reference"
+    },
+    "bind9-09": {
+      "state": "raw",
+      "form": "reference"
+    },
+    "bind9-10": {
+      "state": "raw",
+      "form": "reference"
+    },
+    "bind9-11": {
+      "state": "raw",
+      "form": "reference"
+    },
+    "book-of-pf-01": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "book-of-pf"
+    },
+    "book-of-pf-02": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "book-of-pf"
+    },
+    "book-of-pf-03": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "book-of-pf"
+    },
+    "book-of-pf-04": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "book-of-pf"
+    },
+    "book-of-pf-05": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "book-of-pf"
+    },
+    "book-of-pf-06": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "book-of-pf"
+    },
+    "book-of-pf-07": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "book-of-pf"
+    },
+    "compiling-code-01": {
+      "state": "raw",
+      "form": "single"
+    },
+    "design-44bsd-01": {
+      "state": "raw",
+      "form": "single"
+    },
+    "eloquent-javascript-01": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "eloquent-javascript"
+    },
+    "eloquent-javascript-02": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "eloquent-javascript"
+    },
+    "eloquent-javascript-03": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "eloquent-javascript"
+    },
+    "freebsd-developers-01": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-developers"
+    },
+    "freebsd-developers-02": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-developers"
+    },
+    "freebsd-jails-01": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-jails"
+    },
+    "freebsd-jails-02": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-jails"
+    },
+    "freebsd-jails-03": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-jails"
+    },
+    "freebsd-jails-04": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-jails"
+    },
+    "lec-sqlite-01": {
+      "state": "raw",
+      "form": "single"
+    },
+    "lfs-12-2-01": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "linux-from-scratch"
+    },
+    "lfs-12-2-02": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "linux-from-scratch"
+    },
+    "lpi-020-100-01": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-020-100"
+    },
+    "lpi-020-100-02": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-020-100"
+    },
+    "lpi-020-100-03": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-020-100"
+    },
+    "lpi-020-100-04": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-020-100"
+    },
+    "lpi-020-100-05": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-020-100"
+    },
+    "lpi-020-100-06": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-020-100"
+    },
+    "lpi-030-100-01": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-030-100"
+    },
+    "lpi-030-100-02": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-030-100"
+    },
+    "lpi-030-100-03": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-030-100"
+    },
+    "lpi-030-100-04": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-030-100"
+    },
+    "lpi-030-100-05": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-030-100"
+    },
+    "lpi-050-100-01": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-050-100"
+    },
+    "lpi-050-100-02": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-050-100"
+    },
+    "lpi-050-100-03": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-050-100"
+    },
+    "lpi-050-100-04": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-050-100"
+    },
+    "lpi-050-100-05": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-050-100"
+    },
+    "lpi-050-100-06": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-050-100"
+    },
+    "lpi-101-500-01": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-101-500"
+    },
+    "lpi-101-500-02": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-101-500"
+    },
+    "lpi-101-500-03": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-101-500"
+    },
+    "lpi-101-500-04": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-101-500"
+    },
+    "lpi-101-500-05": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-101-500"
+    },
+    "lpi-101-500-06": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-101-500"
+    },
+    "lpi-101-500-07": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-101-500"
+    },
+    "lpi-101-500-08": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-101-500"
+    },
+    "lpi-102-500-01": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-102-500"
+    },
+    "lpi-102-500-02": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-102-500"
+    },
+    "lpi-102-500-03": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-102-500"
+    },
+    "lpi-102-500-04": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-102-500"
+    },
+    "lpi-102-500-05": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-102-500"
+    },
+    "lpi-102-500-06": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-102-500"
+    },
+    "lpi-102-500-07": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-102-500"
+    },
+    "lpi-102-500-08": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-102-500"
+    },
+    "lpi-701-200-01": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-701-200"
+    },
+    "lpi-701-200-02": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-701-200"
+    },
+    "lpi-701-200-03": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-701-200"
+    },
+    "lpi-701-200-04": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-701-200"
+    },
+    "lpi-701-200-05": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-701-200"
+    },
+    "lpi-701-200-06": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-701-200"
+    },
+    "lpi-701-200-07": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-701-200"
+    },
+    "lpi-701-200-08": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "lpi-701-200"
+    },
+    "lua-01": {
+      "state": "raw",
+      "form": "single"
+    },
+    "mastering-javascript-01": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "mastering-javascript"
+    },
+    "mastering-javascript-02": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "mastering-javascript"
+    },
+    "nginx-cookbook-01": {
+      "state": "raw",
+      "form": "reference"
+    },
+    "nginx-practical-01": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "nginx-practical"
+    },
+    "nginx-practical-02": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "nginx-practical"
+    },
+    "pragmatic-systemd-01": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "pragmatic-systemd"
+    },
+    "pragmatic-systemd-02": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "pragmatic-systemd"
+    },
+    "pragmatic-systemd-03": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "pragmatic-systemd"
+    },
+    "sqlite-tutorial-01": {
+      "state": "raw",
+      "form": "single"
+    },
+    "ubuntu-cli-cheatsheet-01": {
+      "state": "raw",
+      "form": "single"
+    },
+    "unix-programming-01": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "unix-programming"
+    },
+    "unix-programming-02": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "unix-programming"
+    },
+    "virtualization-01": {
+      "state": "raw",
+      "form": "single"
+    },
+    "freebsd-01": {
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook",
+      "state": "refined"
+    },
+    "freebsd-02": {
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook",
+      "state": "refined"
+    },
+    "freebsd-03": {
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook",
+      "state": "refined"
+    },
+    "freebsd-04": {
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook",
+      "state": "refined"
+    },
+    "freebsd-05": {
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook",
+      "state": "refined"
+    },
+    "freebsd-06": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-07": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-08": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-09": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-10": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-11": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-12": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-13": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-14": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-15": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-16": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-17": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-18": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-19": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-20": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-21": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-22": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-23": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-24": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-25": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-26": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-27": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-28": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-29": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-30": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-31": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-32": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-33": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-34": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "freebsd-35": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook"
+    },
+    "linux-01": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "linux-essentials"
+    },
+    "linux-02": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "linux-essentials"
+    },
+    "linux-03": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "linux-essentials"
+    },
+    "linux-04": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "linux-essentials"
+    },
+    "linux-05": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "linux-essentials"
+    },
+    "linux-06": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "linux-essentials"
+    },
+    "linux-07": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "linux-essentials"
+    },
+    "linux-08": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "linux-essentials"
+    },
+    "linux-09": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "linux-essentials"
+    },
+    "linux-10": {
+      "state": "raw",
+      "form": "roadmap-part",
+      "roadmap": "linux-essentials"
+    },
+    "note-core-basics": {
+      "state": "raw",
+      "form": "single"
+    },
+    "note-freebsd-basics": {
+      "state": "raw",
+      "form": "single"
+    },
+    "note-pkg-managers": {
+      "state": "raw",
+      "form": "single"
+    },
+    "freebsd-roadmap": {
+      "form": "roadmap-part",
+      "roadmap": "freebsd-handbook",
+      "state": "refined"
+    }
+  }
+}

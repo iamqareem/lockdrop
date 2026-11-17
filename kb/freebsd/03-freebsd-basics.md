@@ -7,25 +7,14 @@ source: "FreeBSD Handbook"
 sourceSection: "Chapter 3 — FreeBSD Basics"
 topic: "I"
 tags: [freebsd, unix, shell, permissions, filesystem]
-summary: "The day-to-day fundamentals: consoles, users and groups, file permissions, the filesystem tree, processes and shells."
+summary: "The working vocabulary every UNIX-like system assumes: virtual consoles, accounts and groups, rwx and file flags, the directory tree, mounting, signals, and the shell that ties it all together."
 ---
 # Chapter 3. FreeBSD Basics
 
-## 3.1. Synopsis
-
-This chapter covers the basic commands and functionality of the FreeBSD operating system. Much of this material is relevant for any UNIX®-like operating system. New FreeBSD users are encouraged to read through this chapter carefully. After reading this chapter, you will know:
-
-- How to use and configure virtual consoles.
-- How to create and manage users and groups on FreeBSD.
-- How UNIX® file permissions and FreeBSD file flags work.
-- The default FreeBSD file system layout.
-- The FreeBSD disk organization.
-- How to mount and unmount file systems.
-- What processes, daemons, and signals are.
-- What a shell is, and how to change the default login environment.
-- How to use basic text editors.
-- What devices and device nodes are.
-- How to read manual pages for more information.
+> **TL;DR** · *for anyone new to FreeBSD — and most of it transfers to any UNIX-like system.*
+> - The console layer: virtual terminals, single-user mode and who is allowed physical access to the keyboard.
+> - Accounts and groups with the tools that manage them (`adduser`, `rmuser`, `chpass`, `passwd`, `pw`), then permissions — rwx, octal, symbolic — plus the FreeBSD-only extras: file flags, setuid/setgid and the sticky bit.
+> - The shape of the system: the directory tree, how disks and slices are named, mounting and `/etc/fstab`, and what processes, daemons and signals actually are.
 
 ## 3.2. Virtual Consoles and Terminals
 
@@ -141,13 +130,7 @@ allscreens_flags="MODE_279"
 
 ## 3.3. Users and Basic Account Management
 
-FreeBSD allows multiple users to use the computer at the same time. While only one user can sit in front of the screen and use the keyboard at any one time, any number of users can log in to the system through the network. To use the system, each user should have their own user account. This chapter describes:
-
-- The different types of user accounts on a FreeBSD system.
-- How to add, remove, and modify user accounts.
-- How to set limits to control the resources that users and groups are allowed to access.
-- How to create groups and add users as members of a group.
-
+FreeBSD allows multiple users to use the computer at the same time. While only one user can sit in front of the screen and use the keyboard at any one time, any number of users can log in to the system through the network. To use the system, each user should have their own user account.
 ### 3.3.1. Account Types
 
 Since all access to the FreeBSD system is achieved using accounts and all processes are run by users, user and account management is important. There are three main types of accounts: system accounts, user accounts, and the superuser account.
