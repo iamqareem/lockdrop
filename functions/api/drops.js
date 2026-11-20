@@ -63,6 +63,7 @@ const onRequestPost = async ({ request, env }) => {
   const body = await readJson(request);
   if (!body) return fail("Invalid request body.");
   const title = (body.title || "").trim();
+  const summary = (body.summary || "").trim().slice(0, 200);
   const targetUrl = (body.url || "").trim();
   const categoryId = (body.categoryId || "").trim();
   const unlockMode = (body.unlockMode || "paid_ad").trim();
@@ -120,7 +121,9 @@ const onRequestPost = async ({ request, env }) => {
   const id = generateDropId();
   const sealed = await seal(env, id, targetUrl);
   const createdAt = new Date().toISOString();
-  const summary = report.reason.slice(0, 160);
+  // The publisher's own one-line description wins; the verifier's reason is
+  // only a fallback, because it describes the link's risk, not the document.
+  const dropSummary = summary || report.reason.slice(0, 160);
   try {
     // The public row and the sealed URL live in separate tables, so the
     // browser's scoped read token can never reach the ciphertext.
@@ -135,7 +138,7 @@ const onRequestPost = async ({ request, env }) => {
       [
         id,
         title,
-        summary,
+        dropSummary,
         categoryId,
         CATEGORY_BY_ID.get(categoryId).label,
         sellerWallet,
@@ -162,7 +165,7 @@ const onRequestPost = async ({ request, env }) => {
   const row = {
     id,
     title,
-    summary,
+    summary: dropSummary,
     category_id: categoryId,
     category: CATEGORY_BY_ID.get(categoryId).label,
     seller_wallet: sellerWallet,

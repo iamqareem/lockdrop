@@ -95,14 +95,18 @@ function detailHtml(drop) {
           }
 
           ${
-            !isFree || drop.unlockMode === "paid_ad"
+            // `free_ad` has no payment path, so this button is the *only*
+            // way to unlock it. It must render for free drops too.
+            isFree || drop.unlockMode === "paid_ad"
               ? `<button id="adBtn" type="button" class="btn ${
                   isFree ? "btn-primary" : "btn-secondary"
                 } btn-block">
                    ${
                      hasAdsgram() && isTelegramContext()
                        ? "Watch a rewarded ad to unlock free"
-                       : "Complete a sponsored task to unlock free"
+                       : isFree && !hasMonetag()
+                         ? "Unlock the link"
+                         : "Complete a sponsored task to unlock free"
                    }
                  </button>`
               : ""

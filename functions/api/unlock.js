@@ -46,7 +46,16 @@ const onRequestPost = async ({ request, env }) => {
   if (!drop) return fail("Drop not found.", 404);
   if (drop.status !== "active") return fail("This drop is no longer available.", 410);
   const isFree = drop.unlock_mode === "free_ad" || Boolean(drop.is_admin_ad);
-  if (!isFree) {
+  const method = body?.method;
+  const taskId = (body?.taskId || "").trim();
+  // A sponsored task is the whole unlock for a free drop, and the documented
+  // alternative to paying for a `paid_ad` drop. `paid_pure` never offers it.
+  const adAllowed = isFree || drop.unlock_mode === "paid_ad";
+  const wantsAd = method === "ad" || Boolean(taskId);
+  if (wantsAd && !adAllowed) {
+    return fail("This drop does not offer a sponsored unlock. Pay to unlock it.", 400);
+  }
+  if (!isFree && !wantsAd) {
     const txHash = (body?.txHash || "").trim();
     if (!txHash) return fail("A transaction hash is required to unlock this drop.");
     const escrowAddress = (env.ESCROW_ADDRESS || "").trim();
@@ -87,7 +96,9 @@ const onRequestPost = async ({ request, env }) => {
     ).catch(() => void 0);
     return json({ url: url2, method: "chain", txHash: payment.txHash ?? txHash });
   }
-  const method = body?.method;
+  if (!wantsAd) {
+    return fail("Start the sponsored task before unlocking.", 428);
+  }
   if (method === "ad") {
     const taskId2 = generateId();
     const earliestAt = new Date(Date.now() + AD_TASK_SECONDS * 1e3).toISOString();
@@ -101,10 +112,6 @@ const onRequestPost = async ({ request, env }) => {
       earliestAt,
       waitSeconds: AD_TASK_SECONDS
     });
-  }
-  const taskId = (body?.taskId || "").trim();
-  if (!taskId) {
-    return fail("Start the sponsored task before unlocking.", 428);
   }
   const tasks = await query(
     env,
