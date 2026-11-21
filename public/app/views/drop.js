@@ -9,7 +9,7 @@ import { getDrop } from "../drops.js";
 import { api } from "../api.js";
 import { state } from "../state.js";
 import { renderShell } from "../main.js";
-import { brandMark } from "../icons.js";
+import { brandMark, icon } from "../icons.js";
 import { CATEGORY_BY_ID } from "../categories.js";
 import {
   escapeHtml,
@@ -49,6 +49,10 @@ function detailHtml(drop) {
             <span class="${verdictClass(drop.verdict)}">
               <span class="verdict-dot"></span>${escapeHtml(drop.verdict)}
             </span>
+            <button id="shareDropBtn" type="button" class="icon-btn" style="flex:none"
+              aria-label="Copy link to this drop" title="Copy link to this drop">
+              ${icon("share", "", 15)}
+            </button>
           </div>
 
           ${
@@ -181,6 +185,17 @@ export async function renderDropView(dropId) {
   const statusEl = document.getElementById("payStatus");
   const timerBox = document.getElementById("adTimerBox");
   const countEl = document.getElementById("adCountdown");
+
+  document.getElementById("shareDropBtn")?.addEventListener("click", async () => {
+    const btn = document.getElementById("shareDropBtn");
+    const ok = await copyText(`${window.location.origin}/#/drop/${drop.id}`);
+    btn.classList.toggle("is-copied", ok);
+    btn.title = ok ? "Copied" : "Copy failed";
+    setTimeout(() => {
+      btn.classList.remove("is-copied");
+      btn.title = "Copy link to this drop";
+    }, 1400);
+  });
 
   function showError(message) {
     errorEl.textContent = message;

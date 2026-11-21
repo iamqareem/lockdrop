@@ -546,6 +546,11 @@ a {
   color: var(--text);
 }
 
+.icon-btn.is-copied {
+  color: var(--ok);
+  border-color: var(--ok);
+}
+
 /* ---------------------------------------------------------------- inputs */
 
 .field {
@@ -1039,7 +1044,53 @@ a {
   border: 1px solid var(--border);
   background: var(--surface);
   padding: 16px;
+  position: relative;
   transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+/* One hit target for the whole card; the share button sits above it. */
+.card-hit {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+}
+
+.card-hit:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
+}
+
+.card > :not(.card-hit) {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.card-share {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 6px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-subtle);
+  font-size: 10.5px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.card-share:hover {
+  color: var(--text);
+  background: var(--surface-2);
+  border-color: var(--border);
+}
+
+.card-share.is-copied {
+  color: var(--ok);
 }
 
 .card:hover {
@@ -1114,6 +1165,12 @@ a {
   border-top: 1px solid var(--border);
   font-size: 11px;
   color: var(--text-subtle);
+}
+
+.card-foot-right {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .card-price {

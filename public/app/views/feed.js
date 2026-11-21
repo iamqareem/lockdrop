@@ -21,6 +21,7 @@ import {
   formatPrice,
   verdictClass,
   verdictSlug,
+  copyText,
 } from "../util.js";
 
 /** Fast enough that the page feels like it is answering you. */
@@ -47,7 +48,9 @@ function cardHtml(drop) {
       : formatPrice(drop.price, drop.tokenSymbol);
 
   return `
-    <a class="card" href="#/drop/${escapeHtml(drop.id)}">
+    <div class="card">
+      <a class="card-hit" href="#/drop/${escapeHtml(drop.id)}"
+        aria-label="${escapeHtml(drop.title)}"></a>
       <div class="card-head">
         <span class="card-brand">${brandMark(drop.categoryId, "card-brand", 14)}</span>
         <span class="card-category">${escapeHtml(drop.category || drop.categoryId)}</span>
@@ -69,9 +72,17 @@ function cardHtml(drop) {
         <span class="card-price">${escapeHtml(price)}${
           drop.isAdminAd ? `<span class="card-badge">Sponsored</span>` : ""
         }</span>
-        <span>${escapeHtml(timeAgo(drop.createdAt))}</span>
+        <span class="card-foot-right">
+          <span>${escapeHtml(timeAgo(drop.createdAt))}</span>
+          <button type="button" class="card-share" data-share-id="${escapeHtml(
+            drop.id
+          )}" aria-label="Copy link to ${escapeHtml(drop.title)}"
+            title="Copy link to this drop">
+            ${icon("share", "", 12)}<span>Share</span>
+          </button>
+        </span>
       </div>
-    </a>`;
+    </div>`;
 }
 
 /**
@@ -467,6 +478,27 @@ function wireFeed() {
   });
 
   wireModal();
+
+  // The feed repaints in place, so the share action is delegated from the
+  // slot rather than rebound to every card.
+  document.getElementById("feedSlot")?.addEventListener("click", async (e) => {
+    const btn = e.target.closest("[data-share-id]");
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const id = btn.getAttribute("data-share-id") || "";
+    const ok = await copyText(`${window.location.origin}/#/drop/${id}`);
+    const label = btn.querySelector("span");
+    btn.classList.toggle("is-copied", ok);
+    if (label) {
+      const old = label.textContent;
+      label.textContent = ok ? "Copied" : "Failed";
+      setTimeout(() => {
+        label.textContent = old;
+        btn.classList.remove("is-copied");
+      }, 1400);
+    }
+  });
 
   if (escapeHandler) document.removeEventListener("keydown", escapeHandler);
   escapeHandler = (e) => {

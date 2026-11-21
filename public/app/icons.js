@@ -110,6 +110,8 @@ const STROKE = {
   plus: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>',
   chevronDown:
     '<path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>',
+  share:
+    '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path stroke-linecap="round" stroke-linejoin="round" d="M8.6 10.7l6.8-4.1M8.6 13.3l6.8 4.1"/>',
 };
 
 /** Renders a stroked UI icon. */
