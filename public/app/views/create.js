@@ -436,6 +436,36 @@ function clearError(id) {
   document.getElementById(id)?.classList.add("hidden");
 }
 
+const SUMMARY_MIN = 20;
+const SUMMARY_MAX = 250;
+/*
+ * The wizard's and the backend's rules for the summary are the same rule:
+ * printable ASCII, then everything from Latin-1 upwards, which covers
+ * accented letters, Cyrillic, CJK and the surrogate pairs emojis are made of.
+ */
+const SUMMARY_PATTERN = /^[\x20-\x7E\u00A1-\uFFFF]+$/;
+
+/**
+ * The summary's validation message, or null once it is acceptable.
+ *
+ * The field is compulsory, so an empty summary is a problem like any other.
+ * Whether the message is actually painted on screen is left to the caller —
+ * step two should not open already shouting at someone who has not typed yet.
+ */
+function summaryProblem() {
+  const summary = state.summary.trim();
+  if (summary.length < SUMMARY_MIN) {
+    return `Summary must be at least ${SUMMARY_MIN} characters`;
+  }
+  if (summary.length > SUMMARY_MAX) {
+    return `Summary must be at most ${SUMMARY_MAX} characters`;
+  }
+  if (!SUMMARY_PATTERN.test(summary)) {
+    return "Summary must contain printable characters, emojis and spaces only";
+  }
+  return null;
+}
+
 function renderReport() {
   const box = document.getElementById("reportBox");
   if (box) box.innerHTML = reportHtml(state.report);
@@ -443,7 +473,10 @@ function renderReport() {
   const next = document.getElementById("nextStep2Btn");
   if (next) {
     const blocked = state.report?.verdict === "Blocked";
-    next.disabled = !state.report || blocked;
+    // Continue needs both halves of step two: a link that passed, and a
+    // summary that holds up. This is the only place the button's state is
+    // decided, so the two conditions can never drift apart.
+    next.disabled = !state.report || blocked || summaryProblem() !== null;
     next.textContent = blocked ? "Blocked" : "Continue";
   }
 }
@@ -579,36 +612,12 @@ function wireCreateView() {
 
   document.getElementById("wizardSummary")?.addEventListener("input", (e) => {
     state.summary = e.target.value;
-    clearError("summaryError");
-    const summary = state.summary.trim();
-    const min = 20;
-    const max = 250;
-    const len = summary.length;
-    const el = document.getElementById("summaryError");
-    if (len < min) {
-      if (!el.classList.contains("hidden")) return;
-      el.textContent = `Summary must be at least ${min} characters`;
-      el.classList.remove("hidden");
-      document.getElementById("nextStep2Btn").disabled = true;
-      return;
-    }
-    if (len > max) {
-      if (!el.classList.contains("hidden")) return;
-      el.textContent = `Summary must be at most ${max} characters`;
-      el.classList.remove("hidden");
-      document.getElementById("nextStep2Btn").disabled = true;
-      return;
-    }
-    const pattern = /^[\x20-\x7E\u00A1-\uFFFF]+$/;
-    if (!pattern.test(summary)) {
-      if (!el.classList.contains("hidden")) return;
-      el.textContent = "Summary must contain printable characters, emojis and spaces only";
-      el.classList.remove("hidden");
-      document.getElementById("nextStep2Btn").disabled = true;
-      return;
-    }
-    el.classList.add("hidden");
-    document.getElementById("nextStep2Btn").disabled = false;
+    const problem = summaryProblem();
+    // Stay quiet until there is something to complain about, so an untouched
+    // field does not greet anyone with a red box.
+    if (problem && state.summary.trim()) showError("summaryError", problem);
+    else clearError("summaryError");
+    renderReport();
   });
 
   document.getElementById("verifyBtn")?.addEventListener("click", () => {
@@ -624,33 +633,14 @@ function wireCreateView() {
       showError("step2Error", "This link was blocked and cannot be locked.");
       return;
     }
-    // Validate summary
-    const summary = state.summary.trim();
-    const min = 20;
-    const max = 250;
-    const len = summary.length;
-    const summaryErrorEl = document.getElementById("summaryError");
-    if (len < min) {
-      summaryErrorEl.textContent = `Summary must be at least ${min} characters`;
-      summaryErrorEl.classList.remove("hidden");
-      document.getElementById("nextStep2Btn").disabled = true;
+    // The button is already disabled without a usable summary, so this is
+    // the net for anyone who gets here another way (keyboard, restored state).
+    const problem = summaryProblem();
+    if (problem) {
+      showError("summaryError", problem);
       return;
     }
-    if (len > max) {
-      summaryErrorEl.textContent = `Summary must be at most ${max} characters`;
-      summaryErrorEl.classList.remove("hidden");
-      document.getElementById("nextStep2Btn").disabled = true;
-      return;
-    }
-    const pattern = /^[\x20-\x7E\u00A1-\uFFFF]+$/;
-    if (!pattern.test(summary)) {
-      summaryErrorEl.textContent = "Summary must contain printable characters, emojis and spaces only";
-      summaryErrorEl.classList.remove("hidden");
-      document.getElementById("nextStep2Btn").disabled = true;
-      return;
-    }
-    summaryErrorEl.classList.add("hidden");
-    // Also clear step2Error if visible
+    clearError("summaryError");
     clearError("step2Error");
     state.wizardStep = 3;
     renderCreateView();
