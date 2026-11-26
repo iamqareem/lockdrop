@@ -18,6 +18,7 @@ export const state = {
   title: "",
   categoryId: "",
   url: "",
+  summary: "",
   report: null,
   verifying: false,
   unlockMode: "paid_ad",

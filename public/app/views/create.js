@@ -239,6 +239,22 @@ function stepTwoHtml() {
       </p>
     </div>
 
+    <!-- Summary field (compulsory, 20-250 chars, unicode/emoji friendly) -->
+    <div class="field" style="margin-top:12px">
+      <label for="wizardSummary" class="prompt-ask">Summary</label>
+      <input id="wizardSummary" type="text" class="prompt-field is-mono"
+        placeholder="Brief description (20-250 chars, emojis allowed)"
+        maxlength="250"
+        pattern="^[\x20-\x7E\u00A1-\uFFFF]+$"
+        title="Summary must be 20-250 characters with printable characters, emojis and spaces only"
+        value="${escapeHtml(state.summary ?? "")}" />
+      <p class="prompt-hint" id="summaryHint">
+        20-250 characters, printable characters, emojis and spaces only
+      </p>
+    </div>
+
+    <div id="summaryError" class="alert alert-error hidden" style="margin-top:4px"></div>
+
     <div class="prompt-meta">
       <button id="prevStep2Btn" type="button" class="btn btn-ghost">
         ${icon("back", "", 13)} Back
@@ -561,6 +577,40 @@ function wireCreateView() {
     debouncedVerify();
   });
 
+  document.getElementById("wizardSummary")?.addEventListener("input", (e) => {
+    state.summary = e.target.value;
+    clearError("summaryError");
+    const summary = state.summary.trim();
+    const min = 20;
+    const max = 250;
+    const len = summary.length;
+    const el = document.getElementById("summaryError");
+    if (len < min) {
+      if (!el.classList.contains("hidden")) return;
+      el.textContent = `Summary must be at least ${min} characters`;
+      el.classList.remove("hidden");
+      document.getElementById("nextStep2Btn").disabled = true;
+      return;
+    }
+    if (len > max) {
+      if (!el.classList.contains("hidden")) return;
+      el.textContent = `Summary must be at most ${max} characters`;
+      el.classList.remove("hidden");
+      document.getElementById("nextStep2Btn").disabled = true;
+      return;
+    }
+    const pattern = /^[\x20-\x7E\u00A1-\uFFFF]+$/;
+    if (!pattern.test(summary)) {
+      if (!el.classList.contains("hidden")) return;
+      el.textContent = "Summary must contain printable characters, emojis and spaces only";
+      el.classList.remove("hidden");
+      document.getElementById("nextStep2Btn").disabled = true;
+      return;
+    }
+    el.classList.add("hidden");
+    document.getElementById("nextStep2Btn").disabled = false;
+  });
+
   document.getElementById("verifyBtn")?.addEventListener("click", () => {
     void runVerification();
   });
@@ -574,6 +624,33 @@ function wireCreateView() {
       showError("step2Error", "This link was blocked and cannot be locked.");
       return;
     }
+    // Validate summary
+    const summary = state.summary.trim();
+    const min = 20;
+    const max = 250;
+    const len = summary.length;
+    const summaryErrorEl = document.getElementById("summaryError");
+    if (len < min) {
+      summaryErrorEl.textContent = `Summary must be at least ${min} characters`;
+      summaryErrorEl.classList.remove("hidden");
+      document.getElementById("nextStep2Btn").disabled = true;
+      return;
+    }
+    if (len > max) {
+      summaryErrorEl.textContent = `Summary must be at most ${max} characters`;
+      summaryErrorEl.classList.remove("hidden");
+      document.getElementById("nextStep2Btn").disabled = true;
+      return;
+    }
+    const pattern = /^[\x20-\x7E\u00A1-\uFFFF]+$/;
+    if (!pattern.test(summary)) {
+      summaryErrorEl.textContent = "Summary must contain printable characters, emojis and spaces only";
+      summaryErrorEl.classList.remove("hidden");
+      document.getElementById("nextStep2Btn").disabled = true;
+      return;
+    }
+    summaryErrorEl.classList.add("hidden");
+    // Also clear step2Error if visible
     clearError("step2Error");
     state.wizardStep = 3;
     renderCreateView();
@@ -636,6 +713,7 @@ function wireCreateView() {
         title: state.title.trim(),
         categoryId: state.categoryId,
         url: state.url.trim(),
+        summary: state.summary.trim(),
         sellerWallet: state.sellerWallet.trim(),
         tokenAddress: token.address,
         tokenSymbol: token.symbol,
@@ -647,6 +725,7 @@ function wireCreateView() {
       state.lastCreated = result.drop;
       state.title = "";
       state.url = "";
+      state.summary = "";
       state.report = null;
       state.wizardStep = 1;
       state.creating = false;

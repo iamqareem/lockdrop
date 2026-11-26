@@ -139,3 +139,54 @@ export async function probeTurso() {
     return false;
   }
 }
+
+/**
+ * Runs an INSERT/UPDATE/DELETE against Turso using the write token.
+ *
+ * The admin-facing frontend uses this to create new drops directly into
+ * the database — no Cloudflare Functions needed. The write token is scoped
+ * to `drops:data_write`, so it can only modify the `drops` table (not
+ * `drop_secrets` or any other table).
+ *
+ * `signal` aborts the request. The browser uses it to cancel a write that
+ * has already been superseded by a newer one.
+ */
+export async function write(sql, args = [], { signal } = {}) {
+  if (!config?.writeToken) {
+    throw new Error("The Turso write configuration is missing. See turso.json.");
+  }
+
+  const res = await fetch(`${config.url.replace(/\/+$/, "")}/v2/pipeline`, {
+    method: "POST",
+    headers: {
+      authorization: `Bearer ${config.writeToken}`,
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      requests: [
+        {
+          type: "execute",
+          stmt: { sql, args: args.map(encodeArg) },
+        },
+        { type: "close" },
+      ],
+    }),
+    signal,
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Turso write failed with status ${res.status}. ${text}`);
+  }
+
+  const payload = await res.json();
+  const results = payload.results ?? [];
+
+  for (const result of results) {
+    if (result.type === "error") {
+      throw new Error(result.error?.message ?? "Turso write failed.");
+    }
+  }
+
+  return results;
+}
