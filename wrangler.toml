@@ -4,23 +4,22 @@
 # `public/` is plain HTML, CSS and native ES modules, and the backend in
 # `functions/` is bundled by wrangler with zero npm runtime dependencies.
 #
-# There is one publish step, though: `node scripts/stamp.mjs` copies
-# `public/` into `.pages/` and appends `?v=<hash>` to every intra-app import
-# and asset URL. Without it a returning visitor keeps running the previous
-# JavaScript for hours, because these filenames are not content-hashed.
-# `.pages/` is what gets deployed; `public/` stays clean in git.
+# Deployment is manual and stays that way — the Pages project is a direct
+# upload, not a GitHub connection, so nothing goes live on its own:
 #
-# For the GitHub connection (Workers & Pages -> lockdrop -> Settings ->
-# Builds -> Git Repository), use:
-#   Build command:   node scripts/stamp.mjs
-#   Build output:    .pages
-#   Production branch: main
+#   npm run deploy
+#
+# which runs `node scripts/stamp.mjs` (copying `public/` into `.pages/` and
+# stamping every intra-app import with `?v=<hash>`) and then uploads
+# `.pages/`. The stamp matters: these filenames are not content-hashed, so
+# without it a returning visitor keeps running the previous JavaScript for
+# hours. `public/` itself is never deployed directly.
 #
 # Then add the secrets listed in .env.example as Pages environment secrets.
 
 name = "lockdrop"
 compatibility_date = "2026-11-01"
-pages_build_output_dir = ".pages"
+pages_build_output_dir = "public"
 
 # Workers AI — used for link safety judgement.
 #
