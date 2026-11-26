@@ -23,17 +23,15 @@ import { paintWalletButtons } from "./core/shell.js";
 
 /* The services that own their state. */
 import "./services/admin/index.js";
+import "./services/feed/index.js";
+import "./services/payment/index.js";
 
 /* Views still migrating onto the service contract. */
 import { renderCreateView } from "./views/create.js";
-import { renderFeedView } from "./views/feed.js";
-import { renderDropView } from "./views/drop.js";
 import { renderContractView } from "./views/contract.js";
 
 /* The wiring diagram: route id -> the service that renders it. */
 defineService({ id: "lock", render: renderCreateView });
-defineService({ id: "feed", render: renderFeedView });
-defineService({ id: "drop", render: renderDropView });
 defineService({ id: "contract", render: renderContractView });
 
 export async function boot() {

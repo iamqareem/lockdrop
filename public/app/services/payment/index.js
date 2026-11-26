@@ -1,25 +1,29 @@
 /**
- * A single drop: the checkout page.
+ * Payment service — a single drop: the checkout page.
  *
  * The URL is never present in the page source. It is fetched from /api/unlock
  * only after the server has confirmed the payment (or the sponsored task),
  * which is the entire point of moving the escrow server-side.
+ *
+ * Owns its state in `./state.js`; the rest of the app only ever links to
+ * `#/drop/<id>` and lets this service resolve what that means.
  */
-import { getDrop } from "../drops.js";
-import { api } from "../api.js";
-import { state } from "../state.js";
-import { renderShell } from "../core/shell.js";
-import { brandMark, icon } from "../icons.js";
-import { CATEGORY_BY_ID } from "../categories.js";
+import { getDrop } from "../../drops.js";
+import { api } from "../../api.js";
+import { renderShell } from "../../core/shell.js";
+import { defineService } from "../../core/service.js";
+import { brandMark, icon } from "../../icons.js";
+import { CATEGORY_BY_ID } from "../../categories.js";
 import {
   escapeHtml,
   shortAddress,
   formatPrice,
   verdictClass,
   copyText,
-} from "../util.js";
-import { sendEscrowPayment, TIERS } from "../wallet.js";
-import { hasAdsgram, hasMonetag, isTelegramContext, monetagLink, runAdsgramReward } from "../ads.js";
+} from "../../util.js";
+import { sendEscrowPayment, TIERS } from "../../wallet.js";
+import { hasAdsgram, hasMonetag, isTelegramContext, monetagLink, runAdsgramReward } from "../../ads.js";
+import { paymentState } from "./state.js";
 
 function detailHtml(drop) {
   const isFree = drop.unlockMode === "free_ad" || drop.isAdminAd;
@@ -178,7 +182,7 @@ export async function renderDropView(dropId) {
     return;
   }
 
-  state.drop = drop;
+  paymentState.drop = drop;
   renderShell("drop", detailHtml(drop));
 
   const errorEl = document.getElementById("unlockError");
@@ -339,3 +343,5 @@ export async function renderDropView(dropId) {
     }
   });
 }
+
+defineService({ id: "drop", render: renderDropView });

@@ -151,7 +151,6 @@ export function renderShell(activeView, mainHtml) {
     </div>`;
 
   document.getElementById("searchOpenBtn")?.addEventListener("click", () => {
-    state.searchOpen = true;
     // The search service listens for this; the shell only knows that the
     // button was pressed, not what a query is or where the list lives.
     bus.emit("search:open");

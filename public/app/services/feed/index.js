@@ -8,12 +8,17 @@
  * Typing queries Turso straight from the browser and repaints the feed in
  * place. Only the list is re-rendered, never the whole shell, so the input
  * keeps its focus and the caret keeps its position while the user types.
+ *
+ * This service owns its state (`./state.js`). Nothing outside reaches into
+ * it — the shell emits `search:open` on the bus and this service decides
+ * what that means for its composer.
  */
-import { listDrops, searchDrops, countByCategory } from "../drops.js";
-import { state } from "../state.js";
-import { renderShell } from "../core/shell.js";
-import { brandMark, icon } from "../icons.js";
-import { CATEGORIES } from "../categories.js";
+import { listDrops, searchDrops, countByCategory } from "../../drops.js";
+import { renderShell } from "../../core/shell.js";
+import { bus } from "../../core/bus.js";
+import { defineService } from "../../core/service.js";
+import { brandMark, icon } from "../../icons.js";
+import { CATEGORIES } from "../../categories.js";
 import {
   escapeHtml,
   shortAddress,
@@ -22,7 +27,8 @@ import {
   verdictClass,
   verdictSlug,
   copyText,
-} from "../util.js";
+} from "../../util.js";
+import { feedState } from "./state.js";
 
 /** Fast enough that the page feels like it is answering you. */
 const SEARCH_DEBOUNCE = 110;
@@ -38,6 +44,9 @@ let searchTimer = null;
 
 /** The document-level Escape handler, re-bound on every render. */
 let escapeHandler = null;
+
+/** The bus subscription returned by mount, removed on unmount. */
+let onSearchOpen = null;
 
 function cardHtml(drop) {
   const score = Math.max(0, Math.min(100, drop.verdictScore ?? 0));
@@ -92,11 +101,11 @@ function cardHtml(drop) {
  * and in the bottom bar on a phone. Either way they are never here.
  */
 function toolbarHtml() {
-  const active = CATEGORIES.find((c) => c.id === state.feedCategory);
+  const active = CATEGORIES.find((c) => c.id === feedState.feedCategory);
   return `
     <div class="feed-toolbar">
       <button type="button" class="feed-tool" id="categoryBtn"
-        aria-haspopup="dialog" aria-expanded="${state.feedCategoryModalOpen}">
+        aria-haspopup="dialog" aria-expanded="${feedState.feedCategoryModalOpen}">
         ${icon("chevronDown", "", 13)}
         <span id="categoryLabel">${escapeHtml(
           active ? active.label : "Categories"
@@ -113,14 +122,14 @@ function toolbarHtml() {
  * where a count belongs — next to the thing that produced it.
  */
 function statusText() {
-  if (state.searchStatus === "searching") return "searching";
-  if (state.searchStatus === "error") return "unavailable";
-  if (state.searchStatus === "ready") {
-    const n = state.searchCount;
+  if (feedState.searchStatus === "searching") return "searching";
+  if (feedState.searchStatus === "error") return "unavailable";
+  if (feedState.searchStatus === "ready") {
+    const n = feedState.searchCount;
     return `${n} ${n === 1 ? "result" : "results"}`;
   }
-  if (state.feedBusy) return "loading";
-  const n = state.drops.length;
+  if (feedState.feedBusy) return "loading";
+  const n = feedState.drops.length;
   return `${n} ${n === 1 ? "drop" : "drops"}`;
 }
 
@@ -129,12 +138,12 @@ function statusText() {
  */
 function composerHtml() {
   return `
-    <div class="composer${state.searchQuery ? " has-text" : ""}" role="search">
+    <div class="composer${feedState.searchQuery ? " has-text" : ""}" role="search">
       <span class="composer-icon">${icon("search", "", 16)}</span>
       <input id="feedSearch" type="search" class="composer-input"
         placeholder="Search the drops" aria-label="Search the drops"
         autocomplete="off" spellcheck="false"
-        value="${escapeHtml(state.searchQuery)}" />
+        value="${escapeHtml(feedState.searchQuery)}" />
       <span class="composer-status" id="composerStatus">${escapeHtml(
         statusText()
       )}</span>
@@ -150,13 +159,13 @@ function composerHtml() {
  * categories appear only when they are asked for.
  */
 function categoryModalHtml() {
-  if (!state.feedCategoryModalOpen) return "";
-  const counts = state.categoryCounts ?? {};
+  if (!feedState.feedCategoryModalOpen) return "";
+  const counts = feedState.categoryCounts ?? {};
   const total = Object.values(counts).reduce((sum, n) => sum + n, 0);
 
   const option = (id, label, hint) => `
     <button type="button" class="category-option ${
-      state.feedCategory === id ? "is-active" : ""
+      feedState.feedCategory === id ? "is-active" : ""
     }" data-feed-category="${escapeHtml(id)}">
       ${brandMark(id || "all", "brand-mark", 16)}
       <span class="category-option-text">
@@ -195,7 +204,7 @@ function categoryModalHtml() {
  * keeps its focus.
  */
 function listHtml() {
-  if (state.feedLoading && !state.feedLoaded) {
+  if (feedState.feedLoading && !feedState.feedLoaded) {
     return `<div class="feed">${Array.from({ length: 6 })
       .map(
         () => `<div class="skeleton" style="height:170px;margin-bottom:16px"></div>`
@@ -203,12 +212,12 @@ function listHtml() {
       .join("")}</div>`;
   }
 
-  if (state.drops.length === 0) {
-    const category = CATEGORIES.find((c) => c.id === state.feedCategory);
+  if (feedState.drops.length === 0) {
+    const category = CATEGORIES.find((c) => c.id === feedState.feedCategory);
     const where = category ? ` in ${category.label}` : "";
     let message;
-    if (state.searchQuery) {
-      message = `Nothing matches “${escapeHtml(state.searchQuery)}”${where}.`;
+    if (feedState.searchQuery) {
+      message = `Nothing matches “${escapeHtml(feedState.searchQuery)}”${where}.`;
     } else if (category) {
       message = `Nothing in ${escapeHtml(category.label)} yet.`;
     } else {
@@ -217,8 +226,8 @@ function listHtml() {
     return `<div class="panel empty">${message}</div>`;
   }
 
-  const cards = `<div class="feed">${state.drops.map(cardHtml).join("")}</div>`;
-  if (!state.feedHasMore) return cards;
+  const cards = `<div class="feed">${feedState.drops.map(cardHtml).join("")}</div>`;
+  if (!feedState.feedHasMore) return cards;
   return `${cards}
     <div class="feed-more">
       <button id="loadMoreBtn" type="button" class="btn btn-secondary">Load more</button>
@@ -233,7 +242,7 @@ function paintFeed() {
   slot.innerHTML = listHtml();
   slot.classList.toggle(
     "is-busy",
-    state.searchStatus === "searching" || state.feedBusy
+    feedState.searchStatus === "searching" || feedState.feedBusy
   );
   document.getElementById("loadMoreBtn")?.addEventListener("click", loadMore);
 }
@@ -249,16 +258,16 @@ function paintFeed() {
 function paintComposer() {
   const composer = document.querySelector(".composer");
   if (!composer) return;
-  composer.classList.toggle("has-text", Boolean(state.searchQuery));
+  composer.classList.toggle("has-text", Boolean(feedState.searchQuery));
   composer.classList.toggle(
     "is-busy",
-    state.searchStatus === "searching" || state.feedBusy
+    feedState.searchStatus === "searching" || feedState.feedBusy
   );
 
   const input = document.getElementById("feedSearch");
-  if (input && input.value !== state.searchQuery) {
-    input.value = state.searchQuery;
-    const end = state.searchQuery.length;
+  if (input && input.value !== feedState.searchQuery) {
+    input.value = feedState.searchQuery;
+    const end = feedState.searchQuery.length;
     input.setSelectionRange(end, end);
   }
 
@@ -267,13 +276,13 @@ function paintComposer() {
 
   // The shell is rebuilt on every route change, so the composing flag has
   // to be carried across rather than remembered.
-  setComposing(state.searchOpen);
+  setComposing(feedState.searchOpen);
 }
 
 function paintToolbar() {
   const label = document.getElementById("categoryLabel");
   if (!label) return;
-  const active = CATEGORIES.find((c) => c.id === state.feedCategory);
+  const active = CATEGORIES.find((c) => c.id === feedState.feedCategory);
   label.textContent = active ? active.label : "Categories";
 }
 
@@ -301,13 +310,13 @@ async function loadFeed() {
   const controller = new AbortController();
   inFlight = controller;
 
-  const term = (state.searchQuery || "").trim();
+  const term = (feedState.searchQuery || "").trim();
   const searching = Boolean(term);
-  state.searchStatus = searching ? "searching" : "idle";
-  state.feedBusy = true;
+  feedState.searchStatus = searching ? "searching" : "idle";
+  feedState.feedBusy = true;
   // The skeleton is only for the very first paint. Afterwards the old cards
   // stay on screen, dimmed, until the new ones arrive.
-  state.feedLoading = !state.feedLoaded && state.drops.length === 0;
+  feedState.feedLoading = !feedState.feedLoaded && feedState.drops.length === 0;
   paintFeed();
   paintComposer();
 
@@ -315,30 +324,30 @@ async function loadFeed() {
     const data = searching
       ? await searchDrops({
           term,
-          category: state.feedCategory,
+          category: feedState.feedCategory,
           limit: 40,
           signal: controller.signal,
         })
-      : await listDrops({ limit: 40, category: state.feedCategory });
+      : await listDrops({ limit: 40, category: feedState.feedCategory });
 
     if (id !== requestId) return;
-    state.drops = data.drops ?? [];
-    state.feedCursor = data.nextCursor ?? null;
-    state.feedHasMore = Boolean(data.hasMore);
-    state.searchCount = state.drops.length;
-    state.searchStatus = searching ? "ready" : "idle";
-    state.feedLoaded = true;
+    feedState.drops = data.drops ?? [];
+    feedState.feedCursor = data.nextCursor ?? null;
+    feedState.feedHasMore = Boolean(data.hasMore);
+    feedState.searchCount = feedState.drops.length;
+    feedState.searchStatus = searching ? "ready" : "idle";
+    feedState.feedLoaded = true;
   } catch (err) {
     if (id !== requestId) return;
     if (err && err.name === "AbortError") return;
-    state.drops = [];
-    state.feedHasMore = false;
-    state.searchStatus = "error";
-    state.feedLoaded = true;
+    feedState.drops = [];
+    feedState.feedHasMore = false;
+    feedState.searchStatus = "error";
+    feedState.feedLoaded = true;
   } finally {
     if (id !== requestId) return;
-    state.feedLoading = false;
-    state.feedBusy = false;
+    feedState.feedLoading = false;
+    feedState.feedBusy = false;
     inFlight = null;
     paintFeed();
     paintComposer();
@@ -362,12 +371,12 @@ async function loadMore() {
   try {
     const data = await listDrops({
       limit: 40,
-      category: state.feedCategory,
-      cursor: state.feedCursor,
+      category: feedState.feedCategory,
+      cursor: feedState.feedCursor,
     });
-    state.drops = state.drops.concat(data.drops ?? []);
-    state.feedCursor = data.nextCursor ?? null;
-    state.feedHasMore = Boolean(data.hasMore);
+    feedState.drops = feedState.drops.concat(data.drops ?? []);
+    feedState.feedCursor = data.nextCursor ?? null;
+    feedState.feedHasMore = Boolean(data.hasMore);
   } catch {
     /* the list stays as it is */
   }
@@ -377,9 +386,9 @@ async function loadMore() {
 
 /** Reads the category counts the first time the picker is opened. */
 async function loadCategoryCounts() {
-  if (state.categoryCounts) return;
+  if (feedState.categoryCounts) return;
   try {
-    state.categoryCounts = await countByCategory();
+    feedState.categoryCounts = await countByCategory();
     paintCounts();
   } catch {
     /* the counts are a nicety, not a requirement */
@@ -387,7 +396,7 @@ async function loadCategoryCounts() {
 }
 
 function paintCounts() {
-  const counts = state.categoryCounts;
+  const counts = feedState.categoryCounts;
   if (!counts) return;
   const total = Object.values(counts).reduce((sum, n) => sum + n, 0);
   document.querySelectorAll("[data-count-for]").forEach((span) => {
@@ -399,7 +408,7 @@ function paintCounts() {
 /* ------------------------------------------------------------------ wire */
 
 function closeCategoryModal() {
-  state.feedCategoryModalOpen = false;
+  feedState.feedCategoryModalOpen = false;
   paintModal();
   document.getElementById("categoryBtn")?.focus();
 }
@@ -412,8 +421,8 @@ function wireModal() {
   });
   document.querySelectorAll("[data-feed-category]").forEach((btn) => {
     btn.addEventListener("click", () => {
-      state.feedCategory = btn.getAttribute("data-feed-category") || "";
-      state.feedCategoryModalOpen = false;
+      feedState.feedCategory = btn.getAttribute("data-feed-category") || "";
+      feedState.feedCategoryModalOpen = false;
       paintModal();
       paintToolbar();
       loadFeed();
@@ -429,7 +438,7 @@ function wireModal() {
  * alone on the bottom edge.
  */
 function setComposing(on) {
-  state.searchOpen = on;
+  feedState.searchOpen = on;
   document.querySelector(".shell")?.classList.toggle("is-composing", on);
 }
 
@@ -439,14 +448,14 @@ function wireFeed() {
     input.addEventListener("focus", () => setComposing(true));
     input.addEventListener("blur", () => setComposing(false));
     input.addEventListener("input", (e) => {
-      state.searchQuery = e.target.value;
+      feedState.searchQuery = e.target.value;
       paintComposer();
       scheduleSearch();
     });
     input.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && state.searchQuery) {
+      if (e.key === "Escape" && feedState.searchQuery) {
         e.preventDefault();
-        state.searchQuery = "";
+        feedState.searchQuery = "";
         paintComposer();
         loadFeed();
         input.focus();
@@ -464,14 +473,14 @@ function wireFeed() {
   }
 
   document.getElementById("searchClearBtn")?.addEventListener("click", () => {
-    state.searchQuery = "";
+    feedState.searchQuery = "";
     paintComposer();
     document.getElementById("feedSearch")?.focus();
     loadFeed();
   });
 
   document.getElementById("categoryBtn")?.addEventListener("click", () => {
-    state.feedCategoryModalOpen = true;
+    feedState.feedCategoryModalOpen = true;
     paintModal();
     loadCategoryCounts();
     document.getElementById("closeFeedCategory")?.focus();
@@ -502,8 +511,8 @@ function wireFeed() {
 
   if (escapeHandler) document.removeEventListener("keydown", escapeHandler);
   escapeHandler = (e) => {
-    if (e.key === "Escape" && state.feedCategoryModalOpen) {
-      state.feedCategoryModalOpen = false;
+    if (e.key === "Escape" && feedState.feedCategoryModalOpen) {
+      feedState.feedCategoryModalOpen = false;
       paintModal();
     }
   };
@@ -520,13 +529,14 @@ function feedBodyHtml() {
     <div id="feedModalSlot">${categoryModalHtml()}</div>`;
 }
 
-export async function renderFeedView() {
+async function renderFeed() {
   renderShell("feed", feedBodyHtml());
   wireFeed();
 
   // The search icon on another view asks for the search, so the composer
   // comes up focused once the feed is on screen.
-  if (state.searchOpen) {
+  if (feedState.searchOpen) {
+    feedState.searchOpen = false;
     document.getElementById("feedSearch")?.focus();
   }
 
@@ -538,3 +548,31 @@ export async function renderFeedView() {
    */
   loadCategoryCounts();
 }
+
+function mount() {
+  // The shell's search button emits this instead of touching feed state
+  // directly; the feed service decides what "open the search" means.
+  onSearchOpen = bus.on("search:open", () => {
+    feedState.searchOpen = true;
+    if (window.location.hash !== "#/" && window.location.hash !== "") {
+      location.hash = "#/";
+    }
+  });
+}
+
+function unmount() {
+  onSearchOpen?.();
+  onSearchOpen = null;
+  document.removeEventListener("keydown", escapeHandler);
+  escapeHandler = null;
+  if (searchTimer) {
+    clearTimeout(searchTimer);
+    searchTimer = null;
+  }
+  if (inFlight) {
+    inFlight.abort();
+    inFlight = null;
+  }
+}
+
+defineService({ id: "feed", render: renderFeed, mount, unmount });
