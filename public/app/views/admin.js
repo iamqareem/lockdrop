@@ -8,7 +8,7 @@
 import { api } from "../api.js";
 import { listDrops } from "../drops.js";
 import { state, setAdminToken } from "../state.js";
-import { renderShell } from "../main.js";
+import { renderShell } from "../core/shell.js";
 import { brandMark } from "../icons.js";
 import { CATEGORIES } from "../categories.js";
 import { escapeHtml, timeAgo, formatPrice, verdictClass } from "../util.js";

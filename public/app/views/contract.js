@@ -5,7 +5,7 @@
  * in the repository is compiled into the function bundle at deploy time.
  */
 import { api } from "../api.js";
-import { renderShell } from "../main.js";
+import { renderShell } from "../core/shell.js";
 import { escapeHtml, copyText } from "../util.js";
 
 export async function renderContractView() {

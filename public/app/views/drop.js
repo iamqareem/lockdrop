@@ -8,7 +8,7 @@
 import { getDrop } from "../drops.js";
 import { api } from "../api.js";
 import { state } from "../state.js";
-import { renderShell } from "../main.js";
+import { renderShell } from "../core/shell.js";
 import { brandMark, icon } from "../icons.js";
 import { CATEGORY_BY_ID } from "../categories.js";
 import {

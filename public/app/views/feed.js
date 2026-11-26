@@ -11,7 +11,7 @@
  */
 import { listDrops, searchDrops, countByCategory } from "../drops.js";
 import { state } from "../state.js";
-import { renderShell } from "../main.js";
+import { renderShell } from "../core/shell.js";
 import { brandMark, icon } from "../icons.js";
 import { CATEGORIES } from "../categories.js";
 import {

@@ -12,7 +12,8 @@
 import { api } from "../api.js";
 import { getConfig } from "../config.js";
 import { state, notify } from "../state.js";
-import { renderShell, render } from "../main.js";
+import { renderShell } from "../core/shell.js";
+import { render } from "../core/router.js";
 import { brandMark, icon } from "../icons.js";
 import { CATEGORIES, CATEGORY_BY_ID, quickCheck } from "../categories.js";
 import { feeTierFor } from "../shared/drop.js";
