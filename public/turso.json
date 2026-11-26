@@ -1,7 +1,7 @@
 {
   "url": "https://lockdrop-mwanja.aws-ap-south-1.turso.io",
-  "writeToken": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3OTU2ODM3NTcsImlkIjoiMDFhMWQ5OTQtZDkwMS03MzUyLWIzYTYtYTY3MmEyMDU2YzZkIiwia2lkIjoiVkdRS1F5dGp0czVxd0ZjX09nTUFrVHg1OG5RUFktT0hQLU1Ec1g5bUZvQSIsInBlcm0iOlt7InQiOlsiZHJvcHMiXSwiYSI6WyJkYXRhX3JlYWQiXX1dLCJyaWQiOiI1NTJjMDc0MC0zNzAwLTQ2OWMattOGY0YS1hMzM0Y2IwYjE0YzYifQ.t2s8TiHDB4nP6EYkyyxLyvI4HpYUMqBoRsznN-MuHfwVWrX-_GVni6zTvx-zRtgYISv4IQCzBcp_z0zK5djbDg",
-  "readToken": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3OTQ2NTk3MzMsImlkIjoiMDFhMWQ5OTQtZDkwMS03MzUyLWIzYTYtYTY3MmEyMDU2YzZkIiwia2lkIjoiVkdRS1F5dGp0czVxd0ZjX09nTUFrVHg1OG5RUFktT0hQLU1Ec1g5bUZvQSIsInBlcm0iOlt7InQiOlsiZHJvcHMiXSwiYSI6WyJkYXRhX3JlYWQiXX1dLCJyaWQiOiI1NTJjMDc0MC0zNzAwLTQ2OWMattOGY0YS1hMzM0Y2IwYjE0YzYifQ.j4mzmu0bQBmCebIn6kHvnbtf6dyB6klgB1se8RnkmdH7TzNDAgD_Uglego1UJxwXPikK1c8uELqV1lDH_te1DQ",
+  "writeToken": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3OTU2ODk3OTUsImlkIjoiMDFhMWQ5OTQtZDkwMS03MzUyLWIzYTYtYTY3MmEyMDU2YzZkIiwia2lkIjoiVkdRS1F5dGp0czVxd0ZjX09nTUFrVHg1OG5RUFktT0hQLU1Ec1g5bUZvQSIsInBlcm0iOlt7InQiOlsiZHJvcHMiXSwiYSI6WyJkYXRhX3JlYWQiLCJkYXRhX2FkZCIsImRhdGFfdXBkYXRlIiwiZGF0YV9kZWxldGUiXX1dLCJyaWQiOiI1NTJjMDc0MC0zNzAwLTQ2OWMtOGY0YS1hMzM0Y2IwYjE0YzYifQ.QeW9oyQAh-hyVRmhttJAoxvIgRIYH5RvBr7_K1zT9eCpbhxWHZGEa6lXjbRsn7bIp-sNeGDCyC9qs-6wXMofAA",
+  "readToken": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3OTU2ODk2NTIsImlkIjoiMDFhMWQ5OTQtZDkwMS03MzUyLWIzYTYtYTY3MmEyMDU2YzZkIiwia2lkIjoiVkdRS1F5dGp0czVxd0ZjX09nTUFrVHg1OG5RUFktT0hQLU1Ec1g5bUZvQSIsInBlcm0iOlt7InQiOlsiZHJvcHMiXSwiYSI6WyJkYXRhX3JlYWQiXX1dLCJyaWQiOiI1NTJjMDc0MC0zNzAwLTQ2OWMtOGY0YS1hMzM0Y2IwYjE0YzYifQ.IQlXLfQ-o7eM9Mo29nrdOoywbdQ8REyCW7xykY7f6GOe7L5nA3vGj53yQY0Mz8uJaSEuWsrFO-6FE81FTyRLBw",
   "readTable": "drops",
   "_comment": [
     "Public Turso configuration for the browser.",
@@ -23,7 +23,10 @@
     "then create a new one and update this file, e.g.:",
     "",
     "  turso db tokens create lockdrop -p drops:data_read -e never",
-    "  turso db tokens create lockdrop -p drops:data_write -e never",
+    "  turso db tokens create lockdrop -p drops:data_read,data_add,data_update,data_delete -e never",
+    "",
+    "  Note: there is no `data_write` action. A write scope has to be spelled",
+    "  out as data_add / data_update / data_delete, or the token is rejected",
     "",
     "then push the updated `public/turso.json` to Cloudflare Pages.",
     "",

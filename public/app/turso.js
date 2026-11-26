@@ -36,6 +36,38 @@ function decodeCell(cell) {
 }
 
 /**
+ * Reads a pipeline response and turns every way Turso can fail into an
+ * exception.
+ *
+ * Turso reports a rejected token or a rejected statement in two different
+ * places: an HTTP status, or a top-level `error` field with no `results` at
+ * all. A failure read from only one of those places looks like a successful
+ * request that returned no rows, which is how a broken token ends up being
+ * reported as "the token can write".
+ */
+async function readPipeline(res, label) {
+  const body = await res.text();
+
+  let payload;
+  try {
+    payload = JSON.parse(body);
+  } catch {
+    throw new Error(`${label} failed: Turso sent an unreadable response.`);
+  }
+
+  const detail =
+    (typeof payload?.error === "string" && payload.error) ||
+    payload?.error?.message ||
+    (payload?.results ?? []).find((result) => result.type === "error")?.error?.message;
+
+  if (!res.ok || detail) {
+    throw new Error(`${label} failed: ${detail || `status ${res.status}`}`);
+  }
+
+  return payload;
+}
+
+/**
  * Loads the public Turso read configuration.
  *
  * It lives in a static file rather than in /api/config so the feed keeps
@@ -101,18 +133,8 @@ export async function query(sql, args = [], { signal } = {}) {
     signal,
   });
 
-  if (!res.ok) {
-    throw new Error(`Turso read failed with status ${res.status}.`);
-  }
-
-  const payload = await res.json();
+  const payload = await readPipeline(res, "Turso read");
   const results = payload.results ?? [];
-
-  for (const result of results) {
-    if (result.type === "error") {
-      throw new Error(result.error?.message ?? "Turso read failed.");
-    }
-  }
 
   const rows = [];
   for (const result of results) {
@@ -144,9 +166,9 @@ export async function probeTurso() {
  * Runs an INSERT/UPDATE/DELETE against Turso using the write token.
  *
  * The admin-facing frontend uses this to create new drops directly into
- * the database — no Cloudflare Functions needed. The write token is scoped
- * to `drops:data_write`, so it can only modify the `drops` table (not
- * `drop_secrets` or any other table).
+ * the database — no Cloudflare Functions needed. The token is scoped to the
+ * `drops` table, so it can only touch `drops` (not `drop_secrets` or any
+ * other table).
  *
  * `signal` aborts the request. The browser uses it to cancel a write that
  * has already been superseded by a newer one.
@@ -174,19 +196,6 @@ export async function write(sql, args = [], { signal } = {}) {
     signal,
   });
 
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(`Turso write failed with status ${res.status}. ${text}`);
-  }
-
-  const payload = await res.json();
-  const results = payload.results ?? [];
-
-  for (const result of results) {
-    if (result.type === "error") {
-      throw new Error(result.error?.message ?? "Turso write failed.");
-    }
-  }
-
-  return results;
+  const payload = await readPipeline(res, "Turso write");
+  return payload.results ?? [];
 }

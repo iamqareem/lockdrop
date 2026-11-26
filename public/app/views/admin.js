@@ -1,10 +1,10 @@
 /**
  * Admin panel.
  *
- * The admin frontend uses a Turso write token scoped to `drops:data_write`
- * to create new drops directly into the database — no Cloudflare Functions
- * needed. The token is public by design (same model as the read token), but
- * Turso enforces the write scope server-side.
+ * The admin frontend writes to Turso directly with a token scoped to the
+ * drops table — no Cloudflare Functions involved. The token ships in the
+ * bundle by design (the read token always did), and Turso enforces the scope
+ * server-side.
  */
 import { loadTursoConfig, query, write } from "../turso.js";
 import { listDrops } from "../drops.js";
@@ -20,9 +20,9 @@ function loginHtml() {
       <div>
         <h1 class="panel-title">Admin access</h1>
         <p class="muted tiny" style="margin:6px 0 0">
-          Enter the Turso write token to manage platform drops. The token is
-          stored in `public/turso.json` and scoped to writing the `drops` table
-          only. Turso enforces the scope server-side.
+          Enter the Turso write token to manage platform drops. The token ships
+          with the frontend and is scoped to writing the drops table only.
+          Turso enforces the scope server-side.
         </p>
       </div>
       <form id="adminLoginForm" class="stack-sm">

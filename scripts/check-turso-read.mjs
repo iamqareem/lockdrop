@@ -79,6 +79,16 @@ async function query(sql, args = [], token = readToken) {
   });
 
   const payload = await res.json();
+  /*
+   * Turso reports a bad token or a bad statement as a top-level `error` with
+   * no `results` at all. Without this a broken token would look like a
+   * successful query, which turns the "cannot write" checks into lies.
+   */
+  if (!res.ok || payload.error) {
+    const detail =
+      typeof payload.error === "string" ? payload.error : (payload.error?.message ?? `HTTP ${res.status}`);
+    throw new Error(detail);
+  }
   const results = payload.results ?? [];
   for (const result of results) {
     if (result.type === "error") throw new Error(result.error?.message ?? "Turso error");
