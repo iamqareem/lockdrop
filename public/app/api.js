@@ -66,6 +66,8 @@ export const api = {
 
   contract: () => request("/contract"),
 
+  createDrop: (body) => request("/drops", { method: "POST", body }),
+
   verify: (body) => request("/verify", { method: "POST", body }),
 
   unlock: (body) => request("/unlock", { method: "POST", body }),

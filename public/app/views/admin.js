@@ -1,12 +1,11 @@
 /**
  * Admin panel.
  *
- * The admin frontend writes to Turso directly with a token scoped to the
- * drops table — no Cloudflare Functions involved. The token ships in the
- * bundle by design (the read token always did), and Turso enforces the scope
- * server-side.
+ * The old build compared the entered PIN against values hard-coded in the
+ * client bundle, which made it public. The token is now a server-side secret
+ * and every privileged call is authorised on the backend.
  */
-import { loadTursoConfig, query, write } from "../turso.js";
+import { api } from "../api.js";
 import { listDrops } from "../drops.js";
 import { state, setAdminToken } from "../state.js";
 import { renderShell } from "../main.js";
@@ -20,13 +19,12 @@ function loginHtml() {
       <div>
         <h1 class="panel-title">Admin access</h1>
         <p class="muted tiny" style="margin:6px 0 0">
-          Enter the Turso write token to manage platform drops. The token ships
-          with the frontend and is scoped to writing the drops table only.
-          Turso enforces the scope server-side.
+          Enter the admin token to manage platform drops. The token is stored in
+          a Cloudflare secret and checked on the server.
         </p>
       </div>
       <form id="adminLoginForm" class="stack-sm">
-        <input id="adminTokenInput" type="password" required placeholder="Write token"
+        <input id="adminTokenInput" type="password" required placeholder="Admin token"
           class="input mono" autocomplete="current-password" />
         <div id="adminLoginError" class="alert alert-error hidden">That token was rejected.</div>
         <button type="submit" class="btn btn-primary btn-block">Open the dashboard</button>
@@ -81,8 +79,8 @@ function rowsHtml(drops) {
               )}">Delete</button>
             </td>
           </tr>`
-        )
-        .join("")}
+          )
+          .join("")}
       </tbody>
     </table>`;
 }
@@ -131,24 +129,23 @@ function dashboardHtml(drops) {
 
       <div class="stack-sm">
         <h2 class="panel-title" style="font-size:14px">All drops</h2>
-        <div class="table-wrap" id="adminTable">${rowsHtml(state.drops)}</div>
+        <div class="table-wrap" id="adminTable">${rowsHtml(drops)}</div>
       </div>
     </div>`;
 }
 
 export async function renderAdminView() {
-  // Load Turso config (read + write tokens from public/turso.json)
-  await loadTursoConfig();
-
   if (!state.adminUnlocked) {
     renderShell("admin", loginHtml());
     document.getElementById("adminLoginForm")?.addEventListener("submit", async (e) => {
       e.preventDefault();
       const token = document.getElementById("adminTokenInput").value.trim();
       try {
-        // Validate the token by making a simple read query.
-        // The write token can also SELECT from `drops`, so this probe works.
-        await query("SELECT 1 FROM drops LIMIT 1", [], { signal: AbortSignal.timeout(10000) });
+        // A side-effect-free probe: 200 means the token is accepted.
+        const probe = await fetch("/api/admin/check", {
+          headers: { "x-admin-token": token },
+        });
+        if (!probe.ok) throw new Error("rejected");
         setAdminToken(token);
         await renderAdminView();
       } catch {
@@ -174,15 +171,8 @@ export async function renderAdminView() {
     const categoryId = document.getElementById("adCategory").value;
     const url = document.getElementById("adUrl").value.trim();
 
-    // Build the INSERT statement matching the drops table schema.
-    // Category label comes from CATEGORIES map; we use 'gdrive' as default
-    // when the category_id is 'gdrive'. The user will supply the category
-    // via the select field.
-    const categoryLabel = CATEGORIES.find((c) => c.id === categoryId)?.label || "gdrive";
-    const sql = `INSERT INTO drops (id, title, summary, category_id, category, seller_wallet, token_address, token_symbol, token_decimals, price, unlock_mode, verdict, verdict_reason, verdict_score, verdict_source, is_admin_ad, status, created_at) VALUES ('${title.replace(/'/g, "''")}', '${title}', '', '${categoryId}', '${categoryLabel}', '0x1111111111111111111111111111111111111111', '0x0000000000000000000000000000000000000000', 'POL', 18, '0', 'free_ad', 'Checked', '', 0, 'heuristic', 0, 'active', datetime('now'))`;
-
     try {
-      await write(sql);
+      await api.adminCreateDrop({ title, categoryId, url }, state.adminToken);
       document.getElementById("adminAdForm").reset();
       await refreshAdminTable();
     } catch (err) {
@@ -197,9 +187,7 @@ export async function renderAdminView() {
       if (!id) return;
       btn.disabled = true;
       try {
-        // Delete via Turso: delete from drops and drop_secrets
-        await write(`DELETE FROM drops WHERE id='${id}';`);
-        await write(`DELETE FROM drop_secrets WHERE drop_id='${id}';`);
+        await api.adminDeleteDrop(id, state.adminToken);
         state.drops = state.drops.filter((d) => d.id !== id);
         await refreshAdminTable();
       } catch (err) {
