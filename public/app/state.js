@@ -1,4 +1,10 @@
-/** Central application state. */
+/**
+ * The shared store — cross-cutting state only.
+ *
+ * Each service owns its own state (`services/<name>/state.js`); what lives
+ * here is what the shell and more than one service genuinely share: the
+ * wallet session, the theme, and which config endpoints have answered.
+ */
 
 export const state = {
   walletAddress: "",
@@ -56,10 +62,6 @@ export const state = {
   dropLoading: false,
   unlocking: false,
   unlockStatus: "",
-
-  /* admin */
-  adminUnlocked: false,
-  adminToken: sessionStorage.getItem("lockdrop_admin_token") || "",
 };
 
 const listeners = new Set();
@@ -83,13 +85,5 @@ export function setDarkMode(enabled) {
   localStorage.setItem("lockdrop_dark_mode", String(enabled));
   document.documentElement.classList.toggle("dark", enabled);
   document.documentElement.classList.toggle("light", !enabled);
-  notify();
-}
-
-export function setAdminToken(token) {
-  state.adminToken = token;
-  state.adminUnlocked = Boolean(token);
-  if (token) sessionStorage.setItem("lockdrop_admin_token", token);
-  else sessionStorage.removeItem("lockdrop_admin_token");
   notify();
 }

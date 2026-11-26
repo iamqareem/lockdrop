@@ -17,21 +17,24 @@ import { loadTursoConfig } from "./turso.js";
 import { restoreAccount } from "./wallet.js";
 import { escapeHtml } from "./util.js";
 
-import { parseHash, registerView, render } from "./core/router.js";
+import { parseHash, render } from "./core/router.js";
+import { defineService } from "./core/service.js";
 import { paintWalletButtons } from "./core/shell.js";
 
+/* The services that own their state. */
+import "./services/admin/index.js";
+
+/* Views still migrating onto the service contract. */
 import { renderCreateView } from "./views/create.js";
 import { renderFeedView } from "./views/feed.js";
 import { renderDropView } from "./views/drop.js";
-import { renderAdminView } from "./views/admin.js";
 import { renderContractView } from "./views/contract.js";
 
-/* The wiring diagram: route id -> the view that renders it. */
-registerView("feed", renderFeedView);
-registerView("drop", renderDropView);
-registerView("create", renderCreateView);
-registerView("admin", renderAdminView);
-registerView("contract", renderContractView);
+/* The wiring diagram: route id -> the service that renders it. */
+defineService({ id: "lock", render: renderCreateView });
+defineService({ id: "feed", render: renderFeedView });
+defineService({ id: "drop", render: renderDropView });
+defineService({ id: "contract", render: renderContractView });
 
 export async function boot() {
   document.documentElement.classList.toggle("dark", state.isDarkMode);

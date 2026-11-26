@@ -1,17 +1,22 @@
 /**
- * Admin panel.
+ * Admin service.
  *
  * The old build compared the entered PIN against values hard-coded in the
  * client bundle, which made it public. The token is now a server-side secret
  * and every privileged call is authorised on the backend.
+ *
+ * This service owns its state (`./state.js`), its markup and its API calls.
+ * Nothing outside imports it except the composition root, which only wires
+ * it to a route.
  */
-import { api } from "../api.js";
-import { listDrops } from "../drops.js";
-import { state, setAdminToken } from "../state.js";
-import { renderShell } from "../core/shell.js";
-import { brandMark } from "../icons.js";
-import { CATEGORIES } from "../categories.js";
-import { escapeHtml, timeAgo, formatPrice, verdictClass } from "../util.js";
+import { api } from "../../api.js";
+import { listDrops } from "../../drops.js";
+import { renderShell } from "../../core/shell.js";
+import { defineService } from "../../core/service.js";
+import { brandMark } from "../../icons.js";
+import { CATEGORIES } from "../../categories.js";
+import { escapeHtml, timeAgo, formatPrice, verdictClass } from "../../util.js";
+import { adminState, setAdminToken } from "./state.js";
 
 function loginHtml() {
   return `
@@ -134,8 +139,8 @@ function dashboardHtml(drops) {
     </div>`;
 }
 
-export async function renderAdminView() {
-  if (!state.adminUnlocked) {
+async function renderAdmin() {
+  if (!adminState.unlocked) {
     renderShell("admin", loginHtml());
     document.getElementById("adminLoginForm")?.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -147,7 +152,7 @@ export async function renderAdminView() {
         });
         if (!probe.ok) throw new Error("rejected");
         setAdminToken(token);
-        await renderAdminView();
+        await renderAdmin();
       } catch {
         document.getElementById("adminLoginError")?.classList.remove("hidden");
       }
@@ -155,12 +160,12 @@ export async function renderAdminView() {
     return;
   }
 
-  renderShell("admin", dashboardHtml(state.drops));
+  renderShell("admin", dashboardHtml(adminState.drops));
   await refreshAdminTable();
 
   document.getElementById("adminLogoutBtn")?.addEventListener("click", () => {
     setAdminToken("");
-    renderAdminView();
+    renderAdmin();
   });
 
   document.getElementById("adminAdForm")?.addEventListener("submit", async (e) => {
@@ -172,7 +177,7 @@ export async function renderAdminView() {
     const url = document.getElementById("adUrl").value.trim();
 
     try {
-      await api.adminCreateDrop({ title, categoryId, url }, state.adminToken);
+      await api.adminCreateDrop({ title, categoryId, url }, adminState.token);
       document.getElementById("adminAdForm").reset();
       await refreshAdminTable();
     } catch (err) {
@@ -187,8 +192,8 @@ export async function renderAdminView() {
       if (!id) return;
       btn.disabled = true;
       try {
-        await api.adminDeleteDrop(id, state.adminToken);
-        state.drops = state.drops.filter((d) => d.id !== id);
+        await api.adminDeleteDrop(id, adminState.token);
+        adminState.drops = adminState.drops.filter((d) => d.id !== id);
         await refreshAdminTable();
       } catch (err) {
         btn.disabled = false;
@@ -205,10 +210,12 @@ export async function renderAdminView() {
 async function refreshAdminTable() {
   try {
     const result = await listDrops({ limit: 100 });
-    state.drops = result.drops ?? [];
+    adminState.drops = result.drops ?? [];
   } catch {
-    state.drops = [];
+    adminState.drops = [];
   }
   const table = document.getElementById("adminTable");
-  if (table) table.innerHTML = rowsHtml(state.drops);
+  if (table) table.innerHTML = rowsHtml(adminState.drops);
 }
+
+defineService({ id: "admin", render: renderAdmin });
