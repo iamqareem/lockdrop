@@ -18,29 +18,40 @@ import { restoreAccount } from "./wallet.js";
 import { escapeHtml } from "./util.js";
 
 import { parseHash, render } from "./core/router.js";
-import { defineService } from "./core/service.js";
+import { bus } from "./core/bus.js";
 import { paintWalletButtons } from "./core/shell.js";
 
 /* The services that own their state. */
 import "./services/admin/index.js";
+import "./services/contract/index.js";
 import "./services/feed/index.js";
+import "./services/lock/index.js";
 import "./services/payment/index.js";
-
-/* Views still migrating onto the service contract. */
-import { renderCreateView } from "./views/create.js";
-import { renderContractView } from "./views/contract.js";
-
-/* The wiring diagram: route id -> the service that renders it. */
-defineService({ id: "lock", render: renderCreateView });
-defineService({ id: "contract", render: renderContractView });
 
 export async function boot() {
   document.documentElement.classList.toggle("dark", state.isDarkMode);
   document.documentElement.classList.toggle("light", !state.isDarkMode);
 
   if (window.Telegram?.WebApp) {
-    window.Telegram.WebApp.ready();
-    window.Telegram.WebApp.expand();
+    const tg = window.Telegram.WebApp;
+    /*
+     * The Telegram SDK is progressive enhancement: it loads on every page,
+     * but most of its methods only work inside a Telegram client. Calling
+     * one outside the client throws `WebAppMethodUnsupported` — notably
+     * requestFullscreen — which would otherwise reject boot() and swap the
+     * whole app for "LockDrop could not start". Keep every call guarded.
+     */
+    try {
+      tg.ready();
+      tg.expand();
+      const bg = state.isDarkMode ? "#111110" : "#faf9f7";
+      tg.setHeaderColor?.(bg);
+      tg.setBackgroundColor?.(bg);
+      // Fullscreen is only meaningful — and only supported — in the client.
+      if (tg.initData) tg.requestFullscreen?.();
+    } catch {
+      /* not in a Telegram client, or an older SDK — the web app stands alone */
+    }
   }
 
   /*
@@ -78,8 +89,9 @@ export async function boot() {
   restoreAccount()
     .then((address) => {
       state.walletAddress = address;
-      if (address && !state.sellerWallet) {
-        state.sellerWallet = address;
+      if (address) {
+        if (!state.sellerWallet) state.sellerWallet = address;
+        bus.emit("wallet:connected", address);
       }
       paintWalletButtons();
       // The wizard and the drop view read the wallet; the feed does not.
@@ -88,6 +100,12 @@ export async function boot() {
     .catch(() => {
       /* no wallet, or the provider refused — the feed does not care */
     });
+
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/sw.js").catch(() => {
+      /* offline caching is progressive enhancement */
+    });
+  }
 }
 
 /* Surface failures instead of leaving the boot placeholder on screen. */
