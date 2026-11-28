@@ -1088,6 +1088,27 @@ a {
   border-color: var(--border-strong);
 }
 
+/* Categories: one quiet chevron, square-pill sized like the mode buttons. */
+.category-btn {
+  width: 34px;
+  padding: 0;
+  justify-content: center;
+  gap: 0;
+  color: var(--text-muted);
+}
+.category-btn svg {
+  transition: transform 0.18s ease;
+}
+.category-btn:hover svg,
+.category-btn.is-active svg {
+  transform: translateY(1px);
+}
+.category-btn.is-active {
+  color: var(--text);
+  border-color: var(--border-strong);
+  background: var(--surface-2);
+}
+
 /* The list is the only thing that repaints while the user types. */
 .feed-slot {
   transition: opacity 0.16s ease;

@@ -159,12 +159,11 @@ function toolbarHtml() {
   const active = CATEGORIES.find((c) => c.id === feedState.feedCategory);
   return `
     <div class="feed-toolbar">
-      <button type="button" class="feed-tool" id="categoryBtn"
-        aria-haspopup="dialog" aria-expanded="${feedState.feedCategoryModalOpen}">
-        ${icon("chevronDown", "", 13)}
-        <span id="categoryLabel">${escapeHtml(
-          active ? active.label : "Categories"
-        )}</span>
+      <button type="button" class="feed-tool category-btn${active ? " is-active" : ""}"
+        id="categoryBtn" aria-haspopup="dialog"
+        aria-label="${active ? `Category: ${escapeHtml(active.label)}` : "Choose a category"}"
+        aria-expanded="${feedState.feedCategoryModalOpen}">
+        ${icon("chevronDown", "", 14)}
       </button>
       ${modeHtml()}
       <a href="#/lock" class="btn btn-secondary feed-tool-cta">Lock a link</a>
@@ -309,10 +308,14 @@ function paintComposer() {
 }
 
 function paintToolbar() {
-  const label = document.getElementById("categoryLabel");
-  if (!label) return;
+  const btn = document.getElementById("categoryBtn");
+  if (!btn) return;
   const active = CATEGORIES.find((c) => c.id === feedState.feedCategory);
-  label.textContent = active ? active.label : "Categories";
+  btn.classList.toggle("is-active", Boolean(active));
+  btn.setAttribute(
+    "aria-label",
+    active ? `Category: ${active.label}` : "Choose a category"
+  );
 }
 
 function paintModal() {

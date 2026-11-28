@@ -10,7 +10,7 @@
  *   node scripts/import-kb.mjs "Linux Essentials"
  */
 import { execFileSync } from "node:child_process";
-import { writeFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { writeFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
@@ -19,8 +19,14 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const ROADMAPS_PARENT = "11CxwnFRCy_D6kCvnHlU_R9-usIbxf350";
 const MASTER_INDEX = "1Scs_CWWphjaWg3AikoXBLCqJpFqOsaumRHdLRoUMLcM";
 const OUT = join(root, "public", "data", "roadmaps.json");
+const SUMMARIES = join(root, "scripts", "kb-summaries.json");
 
 const target = process.argv[2] || "Linux Essentials";
+
+/** Curated, benefit-led summaries beat the generic overview line. */
+const overrides = existsSync(SUMMARIES)
+  ? JSON.parse(readFileSync(SUMMARIES, "utf8"))
+  : {};
 
 function sleepSync(ms) {
   Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
@@ -104,12 +110,33 @@ function overview(text) {
   return "";
 }
 
+/**
+ * Some front-matter titles are distorted sentence fragments. The H1 is the
+ * reliable human title in those roads, so prefer it when the front-matter
+ * one looks broken.
+ */
+function pickTitle(fm, markdown, fileName) {
+  const h1 = markdown.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? "";
+  const fromHeading = h1
+    .replace(/^[^\x00-\x7F]+\s*/, "")
+    .replace(/^Module\s*\d+\s*:\s*/i, "")
+    .trim();
+  const fmTitle = String(fm.title ?? "");
+  const broken = !fmTitle || fmTitle.endsWith("…") || fmTitle.length > 90;
+  return broken && fromHeading ? fromHeading : fmTitle || fromHeading || fileName.replace(/\.md$/, "");
+}
+
 /** Stage name from the Master Technical Index, e.g. the LPIC-1 section. */
-function stageFromIndex(indexText, track) {
-  for (const line of indexText.split("\n")) {
-    if (/^LPIC-1:/i.test(line.trim())) return line.trim().replace(/:$/, "");
+function stageFromIndex(indexText, track, source) {
+  const lines = indexText.split("\n").map((line) => line.trim());
+  if (/network/i.test(track)) {
+    const section = lines.find((line) => /^\d+\.\s+Networking/i.test(line));
+    return source || section?.replace(/^\d+\.\s+/, "") || "Networking";
   }
-  return track || "The path";
+  if (/linux/i.test(track)) {
+    return lines.find((line) => /^LPIC-1:/i.test(line))?.replace(/:$/, "") || "Linux Engineer Track";
+  }
+  return source || lines.find((line) => /^\d+\.\s+/.test(line))?.replace(/^\d+\.\s+/, "") || track || "The path";
 }
 
 console.log(`Importing "${target}" from Google Drive…`);
@@ -149,8 +176,8 @@ const steps = files.map((file, position) => {
     indexContext,
     id: String(fm.id ?? ""),
     slug: String(fm.slug ?? ""),
-    title: String(fm.title ?? file.name.replace(/\.md$/, "")),
-    summary: overview(markdown),
+    title: pickTitle(fm, markdown, file.name),
+    summary: overrides[String(fm.slug ?? "")] || String(fm.summary ?? "") || overview(markdown),
     source: String(fm.source ?? ""),
     track: String(fm.track ?? ""),
     viewUrl,
@@ -159,7 +186,7 @@ const steps = files.map((file, position) => {
 }).sort((a, b) => a.n - b.n);
 
 const track = steps[0]?.track ?? "";
-const stage = stageFromIndex(indexText, track);
+const stage = stageFromIndex(indexText, track, steps[0]?.source ?? "");
 const roadmap = {
   id: String(folder.id),
   slug: target.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
@@ -170,8 +197,15 @@ const roadmap = {
   steps,
 };
 
+/*
+ * One roadmap at a time: merge into the manifest rather than replace it, so
+ * importing Beej Networking does not erase the Linux path already seeded.
+ */
+const existing = existsSync(OUT) ? JSON.parse(readFileSync(OUT, "utf8")) : { roadmaps: [] };
+const others = (existing.roadmaps ?? []).filter((r) => r.slug !== roadmap.slug);
+const all = [...others, roadmap].sort((a, b) => a.slug.localeCompare(b.slug));
 mkdirSync(dirname(OUT), { recursive: true });
-writeFileSync(OUT, JSON.stringify({ roadmaps: [roadmap] }, null, 2));
+writeFileSync(OUT, JSON.stringify({ roadmaps: all }, null, 2));
 console.log(`wrote ${OUT}`);
 console.log(`${steps.length} steps, order ${steps.map((s) => s.n).join(",")}`);
 console.log("SEED_JSON=" + JSON.stringify(steps.map((s) => ({

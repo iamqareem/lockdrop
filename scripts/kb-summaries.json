@@ -1,0 +1,12 @@
+{
+  "01-linux-origins-and-open-source": "Trace Linux from a 1991 kernel project to the distributions powering phones, desktops and servers — and learn to choose between Debian, Ubuntu and RHEL without guessing.",
+  "02-open-source-licensing-and-ict-skills": "Cut through GPL, BSD and Creative Commons: know which licences let you ship proprietary code, which force you to publish, and how open-source businesses actually make money.",
+  "03-command-line-basics-and-help": "Work fluently in the shell: compose commands with pipes and quotes, control variables and PATH, and find any answer with man, info, locate and find.",
+  "04-directories-listing-and-file-manipulation": "Navigate the filesystem hierarchy like a native, master ls flags, and create, move, copy and delete files with confidence — including hidden and permission-sensitive cases.",
+  "05-archiving-and-searching-data": "Compress and archive with gzip, bzip2, xz and tar, redirect streams exactly where you want them, and slice text with head, tail, grep and friends.",
+  "06-scripts-and-os-condensed": "Turn repeated commands into real shell scripts with variables, arguments, conditionals and exit codes — then pick a distro based on lifecycle, not fashion.",
+  "07-hardware-and-storage-condensed": "Read a machine from the board up: CPU, RAM, UEFI, disks, RAID, partitions and the /dev and /sys trees that expose them to Linux.",
+  "08-networking-and-security-condensed": "Follow a packet from MAC address to DNS lookup: IPv4 and IPv6, CIDR, routing, resolv.conf and the account model that keeps a system safe.",
+  "09-users-groups-and-permissions-condensed": "Create users and groups, decode /etc/passwd and /etc/shadow, and control access with chmod, ownership and special bits — including what only root can do.",
+  "10-special-directories-and-files-condensed": "Understand /tmp, /run and sticky bits, count hard links, and tell a symlink from a real file — the small filesystem details that cause big surprises."
+}
