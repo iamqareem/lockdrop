@@ -162,23 +162,32 @@ function detailHtml(drop) {
     </div>`;
 }
 
-export async function renderDropView(dropId) {
+export function renderNotFound(message) {
+  renderShell(
+    "drop",
+    `<div class="narrow panel stack" style="text-align:center">
+       <h1 class="panel-title">Drop not found</h1>
+       <p class="muted tiny">${escapeHtml(message)}</p>
+       <a href="#/" class="btn btn-primary">Back to the feed</a>
+     </div>`
+  );
+}
+
+async function renderDropView(dropId) {
   renderShell("drop", `<div class="narrow"><div class="panel empty">Loading drop…</div></div>`);
 
   let drop;
   try {
     drop = await getDrop(dropId);
   } catch (err) {
-    renderShell(
-      "drop",
-      `<div class="narrow panel stack" style="text-align:center">
-         <h1 class="panel-title">Drop not found</h1>
-         <p class="muted tiny">${
-           err instanceof Error ? err.message : "This drop does not exist."
-         }</p>
-         <a href="#/" class="btn btn-primary">Lock a link</a>
-       </div>`
-    );
+    renderNotFound(err instanceof Error ? err.message : "This drop does not exist.");
+    return;
+  }
+  // getDrop returns null for an unknown id rather than throwing. Without
+  // this guard, detailHtml(null) throws and the global error handler blanks
+  // the whole app — a bad link should only show a "not found" panel.
+  if (!drop) {
+    renderNotFound("This drop does not exist.");
     return;
   }
 
