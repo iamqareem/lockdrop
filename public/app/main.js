@@ -44,7 +44,7 @@ export async function boot() {
     try {
       tg.ready();
       tg.expand();
-      const bg = state.isDarkMode ? "#111110" : "#faf9f7";
+      const bg = state.isDarkMode ? "#1f1e1d" : "#faf9f5";
       tg.setHeaderColor?.(bg);
       tg.setBackgroundColor?.(bg);
       // Fullscreen is only meaningful — and only supported — in the client.

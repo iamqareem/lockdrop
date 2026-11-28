@@ -67,6 +67,19 @@ const onRequestPost = async ({ request, env }) => {
   const targetUrl = (body.url || "").trim();
   const categoryId = (body.categoryId || "").trim();
   const unlockMode = (body.unlockMode || "paid_ad").trim();
+  // Optional roadmap placement. Both are slugs from the static manifest, so
+  // a published drop can be joined to its step in a learning path.
+  const roadmapSlug = (body.roadmapSlug || "").trim();
+  const stepSlug = (body.stepSlug || "").trim();
+  if (roadmapSlug.length > 80 || stepSlug.length > 120) {
+    return fail("Invalid roadmap placement.");
+  }
+  if (
+    (roadmapSlug && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(roadmapSlug)) ||
+    (stepSlug && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(stepSlug))
+  ) {
+    return fail("Invalid roadmap placement.");
+  }
   if (title.length < 3 || title.length > 120) {
     return fail("Give the resource a title between 3 and 120 characters.");
   }
@@ -145,8 +158,8 @@ const onRequestPost = async ({ request, env }) => {
          id, title, summary, category_id, category, seller_wallet,
          token_address, token_symbol, token_decimals, price, unlock_mode, verdict,
          verdict_reason, verdict_score, verdict_source, is_admin_ad,
-         status, created_at
-       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 'active', ?)`,
+         status, created_at, roadmap_slug, step_slug
+       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 'active', ?, ?, ?)`,
       [
         id,
         title,
@@ -163,7 +176,9 @@ const onRequestPost = async ({ request, env }) => {
         report.reason,
         report.score,
         report.source,
-        createdAt
+        createdAt,
+        roadmapSlug,
+        stepSlug
       ]
     );
     await execute(
@@ -192,7 +207,9 @@ const onRequestPost = async ({ request, env }) => {
     verdict_source: report.source,
     is_admin_ad: 0,
     status: "active",
-    created_at: createdAt
+    created_at: createdAt,
+    roadmap_slug: roadmapSlug,
+    step_slug: stepSlug
   };
   return json(
     {

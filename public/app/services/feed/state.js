@@ -19,10 +19,6 @@ export const feedState = {
   feedCategoryModalOpen: false,
   /** How many drops each category holds, read when the picker opens. */
   categoryCounts: null,
-  searchQuery: "",
-  /** True while the composer is open — on a phone it is the whole bottom. */
-  searchOpen: false,
-  /** "idle" | "searching" | "ready" | "error". */
-  searchStatus: "idle",
-  searchCount: 0,
+  /** "feed" (chronological) or "path" (learning roadmap order). */
+  mode: "feed",
 };

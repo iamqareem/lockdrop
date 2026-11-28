@@ -16,7 +16,7 @@ const COLUMNS = PUBLIC_DROP_COLUMNS.join(", ");
  * The public drop feed, newest first.
  * `cursor` is the `created_at` of the last row from the previous page.
  */
-export async function listDrops({ category = "", cursor = "", limit = 40 } = {}) {
+export async function listDrops({ category = "", cursor = "", limit = 40, signal } = {}) {
   const where = ["status = 'active'"];
   const args = [];
 
@@ -31,7 +31,8 @@ export async function listDrops({ category = "", cursor = "", limit = 40 } = {})
 
   const rows = await query(
     `SELECT ${COLUMNS} FROM drops WHERE ${where.join(" AND ")} ORDER BY created_at DESC LIMIT ?`,
-    [...args, limit + 1]
+    [...args, limit + 1],
+    { signal }
   );
 
   const hasMore = rows.length > limit;

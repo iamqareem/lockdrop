@@ -24,6 +24,19 @@
   --ok: #2f6b3a;
   --ok-bg: #eaf3ea;
 
+  /*
+   * Form controls get their own tokens. They are deliberately one step
+   * elevated from the panel surface in BOTH themes, so an input reads as a
+   * distinct, touchable object rather than disappearing into the card —
+   * the light value is paper-white, the dark value is raised charcoal.
+   */
+  --input-bg: #ffffff;
+  --input-fg: #1f1e1d;
+  --input-border: #d4cfc1;
+  --input-placeholder: #9c998e;
+  --input-focus: #1f1e1d;
+  color-scheme: light;
+
   --radius-sm: 8px;
   --radius: 12px;
   --radius-lg: 16px;
@@ -91,6 +104,14 @@
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
   --shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
   --shadow-float: 0 8px 28px rgba(0, 0, 0, 0.5);
+
+  /* Raised charcoal controls on the dark panel, with light readable text. */
+  --input-bg: #302e2b;
+  --input-fg: #f5f4ee;
+  --input-border: #4b4842;
+  --input-placeholder: #a5a298;
+  --input-focus: #f5f4ee;
+  color-scheme: dark;
 }
 
 * {
@@ -158,8 +179,12 @@ a {
 
 .shell {
   display: flex;
-  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
   flex-direction: column;
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
 .topbar {
@@ -267,6 +292,47 @@ a {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+/* Search lives in the top bar on desktop; the icon bar owns it on mobile. */
+.topsearch,
+.search-trigger {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .topsearch {
+    display: block;
+    flex: 0 1 220px;
+    min-width: 120px;
+    transition: flex-basis 0.2s ease;
+  }
+  .topsearch:focus-within {
+    flex-basis: 300px;
+  }
+  .topsearch .composer {
+    max-width: none;
+    height: 38px;
+    padding: 0 8px 0 12px;
+    gap: 8px;
+    background: var(--input-bg);
+    box-shadow: none;
+  }
+  .topsearch .composer-input {
+    font-size: var(--fs-sm);
+  }
+  .topsearch .composer-status {
+    font-size: var(--fs-micro);
+  }
+  .topsearch .composer-clear {
+    width: 22px;
+    height: 22px;
+  }
+  /* The top-bar pill replaces the docked composer on desktop. */
+  .main.is-feed,
+  .main.is-feed[class] {
+    padding-bottom: 72px;
+  }
 }
 
 .main {
@@ -379,8 +445,8 @@ a {
   pointer-events: auto;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 5px 9px;
+  gap: 18px;
+  padding: 6px 20px;
   border-radius: 999px;
   border: 1px solid var(--border);
   background: color-mix(in srgb, var(--surface) 94%, transparent);
@@ -571,33 +637,53 @@ a {
   width: 100%;
   height: 46px;
   border-radius: var(--radius);
-  border: 1px solid var(--border);
-  background: var(--surface);
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
   padding: 0 14px;
   font-family: var(--font-sans);
   font-size: var(--fs-base);
   letter-spacing: -0.005em;
-  color: var(--text);
+  color: var(--input-fg);
   transition: border-color 0.15s ease, box-shadow 0.15s ease,
     background 0.15s ease;
 }
 
 .input::placeholder,
 .select::placeholder {
-  color: var(--text-subtle);
+  color: var(--input-placeholder);
 }
 
 .input:hover,
 .select:hover {
-  border-color: var(--border-strong);
+  border-color: var(--input-focus);
 }
 
 .input:focus,
 .select:focus {
   outline: none;
-  background: var(--surface);
-  border-color: var(--text);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--text) 7%, transparent);
+  background: var(--input-bg);
+  border-color: var(--input-focus);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--input-focus) 12%, transparent);
+}
+
+/*
+ * Browsers paint autofilled fields with their own light background, which
+ * overrides `background`. Pin the palette back to the input tokens so a
+ * remembered address stays legible in dark mode.
+ */
+.input:-webkit-autofill,
+.input:-webkit-autofill:hover,
+.input:-webkit-autofill:focus,
+.select:-webkit-autofill {
+  -webkit-text-fill-color: var(--input-fg);
+  -webkit-box-shadow: 0 0 0 1000px var(--input-bg) inset;
+  caret-color: var(--input-fg);
+}
+.input:-moz-autofill,
+.select:-moz-autofill {
+  color: var(--input-fg);
+  background-color: var(--input-bg);
 }
 
 .input.mono {
@@ -606,8 +692,8 @@ a {
 }
 
 .input::placeholder {
-  color: var(--text-subtle);
-  opacity: 0.75;
+  color: var(--input-placeholder);
+  opacity: 1;
 }
 
 .hint {
@@ -1017,35 +1103,49 @@ a {
   margin-top: 18px;
 }
 
-/* Pinterest-style masonry using CSS multi-column. */
+/*
+ * A measured grid: one lead card sets the rhythm, then equal cards in a
+ * quiet, regular field. Hairlines and type carry the design — no ornament.
+ */
 .feed {
-  columns: 1;
-  column-gap: 16px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  align-items: start;
 }
 
 @media (min-width: 600px) {
-  .feed { columns: 2; }
+  .feed { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .feed { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 1360px) {
+  .feed { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
 @media (min-width: 1024px) {
-  .feed { columns: 3; }
-}
-
-@media (min-width: 1360px) {
-  .feed { columns: 4; }
+  .feed > .card:first-child {
+    grid-column: span 2;
+  }
+  .feed > .card:first-child .card-title {
+    font-size: var(--fs-xl);
+  }
+  .feed > .card:first-child .card-summary {
+    -webkit-line-clamp: 4;
+  }
 }
 
 .card {
-  break-inside: avoid;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  margin: 0 0 16px;
   border-radius: var(--radius);
   border: 1px solid var(--border);
   background: var(--surface);
   padding: 16px;
   position: relative;
-  transition: border-color 0.15s ease, transform 0.15s ease;
+  transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
 }
 
 /* One hit target for the whole card; the share button sits above it. */
@@ -1094,8 +1194,9 @@ a {
 }
 
 .card:hover {
-  border-color: var(--border-strong);
-  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--text) 38%, var(--border));
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
 }
 
 .card-head {
@@ -1160,7 +1261,7 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  margin-top: 14px;
+  margin-top: auto;
   padding-top: 12px;
   border-top: 1px solid var(--border);
   font-size: 11px;
@@ -1311,6 +1412,104 @@ table.data tbody tr:hover {
   font-size: var(--fs-sm);
   color: var(--text-muted);
   line-height: var(--lh-snug);
+}
+
+/* Walt-style bottom sheet for category selection */
+.modal-backdrop--sheet {
+  align-items: end;
+  justify-items: center;
+  padding: 0;
+}
+
+.modal--sheet {
+  max-width: 520px;
+  max-height: 82dvh;
+  border-radius: 22px 22px 0 0;
+  border-bottom: none;
+  padding: 10px 18px calc(20px + env(safe-area-inset-bottom));
+  animation: sheet-rise 0.22s cubic-bezier(0.2, 0.85, 0.3, 1);
+}
+
+@media (min-width: 768px) {
+  .modal-backdrop--sheet {
+    align-items: center;
+    padding: 20px;
+  }
+  .modal--sheet {
+    border-radius: var(--radius-xl);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 24px 24px;
+  }
+}
+
+@keyframes sheet-rise {
+  from { opacity: 0; transform: translateY(24px); }
+}
+
+.sheet-handle {
+  width: 36px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--border-strong);
+  margin: 0 auto 14px;
+}
+
+.category-list {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-raised, var(--surface));
+  overflow: hidden;
+}
+
+.category-list .category-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+
+.category-list .category-option + .category-option {
+  border-top: 1px solid var(--border);
+}
+
+.category-list .category-option:hover {
+  background: color-mix(in srgb, var(--text) 4%, transparent);
+}
+
+.category-list .category-option.is-active {
+  background: color-mix(in srgb, var(--text) 7%, transparent);
+}
+
+.category-option-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+  flex-shrink: 0;
+}
+
+.category-option-right {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.category-check {
+  display: grid;
+  place-items: center;
+  color: var(--text);
 }
 
 /* ------------------------------------------------------------------ misc */
@@ -1472,7 +1671,7 @@ pre.code {
   width: 100%;
   max-width: 560px;
   border: none;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--input-border);
   background: transparent;
   padding: 12px 6px;
   font-family: var(--font-display);
@@ -1481,17 +1680,17 @@ pre.code {
   letter-spacing: -0.022em;
   line-height: 1.2;
   text-align: center;
-  color: var(--text);
+  color: var(--input-fg);
   transition: border-color 0.18s ease;
 }
 
 .prompt-field:focus {
   outline: none;
-  border-bottom-color: var(--text);
+  border-bottom-color: var(--input-focus);
 }
 
 .prompt-field::placeholder {
-  color: var(--text-subtle);
+  color: var(--input-placeholder);
 }
 
 .prompt-hint {
@@ -1541,12 +1740,12 @@ pre.code {
   gap: 10px;
   width: 100%;
   max-width: 560px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--input-border);
   transition: border-color 0.18s ease;
 }
 
 .prompt-row:focus-within {
-  border-bottom-color: var(--text);
+  border-bottom-color: var(--input-focus);
 }
 
 .prompt-row .prompt-field {
@@ -1721,9 +1920,9 @@ pre.code {
   height: var(--composer-height);
   padding: 0 8px 0 16px;
   border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--text) 22%, transparent);
-  background: var(--surface);
-  color: var(--text);
+  border: 1px solid color-mix(in srgb, var(--input-border) 90%, var(--input-fg));
+  background: var(--input-bg);
+  color: var(--input-fg);
   box-shadow: var(--shadow-sm);
   transition:
     border-color 0.18s ease,
@@ -1737,17 +1936,17 @@ pre.code {
  * focus takes it all the way.
  */
 .composer.is-busy {
-  border-color: color-mix(in srgb, var(--text) 30%, transparent);
+  border-color: color-mix(in srgb, var(--input-focus) 30%, transparent);
 }
 
 .composer:hover {
-  border-color: color-mix(in srgb, var(--text) 34%, transparent);
+  border-color: color-mix(in srgb, var(--input-focus) 40%, var(--input-bg));
 }
 
 .composer:focus-within {
-  border-color: var(--text);
+  border-color: var(--input-focus);
   box-shadow:
-    0 0 0 3px color-mix(in srgb, var(--text) 9%, transparent),
+    0 0 0 3px color-mix(in srgb, var(--input-focus) 12%, transparent),
     var(--shadow);
 }
 
@@ -1770,7 +1969,7 @@ pre.code {
   height: 100%;
   border: none;
   background: transparent;
-  color: var(--text);
+  color: var(--input-fg);
   font-family: var(--font-sans);
   font-size: var(--fs-md);
   line-height: 1;
@@ -1781,7 +1980,12 @@ pre.code {
 }
 
 .composer-input::placeholder {
-  color: var(--text-subtle);
+  color: var(--input-placeholder);
+}
+
+.composer-input:-webkit-autofill {
+  -webkit-text-fill-color: var(--input-fg);
+  -webkit-box-shadow: 0 0 0 1000px var(--input-bg) inset;
 }
 
 .composer-input::-webkit-search-cancel-button {
@@ -1899,4 +2103,162 @@ pre.code {
 
 ::-webkit-scrollbar-corner {
   background: transparent;
+}
+
+/* ------------------------------------------------------------------ search
+ * Desktop search is the top-bar pill. It is declared last so it wins over
+ * the docked composer's own `display: flex` rule above.
+ */
+@media (min-width: 768px) {
+  .composer-dock {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------ path
+ * The learning-path layer: a quiet rail above the cards, with a step badge
+ * on any card that belongs to the active path.
+ */
+.feed-mode {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+.feed-tool.is-active {
+  color: var(--text);
+  border-color: var(--border-strong);
+  background: var(--surface-2);
+}
+.roadmap-select {
+  width: auto;
+  max-width: 220px;
+  height: 34px;
+  padding: 0 10px;
+  font-size: var(--fs-micro);
+  font-family: var(--font-mono);
+  text-transform: none;
+}
+
+.path-rail {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  padding: 18px 20px;
+  margin-bottom: 20px;
+  display: grid;
+  gap: 14px;
+}
+.path-rail-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+.path-rail-head .prompt-ask {
+  font-size: var(--fs-md);
+  margin: 0;
+}
+.path-stages {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+.path-stage {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text-subtle);
+}
+.path-stage.is-done {
+  color: var(--ok);
+}
+.path-sep {
+  color: var(--border-strong);
+}
+.path-count {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+.path-progress {
+  height: 3px;
+  border-radius: 999px;
+  background: var(--surface-3);
+  overflow: hidden;
+}
+.path-progress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--text);
+  transition: width 0.3s ease;
+}
+.path-cta {
+  display: flex;
+  align-items: center;
+}
+
+.step-badge {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 2px 8px;
+  white-space: nowrap;
+}
+.step-badge.is-done {
+  color: var(--ok);
+  border-color: color-mix(in srgb, var(--ok) 40%, transparent);
+}
+
+.path-feed {
+  display: grid;
+  gap: 16px;
+}
+.path-step {
+  position: relative;
+  padding-left: 30px;
+}
+.path-step::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 22px;
+  bottom: -16px;
+  width: 1px;
+  background: var(--border);
+}
+.path-step:last-child::before {
+  display: none;
+}
+.path-step-no {
+  position: absolute;
+  left: 0;
+  top: 20px;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  font-size: 10px;
+  color: var(--text-muted);
+}
+.path-step.is-done .path-step-no {
+  color: var(--ok);
+  border-color: color-mix(in srgb, var(--ok) 45%, transparent);
+}
+
+/* The path is a single ordered column, never the card grid. */
+.feed.path-feed {
+  grid-template-columns: 1fr;
+  max-width: 760px;
 }

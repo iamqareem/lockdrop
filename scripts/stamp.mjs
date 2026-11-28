@@ -125,5 +125,17 @@ const stampedIndex = index.replace(
 
 writeFileSync(indexPath, stampedIndex, "utf8");
 
+const swPath = join(OUT, "sw.js");
+if (existsSync(swPath)) {
+  const swOriginal = readFileSync(swPath, "utf8");
+  const swUpdated = swOriginal.replace(
+    /const CACHE_VERSION = "[^"]+";/,
+    `const CACHE_VERSION = "${version}";`
+  );
+  if (swUpdated !== swOriginal) {
+    writeFileSync(swPath, swUpdated, "utf8");
+  }
+}
+
 console.log(`stamped ${stamped} module(s) and ${assetCount} asset(s) with version ${version}`);
 console.log(`publish to ${relative(root, OUT)}/`);

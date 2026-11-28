@@ -8,16 +8,21 @@
  *
  * The verification in step 2 is the gate: a Blocked verdict never reaches
  * step 3, and the server refuses to store a blocked link regardless.
+ *
+ * Owns its state in `./state.js`. Nothing outside reaches into it — the
+ * shell's wallet connection lands here through the bus (`wallet:connected`),
+ * which is the only cross-service channel this service listens on.
  */
-import { api } from "../api.js";
-import { getConfig } from "../config.js";
-import { state, notify } from "../state.js";
-import { renderShell } from "../core/shell.js";
-import { render } from "../core/router.js";
-import { brandMark, icon } from "../icons.js";
-import { CATEGORIES, CATEGORY_BY_ID, quickCheck } from "../categories.js";
-import { feeTierFor } from "../shared/drop.js";
-import { escapeHtml, debounce, copyText, isAddress } from "../util.js";
+import { api } from "../../api.js";
+import { getConfig } from "../../config.js";
+import { renderShell } from "../../core/shell.js";
+import { bus } from "../../core/bus.js";
+import { defineService } from "../../core/service.js";
+import { brandMark, icon } from "../../icons.js";
+import { CATEGORIES, CATEGORY_BY_ID, quickCheck } from "../../categories.js";
+import { feeTierFor } from "../../shared/drop.js";
+import { escapeHtml, debounce, copyText, isAddress } from "../../util.js";
+import { lockState } from "./state.js";
 
 const TOKENS = [
   {
@@ -39,19 +44,14 @@ const TOKENS = [
 
 const UNLOCK_MODES = [
   {
-    id: "paid_ad",
-    label: "Paid + Ads",
-    hint: "Buyers can pay, or unlock by watching a sponsored task.",
-  },
-  {
     id: "paid_pure",
-    label: "Ad-free",
-    hint: "Payment only — no sponsored task offered to buyers.",
+    label: "Paid",
+    hint: "Pay to unlock — no ads.",
   },
   {
     id: "free_ad",
-    label: "Free",
-    hint: "No payment. Buyers unlock by completing a sponsored task.",
+    label: "Free (8s ad)",
+    hint: "Free to unlock after an ~8-second ad.",
   },
 ];
 
@@ -82,7 +82,7 @@ function categoryGridHtml() {
       ${CATEGORIES.map(
         (cat) => `
         <button type="button" class="category-option ${
-          state.categoryId === cat.id ? "is-active" : ""
+          lockState.categoryId === cat.id ? "is-active" : ""
         }" data-category="${cat.id}">
           ${brandMark(cat.id, "brand-mark", 16)}
           <span class="category-option-text">
@@ -186,7 +186,7 @@ function stepOneHtml() {
       <div class="prompt-row">
         <input id="wizardTitle" type="text" maxlength="120" class="prompt-field"
           placeholder="Name what you are sharing" autocomplete="off"
-          value="${escapeHtml(state.title)}" />
+          value="${escapeHtml(lockState.title)}" />
         <button id="nameGoBtn" type="button" class="prompt-go" aria-label="Continue">
           ${icon("arrowRight", "", 14)}
         </button>
@@ -203,7 +203,7 @@ function stepOneHtml() {
  * button to press.
  */
 function categoryModalHtml() {
-  if (!state.categoryModalOpen) return "";
+  if (!lockState.categoryModalOpen) return "";
   return `
     <div class="modal-backdrop" id="categoryModalBackdrop">
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="categoryModalTitle">
@@ -222,39 +222,26 @@ function categoryModalHtml() {
 }
 
 function stepTwoHtml() {
-  const category = CATEGORY_BY_ID.get(state.categoryId);
+  const category = CATEGORY_BY_ID.get(lockState.categoryId);
   return `
     <div class="prompt">
       <p class="prompt-ask">Where does it live?</p>
-      <div class="prompt-row">
-        <input id="wizardUrl" type="url" inputmode="url" spellcheck="false"
-          class="prompt-field is-mono"
-          placeholder="${escapeHtml(category?.hint ?? "https://…")}"
-          value="${escapeHtml(state.url)}" />
-        <button id="verifyBtn" type="button" class="prompt-go" aria-label="Verify the link">
-          ${icon("arrowRight", "", 14)}
-        </button>
-      </div>
-      <p class="prompt-hint" id="urlHint">
-        checked against ${escapeHtml(category?.label ?? "the category")} before it can be locked
-      </p>
+      <input id="wizardUrl" type="url" inputmode="url" spellcheck="false"
+        class="prompt-field is-mono"
+        placeholder="${escapeHtml(category?.hint ?? "https://…")}"
+        value="${escapeHtml(lockState.url)}" />
+      <p class="prompt-hint" id="urlHint"></p>
     </div>
 
-    <!-- Summary field (compulsory, 20-250 chars, unicode/emoji friendly) -->
-    <div class="field" style="margin-top:12px">
+    <div class="field" style="margin-top:14px">
       <label for="wizardSummary" class="prompt-ask">Summary</label>
       <input id="wizardSummary" type="text" class="prompt-field is-mono"
-        placeholder="Brief description (20-250 chars, emojis allowed)"
+        placeholder="Short summary (20–250 chars)"
         maxlength="250"
-        pattern="^[\x20-\x7E\u00A1-\uFFFF]+$"
-        title="Summary must be 20-250 characters with printable characters, emojis and spaces only"
-        value="${escapeHtml(state.summary ?? "")}" />
-      <p class="prompt-hint" id="summaryHint">
-        20-250 characters, printable characters, emojis and spaces only
-      </p>
+        value="${escapeHtml(lockState.summary ?? "")}" />
     </div>
 
-    <div id="summaryError" class="alert alert-error hidden" style="margin-top:4px"></div>
+    <div id="summaryError" class="alert alert-error hidden" style="margin-top:6px"></div>
 
     <div class="prompt-meta">
       <button id="prevStep2Btn" type="button" class="btn btn-ghost">
@@ -266,17 +253,17 @@ function stepTwoHtml() {
     </div>
 
     <div id="step2Error" class="alert alert-error hidden" style="margin-top:16px"></div>
-    <div id="reportBox" style="margin-top:16px">${reportHtml(state.report)}</div>`;
+    <div id="reportBox" style="margin-top:16px">${reportHtml(lockState.report)}</div>`;
 }
 
 function stepThreeHtml() {
-  const mode = UNLOCK_MODES.find((m) => m.id === state.unlockMode) ?? UNLOCK_MODES[0];
-  const token = TOKENS.find((t) => t.address === state.tokenAddress) ?? TOKENS[0];
-  const isFree = state.unlockMode === "free_ad";
-  const fee = modeTier(state.unlockMode);
+  const mode = UNLOCK_MODES.find((m) => m.id === lockState.unlockMode) ?? UNLOCK_MODES[0];
+  const token = TOKENS.find((t) => t.address === lockState.tokenAddress) ?? TOKENS[0];
+  const isFree = lockState.unlockMode === "free_ad";
+  const fee = modeTier(lockState.unlockMode);
   const feeBps = fee?.bps ?? 0;
   const feePercent = feeBps / 100;
-  const price = Number(state.price) || 0;
+  const price = Number(lockState.price) || 0;
   const net = price * (1 - feeBps / 10000);
 
   return `
@@ -284,7 +271,7 @@ function stepThreeHtml() {
       <p class="prompt-ask">What is it worth?</p>
       <div class="prompt-row">
         <input id="step3Price" type="text" inputmode="decimal" class="prompt-field is-mono"
-          placeholder="0.00" value="${escapeHtml(state.price)}" />
+          placeholder="0.00" value="${escapeHtml(lockState.price)}" />
         <span class="prompt-unit">${escapeHtml(token.symbol)}</span>
         <button id="lockBtn" type="button" class="prompt-go" aria-label="Lock the link">
           ${icon("arrowRight", "", 14)}
@@ -309,11 +296,11 @@ function stepThreeHtml() {
 
     <div class="panel" style="margin-top:18px">
       <div class="prompt-meta" style="margin-bottom:16px">
-        <span class="label-mono">${escapeHtml(state.title)}</span>
+        <span class="label-mono">${escapeHtml(lockState.title)}</span>
         <span class="verdict verdict-${escapeHtml(
-          state.report?.verdict ?? "Checked"
+          lockState.report?.verdict ?? "Checked"
         )}"><span class="verdict-dot"></span>${escapeHtml(
-          state.report?.verdict ?? "Checked"
+          lockState.report?.verdict ?? "Checked"
         )}</span>
       </div>
 
@@ -324,7 +311,7 @@ function stepThreeHtml() {
             ${UNLOCK_MODES.map(
               (m) => `
               <button type="button" class="${
-                state.unlockMode === m.id ? "is-active" : ""
+                lockState.unlockMode === m.id ? "is-active" : ""
               }" data-mode="${m.id}">${escapeHtml(m.label)}</button>`
             ).join("")}
           </div>
@@ -341,7 +328,7 @@ function stepThreeHtml() {
             ${TOKENS.map(
               (t) => `
               <button type="button" class="${
-                state.tokenAddress === t.address ? "is-active" : ""
+                lockState.tokenAddress === t.address ? "is-active" : ""
               }" data-token="${t.address}">${t.symbol}</button>`
             ).join("")}
           </div>
@@ -350,7 +337,7 @@ function stepThreeHtml() {
         <div class="field">
           <span class="label-mono">Your payout wallet</span>
           <input id="step3Seller" type="text" spellcheck="false" class="input mono"
-            placeholder="0x…" value="${escapeHtml(state.sellerWallet)}" />
+            placeholder="0x…" value="${escapeHtml(lockState.sellerWallet)}" />
           <span class="hint">Connect a wallet to fill it automatically.</span>
         </div>`
         }
@@ -362,7 +349,7 @@ function stepThreeHtml() {
 }
 
 function successHtml() {
-  const drop = state.lastCreated;
+  const drop = lockState.lastCreated;
   if (!drop) return "";
   const shareUrl = `${window.location.origin}/#/drop/${drop.id}`;
   return `
@@ -389,19 +376,19 @@ function successHtml() {
     </div>`;
 }
 
-export function renderCreateView() {
+function renderCreateView() {
   const steps = { 1: stepOneHtml, 2: stepTwoHtml, 3: stepThreeHtml };
-  const html = steps[state.wizardStep]();
+  const html = steps[lockState.wizardStep]();
 
   // Step one is just a prompt — no card around it, and it sits in the
   // middle of the screen rather than at the top of it.
   const body =
-    state.wizardStep === 1
+    lockState.wizardStep === 1
       ? `<div class="narrow prompt-stage">${html}</div>`
       : `
     <div class="narrow">
       <div class="panel panel-lg">
-        ${stepperHtml(state.wizardStep)}
+        ${stepperHtml(lockState.wizardStep)}
         ${html}
       </div>
       ${successHtml()}
@@ -418,10 +405,10 @@ let categoryModalTimer = null;
 function openCategoryModalSoon() {
   if (categoryModalTimer) clearTimeout(categoryModalTimer);
   categoryModalTimer = setTimeout(() => {
-    if (state.wizardStep !== 1) return;
-    if (state.title.trim().length < 3) return;
-    if (state.categoryModalOpen) return;
-    state.categoryModalOpen = true;
+    if (lockState.wizardStep !== 1) return;
+    if (lockState.title.trim().length < 3) return;
+    if (lockState.categoryModalOpen) return;
+    lockState.categoryModalOpen = true;
     renderCreateView();
   }, 800);
 }
@@ -454,7 +441,7 @@ const SUMMARY_PATTERN = /^[\x20-\x7E\u00A1-\uFFFF]+$/;
  * step two should not open already shouting at someone who has not typed yet.
  */
 function summaryProblem() {
-  const summary = state.summary.trim();
+  const summary = lockState.summary.trim();
   if (summary.length < SUMMARY_MIN) {
     return `Summary must be at least ${SUMMARY_MIN} characters`;
   }
@@ -469,22 +456,22 @@ function summaryProblem() {
 
 function renderReport() {
   const box = document.getElementById("reportBox");
-  if (box) box.innerHTML = reportHtml(state.report);
+  if (box) box.innerHTML = reportHtml(lockState.report);
 
   const next = document.getElementById("nextStep2Btn");
   if (next) {
-    const blocked = state.report?.verdict === "Blocked";
+    const blocked = lockState.report?.verdict === "Blocked";
     // Continue needs both halves of step two: a link that passed, and a
     // summary that holds up. This is the only place the button's state is
     // decided, so the two conditions can never drift apart.
-    next.disabled = !state.report || blocked || summaryProblem() !== null;
+    next.disabled = !lockState.report || blocked || summaryProblem() !== null;
     next.textContent = blocked ? "Blocked" : "Continue";
   }
 }
 
 async function runVerification() {
-  const url = state.url.trim();
-  const categoryId = state.categoryId;
+  const url = lockState.url.trim();
+  const categoryId = lockState.categoryId;
 
   const local = quickCheck(categoryId, url);
   const hint = document.getElementById("urlHint");
@@ -497,69 +484,63 @@ async function runVerification() {
     return;
   }
 
-  state.verifying = true;
-  const btn = document.getElementById("verifyBtn");
-  if (btn) {
-    btn.disabled = true;
-    btn.classList.add("is-busy");
-    btn.setAttribute("aria-busy", "true");
+  lockState.verifying = true;
+  const nextBtn = document.getElementById("nextStep2Btn");
+  if (nextBtn) {
+    nextBtn.disabled = true;
+    nextBtn.textContent = "Checking…";
   }
 
   try {
-    const result = await api.verify({ url, categoryId, title: state.title });
-    state.report = result.report;
+    const result = await api.verify({ url, categoryId, title: lockState.title });
+    lockState.report = result.report;
     clearError("step2Error");
   } catch (err) {
-    state.report = null;
+    lockState.report = null;
     showError(
       "step2Error",
       err instanceof Error ? err.message : "Verification failed. Try again."
     );
   } finally {
-    state.verifying = false;
-    if (btn) {
-      btn.disabled = false;
-      btn.classList.remove("is-busy");
-      btn.removeAttribute("aria-busy");
-    }
+    lockState.verifying = false;
     renderReport();
   }
 }
 
 const debouncedVerify = debounce(() => {
-  if (state.wizardStep === 2) void runVerification();
-}, 900);
+  if (lockState.wizardStep === 2) void runVerification();
+}, 450);
 
 function wireCreateView() {
   const titleInput = document.getElementById("wizardTitle");
 
   if (titleInput) {
     titleInput.addEventListener("input", (e) => {
-      state.title = e.target.value;
+      lockState.title = e.target.value;
       clearError("step1Error");
       // The category modal opens once the name makes sense — on Enter, or
       // once they stop typing.
-      if (state.title.trim().length >= 3) {
-        if (!state.categoryModalOpen) openCategoryModalSoon();
+      if (lockState.title.trim().length >= 3) {
+        if (!lockState.categoryModalOpen) openCategoryModalSoon();
       } else {
-        state.categoryModalOpen = false;
+        lockState.categoryModalOpen = false;
       }
     });
 
     titleInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
-        if (state.title.trim().length < 3) {
+        if (lockState.title.trim().length < 3) {
           showError("step1Error", "Give the resource a name of at least 3 characters.");
           return;
         }
         clearError("step1Error");
-        state.categoryModalOpen = true;
+        lockState.categoryModalOpen = true;
         renderCreateView();
         document.querySelector(".category-option")?.focus();
       }
-      if (e.key === "Escape" && state.categoryModalOpen) {
-        state.categoryModalOpen = false;
+      if (e.key === "Escape" && lockState.categoryModalOpen) {
+        lockState.categoryModalOpen = false;
         renderCreateView();
         titleInput.focus();
       }
@@ -568,69 +549,74 @@ function wireCreateView() {
 
   document.querySelectorAll("[data-category]").forEach((btn) => {
     btn.addEventListener("click", () => {
-      state.categoryId = btn.getAttribute("data-category") || "";
-      state.report = null;
-      state.categoryModalOpen = false;
-      state.wizardStep = 2;
+      lockState.categoryId = btn.getAttribute("data-category") || "";
+      lockState.report = null;
+      lockState.categoryModalOpen = false;
+      lockState.wizardStep = 2;
       renderCreateView();
     });
   });
 
   document.getElementById("nameGoBtn")?.addEventListener("click", () => {
-    if (state.title.trim().length < 3) {
+    if (lockState.title.trim().length < 3) {
       showError("step1Error", "Give the resource a name of at least 3 characters.");
       return;
     }
     clearError("step1Error");
-    state.categoryModalOpen = true;
+    lockState.categoryModalOpen = true;
     renderCreateView();
     document.querySelector(".category-option")?.focus();
   });
 
   document.getElementById("closeCategoryModal")?.addEventListener("click", () => {
-    state.categoryModalOpen = false;
+    lockState.categoryModalOpen = false;
     renderCreateView();
     document.getElementById("wizardTitle")?.focus();
   });
 
   document.getElementById("categoryModalBackdrop")?.addEventListener("click", (e) => {
     if (e.target.id !== "categoryModalBackdrop") return;
-    state.categoryModalOpen = false;
+    lockState.categoryModalOpen = false;
     renderCreateView();
   });
 
   document.getElementById("prevStep2Btn")?.addEventListener("click", () => {
-    state.wizardStep = 1;
+    lockState.wizardStep = 1;
     renderCreateView();
   });
 
-  document.getElementById("wizardUrl")?.addEventListener("input", (e) => {
-    state.url = e.target.value;
-    state.report = null;
-    renderReport();
-    debouncedVerify();
-  });
+  const urlInput = document.getElementById("wizardUrl");
+  if (urlInput) {
+    urlInput.addEventListener("input", (e) => {
+      lockState.url = e.target.value;
+      lockState.report = null;
+      renderReport();
+      debouncedVerify();
+    });
+    urlInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        void runVerification();
+      }
+    });
+  }
 
   document.getElementById("wizardSummary")?.addEventListener("input", (e) => {
-    state.summary = e.target.value;
+    lockState.summary = e.target.value;
     const problem = summaryProblem();
     // Stay quiet until there is something to complain about, so an untouched
     // field does not greet anyone with a red box.
-    if (problem && state.summary.trim()) showError("summaryError", problem);
+    if (problem && lockState.summary.trim()) showError("summaryError", problem);
     else clearError("summaryError");
     renderReport();
   });
 
-  document.getElementById("verifyBtn")?.addEventListener("click", () => {
-    void runVerification();
-  });
-
   document.getElementById("nextStep2Btn")?.addEventListener("click", () => {
-    if (!state.report) {
+    if (!lockState.report) {
       showError("step2Error", "Verify the link before continuing.");
       return;
     }
-    if (state.report.verdict === "Blocked") {
+    if (lockState.report.verdict === "Blocked") {
       showError("step2Error", "This link was blocked and cannot be locked.");
       return;
     }
@@ -643,105 +629,123 @@ function wireCreateView() {
     }
     clearError("summaryError");
     clearError("step2Error");
-    state.wizardStep = 3;
+    lockState.wizardStep = 3;
     renderCreateView();
   });
 
   document.getElementById("prevStep3Btn")?.addEventListener("click", () => {
-    state.wizardStep = 2;
+    lockState.wizardStep = 2;
     renderCreateView();
   });
 
   document.querySelectorAll("[data-mode]").forEach((btn) => {
     btn.addEventListener("click", () => {
-      state.unlockMode = btn.getAttribute("data-mode") || "paid_ad";
+      lockState.unlockMode = btn.getAttribute("data-mode") || "paid_pure";
       renderCreateView();
     });
   });
 
   document.querySelectorAll("[data-token]").forEach((btn) => {
     btn.addEventListener("click", () => {
-      state.tokenAddress = btn.getAttribute("data-token") || TOKENS[0].address;
-      const token = TOKENS.find((t) => t.address === state.tokenAddress);
-      if (token) state.tokenSymbol = token.symbol;
+      lockState.tokenAddress = btn.getAttribute("data-token") || TOKENS[0].address;
+      const token = TOKENS.find((t) => t.address === lockState.tokenAddress);
+      if (token) lockState.tokenSymbol = token.symbol;
       renderCreateView();
     });
   });
 
   document.getElementById("step3Price")?.addEventListener("input", (e) => {
-    state.price = e.target.value;
+    lockState.price = e.target.value;
   });
 
   document.getElementById("step3Seller")?.addEventListener("input", (e) => {
-    state.sellerWallet = e.target.value;
+    lockState.sellerWallet = e.target.value;
   });
 
   document.getElementById("lockBtn")?.addEventListener("click", async () => {
-    const isFree = state.unlockMode === "free_ad";
+    const isFree = lockState.unlockMode === "free_ad";
     clearError("step3Error");
 
     if (!isFree) {
-      if (!isAddress(state.sellerWallet)) {
+      if (!isAddress(lockState.sellerWallet)) {
         showError("step3Error", "Enter a valid payout wallet address (0x…).");
         return;
       }
-      if (!Number.isFinite(Number(state.price)) || Number(state.price) <= 0) {
+      if (!Number.isFinite(Number(lockState.price)) || Number(lockState.price) <= 0) {
         showError("step3Error", "Price must be greater than zero.");
         return;
       }
     }
 
     const btn = document.getElementById("lockBtn");
-    state.creating = true;
+    lockState.creating = true;
     btn.disabled = true;
     btn.classList.add("is-busy");
     btn.setAttribute("aria-busy", "true");
 
-    const token = TOKENS.find((t) => t.address === state.tokenAddress) ?? TOKENS[0];
+    const token = TOKENS.find((t) => t.address === lockState.tokenAddress) ?? TOKENS[0];
 
     try {
       const result = await api.createDrop({
-        title: state.title.trim(),
-        categoryId: state.categoryId,
-        url: state.url.trim(),
-        summary: state.summary.trim(),
-        sellerWallet: state.sellerWallet.trim(),
+        title: lockState.title.trim(),
+        categoryId: lockState.categoryId,
+        url: lockState.url.trim(),
+        summary: lockState.summary.trim(),
+        sellerWallet: lockState.sellerWallet.trim(),
         tokenAddress: token.address,
         tokenSymbol: token.symbol,
         tokenDecimals: token.decimals,
-        price: state.price,
-        unlockMode: state.unlockMode,
+        price: lockState.price,
+        unlockMode: lockState.unlockMode,
       });
 
-      state.lastCreated = result.drop;
-      state.title = "";
-      state.url = "";
-      state.summary = "";
-      state.report = null;
-      state.wizardStep = 1;
-      state.creating = false;
+      lockState.lastCreated = result.drop;
+      lockState.title = "";
+      lockState.url = "";
+      lockState.summary = "";
+      lockState.report = null;
+      lockState.wizardStep = 1;
+      lockState.creating = false;
       renderCreateView();
     } catch (err) {
-      state.creating = false;
+      lockState.creating = false;
       btn.disabled = false;
       btn.classList.remove("is-busy");
       btn.removeAttribute("aria-busy");
       const message = err instanceof Error ? err.message : "Could not lock the link.";
       showError("step3Error", message);
       if (err?.payload?.report) {
-        state.report = err.payload.report;
-        notify();
+        lockState.report = err.payload.report;
+        renderCreateView();
       }
     }
   });
 
   document.getElementById("copyShareBtn")?.addEventListener("click", async () => {
-    if (!state.lastCreated) return;
+    if (!lockState.lastCreated) return;
     const btn = document.getElementById("copyShareBtn");
-    const ok = await copyText(`${window.location.origin}/#/drop/${state.lastCreated.id}`);
+    const ok = await copyText(`${window.location.origin}/#/drop/${lockState.lastCreated.id}`);
     btn.textContent = ok ? "Copied" : "Failed";
     setTimeout(() => {
       btn.textContent = "Copy";
     }, 1400);
   });
 }
+
+// A connected wallet is the natural payout address. The shell owns the
+// wallet session; this service only hears about it over the bus. Subscribe at
+// module load so a restored session before visiting #/lock is not missed.
+bus.on("wallet:connected", (address) => {
+  if (!lockState.sellerWallet && address) {
+    lockState.sellerWallet = address;
+  }
+});
+
+function unmount() {
+  if (categoryModalTimer) {
+    clearTimeout(categoryModalTimer);
+    categoryModalTimer = null;
+  }
+}
+
+defineService({ id: "lock", render: renderCreateView, unmount });

@@ -85,14 +85,38 @@ while (queue.length) {
 
 ok(`resolved ${importCount} import(s) from the entry point`);
 
-/* 2. No orphans. */
-const orphans = jsFiles.filter((f) => !reached.has(f));
+/* 2. No orphans (sw.js is registered by navigator.serviceWorker, not imported). */
+const swFile = join(publicDir, "sw.js");
+const orphans = jsFiles.filter((f) => f !== swFile && !reached.has(f));
 if (orphans.length) {
   for (const file of orphans) {
     fail(`${relative(root, file)} is never imported — dead code`);
   }
 } else {
   ok(`all ${jsFiles.length} frontend module(s) are reachable from main.js`);
+}
+
+/* 2b. PWA manifest & service worker. */
+if (!existsSync(swFile)) {
+  fail("public/sw.js is missing — PWA offline shell is unavailable");
+} else {
+  ok("public/sw.js is present");
+}
+
+const manifestFile = join(publicDir, "manifest.webmanifest");
+if (!existsSync(manifestFile)) {
+  fail("public/manifest.webmanifest is missing — PWA manifest is required");
+} else {
+  try {
+    const manifest = JSON.parse(readFileSync(manifestFile, "utf8"));
+    if (!manifest.name || !manifest.start_url || !Array.isArray(manifest.icons)) {
+      fail("public/manifest.webmanifest is missing required fields");
+    } else {
+      ok("public/manifest.webmanifest is valid");
+    }
+  } catch {
+    fail("public/manifest.webmanifest is not valid JSON");
+  }
 }
 
 /* 3. The HTML references real files. */

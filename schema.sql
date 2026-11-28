@@ -32,11 +32,14 @@ CREATE TABLE IF NOT EXISTS drops (
   verdict_source TEXT NOT NULL DEFAULT 'heuristic',
   is_admin_ad INTEGER NOT NULL DEFAULT 0,
   status TEXT NOT NULL DEFAULT 'active',
-  created_at TEXT NOT NULL
+  created_at TEXT NOT NULL,
+  roadmap_slug TEXT NOT NULL DEFAULT '',
+  step_slug TEXT NOT NULL DEFAULT ''
 );
 CREATE INDEX IF NOT EXISTS idx_drops_created ON drops(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_drops_category ON drops(category_id);
 CREATE INDEX IF NOT EXISTS idx_drops_verdict ON drops(verdict);
+CREATE INDEX IF NOT EXISTS idx_drops_roadmap ON drops(roadmap_slug, step_slug);
 
 -- The AES-GCM sealed URL. Useless without the server's master key.
 CREATE TABLE IF NOT EXISTS drop_secrets (

@@ -31,6 +31,8 @@ export const PUBLIC_DROP_COLUMNS = [
   "is_admin_ad",
   "status",
   "created_at",
+  "roadmap_slug",
+  "step_slug",
 ];
 
 /**
@@ -91,5 +93,7 @@ export function toPublicDrop(row) {
     isAdminAd: Boolean(Number(row.is_admin_ad ?? 0)),
     status: String(row.status ?? "active"),
     createdAt: String(row.created_at),
+    roadmapSlug: String(row.roadmap_slug ?? ""),
+    stepSlug: String(row.step_slug ?? ""),
   };
 }

@@ -1,0 +1,454 @@
+{
+  "roadmaps": [
+    {
+      "id": "freebsd-roadmap",
+      "slug": "freebsd-roadmap",
+      "title": "The FreeBSD Handbook — one roadmap, 35 chapters",
+      "track": "bsd-internals",
+      "summary": "The whole FreeBSD Handbook as one ordered path: four stages from first boot to DTrace, with a one-line promise for every chapter so you always know where you are and what it buys you.",
+      "stages": [
+        {
+          "index": 1,
+          "name": "Foundation",
+          "from": 1,
+          "to": 6
+        },
+        {
+          "index": 2,
+          "name": "Desktop",
+          "from": 7,
+          "to": 13
+        },
+        {
+          "index": 3,
+          "name": "System administration",
+          "from": 14,
+          "to": 26
+        },
+        {
+          "index": 4,
+          "name": "Network and observability",
+          "from": 27,
+          "to": 35
+        }
+      ],
+      "steps": [
+        {
+          "n": 1,
+          "slug": "freebsd-01-introduction",
+          "id": "freebsd-01",
+          "title": "Introduction to FreeBSD",
+          "summary": "Why one permissive licence and thirty years of Unix lineage put FreeBSD inside consoles, firewalls and CDNs — and how a project with no owner ships an entire operating system.",
+          "tier": "free",
+          "stage": "Foundation"
+        },
+        {
+          "n": 2,
+          "slug": "freebsd-02-installing-freebsd",
+          "id": "freebsd-02",
+          "title": "Installing FreeBSD",
+          "summary": "From image to first boot: write the media, answer bsdinstall's questions with intent — disk, network, users, hardening — and know which toggle does what before it writes to disk.",
+          "tier": "free",
+          "stage": "Foundation"
+        },
+        {
+          "n": 3,
+          "slug": "freebsd-03-freebsd-basics",
+          "id": "freebsd-03",
+          "title": "FreeBSD Basics",
+          "summary": "The working vocabulary every UNIX-like system assumes: virtual consoles, accounts and groups, rwx and file flags, the directory tree, mounting, signals, and the shell that ties it all together.",
+          "tier": "free",
+          "stage": "Foundation"
+        },
+        {
+          "n": 4,
+          "slug": "freebsd-04-packages-and-ports",
+          "id": "freebsd-04",
+          "title": "Installing Applications: Packages and Ports",
+          "summary": "Two roads to every application: a signed binary from pkg in seconds, or a build from Ports with exactly the options you chose. When each wins, and what to do when an install fails.",
+          "tier": "free",
+          "stage": "Foundation"
+        },
+        {
+          "n": 5,
+          "slug": "freebsd-05-the-x-window-system",
+          "id": "freebsd-05",
+          "title": "The X Window System",
+          "summary": "A working graphical FreeBSD: install Xorg, pick the right driver for your GPU, skip the xorg.conf myth, and get from startx to a desktop environment or XDM login.",
+          "tier": "free",
+          "stage": "Foundation"
+        },
+        {
+          "n": 6,
+          "slug": "freebsd-06-wayland-on-freebsd",
+          "id": "freebsd-06",
+          "title": "Wayland on FreeBSD",
+          "summary": "The modern graphical FreeBSD: pick a compositor that matches how you work — Wayfire, Hikari or Sway — wire in seatd and Xwayland, and get a login screen and VNC access on top.",
+          "tier": "free",
+          "stage": "Foundation"
+        },
+        {
+          "n": 7,
+          "slug": "freebsd-07-network",
+          "id": "freebsd-07",
+          "title": "Network",
+          "summary": "Basic wired and wireless networking on FreeBSD: hostnames, DNS, DHCP, IPv6 and how to troubleshoot a connection.",
+          "tier": "free",
+          "stage": "Desktop"
+        },
+        {
+          "n": 8,
+          "slug": "freebsd-08-desktop-environments",
+          "id": "freebsd-08",
+          "title": "Desktop Environments",
+          "summary": "Installing and configuring KDE Plasma, GNOME, Xfce, MATE, Cinnamon and LXQt, plus the usual desktop applications.",
+          "tier": "free",
+          "stage": "Desktop"
+        },
+        {
+          "n": 9,
+          "slug": "freebsd-09-multimedia",
+          "id": "freebsd-09",
+          "title": "Multimedia",
+          "summary": "Sound and video on FreeBSD: sound cards, mixers, audio and video players, conferencing and image scanners.",
+          "tier": "free",
+          "stage": "Desktop"
+        },
+        {
+          "n": 10,
+          "slug": "freebsd-10-configuring-the-freebsd-kernel",
+          "id": "freebsd-10",
+          "title": "Configuring the FreeBSD Kernel",
+          "summary": "When and how to build a custom kernel, what the kernel configuration file controls, and tuning the running kernel.",
+          "tier": "free",
+          "stage": "Desktop"
+        },
+        {
+          "n": 11,
+          "slug": "freebsd-11-printing",
+          "id": "freebsd-11",
+          "title": "Printing",
+          "summary": "Setting up and managing printers on FreeBSD, including the print spool, the printcap database and filters.",
+          "tier": "free",
+          "stage": "Desktop"
+        },
+        {
+          "n": 12,
+          "slug": "freebsd-12-linux-binary-compatibility",
+          "id": "freebsd-12",
+          "title": "Linux Binary Compatibility",
+          "summary": "Running Linux binaries on FreeBSD with the Linux compatibility layer, and the caveats that come with it.",
+          "tier": "free",
+          "stage": "Desktop"
+        },
+        {
+          "n": 13,
+          "slug": "freebsd-13-wine",
+          "id": "freebsd-13",
+          "title": "WINE",
+          "summary": "Running Windows applications on FreeBSD with WINE, installing it and driving it with winecfg and the file manager.",
+          "tier": "free",
+          "stage": "Desktop"
+        },
+        {
+          "n": 14,
+          "slug": "freebsd-14-configuration-services-and-power",
+          "id": "freebsd-14",
+          "title": "Configuration, Services, Logging and Power Management",
+          "summary": "System configuration files, enabling and managing services, cron and periodic, system logging and power management.",
+          "tier": "free",
+          "stage": "System administration"
+        },
+        {
+          "n": 15,
+          "slug": "freebsd-15-the-freebsd-booting-process",
+          "id": "freebsd-15",
+          "title": "The FreeBSD Booting Process",
+          "summary": "How FreeBSD boots: the loader, kernel and init, the boot menu options and controlling the process.",
+          "tier": "free",
+          "stage": "System administration"
+        },
+        {
+          "n": 16,
+          "slug": "freebsd-16-security",
+          "id": "freebsd-16",
+          "title": "Security",
+          "summary": "Securing a FreeBSD system: accounts and password hashes, sudo and doas, OpenSSH and OpenSSL, IDS and Capsicum.",
+          "tier": "free",
+          "stage": "System administration"
+        },
+        {
+          "n": 17,
+          "slug": "freebsd-17-jails-and-containers",
+          "id": "freebsd-17",
+          "title": "Jails and Containers",
+          "summary": "The jail framework in depth: thick, thin, VNET and Linux jails, networking, configuration files and jail managers.",
+          "tier": "free",
+          "stage": "System administration"
+        },
+        {
+          "n": 18,
+          "slug": "freebsd-18-mandatory-access-control",
+          "id": "freebsd-18",
+          "title": "Mandatory Access Control",
+          "summary": "Mandatory Access Control on FreeBSD: the framework, the available policies and how labels protect sensitive data.",
+          "tier": "free",
+          "stage": "System administration"
+        },
+        {
+          "n": 19,
+          "slug": "freebsd-19-security-event-auditing",
+          "id": "freebsd-19",
+          "title": "Security Event Auditing",
+          "summary": "Auditing security-relevant events on FreeBSD, installing and configuring the audit trail and reviewing the results.",
+          "tier": "free",
+          "stage": "System administration"
+        },
+        {
+          "n": 20,
+          "slug": "freebsd-20-storage",
+          "id": "freebsd-20",
+          "title": "Storage",
+          "summary": "Managing storage on FreeBSD: disks, RAID, optical and tape media, memory-backed disks, network filesystems and backups.",
+          "tier": "free",
+          "stage": "System administration"
+        },
+        {
+          "n": 21,
+          "slug": "freebsd-21-geom-disk-transformation-framework",
+          "id": "freebsd-21",
+          "title": "GEOM: Modular Disk Transformation Framework",
+          "summary": "The GEOM framework: providers, consumers, labels and the software RAID levels FreeBSD can build from it.",
+          "tier": "free",
+          "stage": "System administration"
+        },
+        {
+          "n": 22,
+          "slug": "freebsd-22-the-z-file-system-zfs",
+          "id": "freebsd-22",
+          "title": "The Z File System (ZFS)",
+          "summary": "ZFS explained the way it actually works: pools before datasets, redundancy fixed at pool creation, snapshots that cost nothing, and a file system that checksums every block it ever writes.",
+          "tier": "free",
+          "stage": "System administration"
+        },
+        {
+          "n": 23,
+          "slug": "freebsd-23-other-file-systems",
+          "id": "freebsd-23",
+          "title": "Other File Systems",
+          "summary": "Non-native file systems on FreeBSD: ext2/ext3/ext4, FAT, NTFS, CD9660, FUSE and how to mount them.",
+          "tier": "free",
+          "stage": "System administration"
+        },
+        {
+          "n": 24,
+          "slug": "freebsd-24-virtualization",
+          "id": "freebsd-24",
+          "title": "Virtualization",
+          "summary": "Running virtual machines on FreeBSD with bhyve, QEMU and Xen, and the bhyve management tools.",
+          "tier": "free",
+          "stage": "System administration"
+        },
+        {
+          "n": 25,
+          "slug": "freebsd-25-localization-i18n-l10n",
+          "id": "freebsd-25",
+          "title": "Localization: i18n and L10n Usage and Setup",
+          "summary": "Using FreeBSD in languages other than English: locale classes, UTF-8, fonts, input methods and translated messages.",
+          "tier": "free",
+          "stage": "System administration"
+        },
+        {
+          "n": 26,
+          "slug": "freebsd-26-updating-and-upgrading-freebsd",
+          "id": "freebsd-26",
+          "title": "Updating and Upgrading FreeBSD",
+          "summary": "The difference between FreeBSD-STABLE and FreeBSD-CURRENT, using freebsd-update and the source and binary upgrade paths.",
+          "tier": "free",
+          "stage": "System administration"
+        },
+        {
+          "n": 27,
+          "slug": "freebsd-27-dtrace",
+          "id": "freebsd-27",
+          "title": "DTrace",
+          "summary": "Dynamic tracing on FreeBSD with DTrace: enabling it, writing scripts and using it to find performance problems.",
+          "tier": "free",
+          "stage": "Network and observability"
+        },
+        {
+          "n": 28,
+          "slug": "freebsd-28-usb-device-mode-and-otg",
+          "id": "freebsd-28",
+          "title": "USB Device Mode and USB OTG",
+          "summary": "Turning a FreeBSD system into a USB device: device mode, USB On-The-Go and the config knobs that drive them.",
+          "tier": "free",
+          "stage": "Network and observability"
+        },
+        {
+          "n": 29,
+          "slug": "freebsd-29-serial-communications",
+          "id": "freebsd-29",
+          "title": "Serial Communications",
+          "summary": "Serial ports and terminals on FreeBSD: the uart driver, configuration files, modems and troubleshooting.",
+          "tier": "free",
+          "stage": "Network and observability"
+        },
+        {
+          "n": 30,
+          "slug": "freebsd-30-ppp",
+          "id": "freebsd-30",
+          "title": "PPP",
+          "summary": "Connecting FreeBSD to remote systems over PPP, with dial-up and point-to-point link configuration.",
+          "tier": "free",
+          "stage": "Network and observability"
+        },
+        {
+          "n": 31,
+          "slug": "freebsd-31-electronic-mail",
+          "id": "freebsd-31",
+          "title": "Electronic Mail",
+          "summary": "Running a mail server on FreeBSD: Postfix and Sendmail, the components of an MTA and how the pieces fit together.",
+          "tier": "free",
+          "stage": "Network and observability"
+        },
+        {
+          "n": 32,
+          "slug": "freebsd-32-network-servers",
+          "id": "freebsd-32",
+          "title": "Network Servers",
+          "summary": "Setting up FreeBSD as a network server: Apache, ftpd, Samba, NFS, DNS, NIS and time servers.",
+          "tier": "free",
+          "stage": "Network and observability"
+        },
+        {
+          "n": 33,
+          "slug": "freebsd-33-firewalls",
+          "id": "freebsd-33",
+          "title": "Firewalls",
+          "summary": "Firewalls on FreeBSD: the philosophy, pf, IPFW and IPFilter, rulesets, NAT, tables and logging.",
+          "tier": "free",
+          "stage": "Network and observability"
+        },
+        {
+          "n": 34,
+          "slug": "freebsd-34-advanced-networking",
+          "id": "freebsd-34",
+          "title": "Advanced Networking",
+          "summary": "Advanced networking topics: routing, wireless, Bluetooth, ATM, IPv6, VLANs, carrier-grade NAT and tunnelling.",
+          "tier": "free",
+          "stage": "Network and observability"
+        },
+        {
+          "n": 35,
+          "slug": "freebsd-35-appendices-and-back-matter",
+          "id": "freebsd-35",
+          "title": "Appendices and Back Matter",
+          "summary": "Where to get FreeBSD, the bibliography, community resources, the OpenPGP keys of the officers and the glossary.",
+          "tier": "free",
+          "stage": "Network and observability"
+        }
+      ]
+    },
+    {
+      "id": "readme-linux",
+      "slug": "readme-linux",
+      "title": "Linux Path — LPIC-1 Study Guide",
+      "track": "linux-engineer",
+      "summary": "How to work through the ten Linux pieces in order, what each one covers and where it came from.",
+      "stages": [],
+      "steps": [
+        {
+          "n": 1,
+          "slug": "01-linux-origins-and-open-source",
+          "id": "linux-01",
+          "title": "Linux Origins and the Open Source Application Landscape",
+          "summary": "How Linux came to be, the distributions that shaped it, and the open source applications that run the world's desktops and servers.",
+          "tier": "free",
+          "stage": ""
+        },
+        {
+          "n": 2,
+          "slug": "02-open-source-licensing-and-ict-skills",
+          "id": "linux-02",
+          "title": "Open Source Licensing, ICT Skills and Working in Linux",
+          "summary": "Free versus open source, the licences that govern reuse, and the practical ICT skills an open source professional needs on the job.",
+          "tier": "free",
+          "stage": ""
+        },
+        {
+          "n": 3,
+          "slug": "03-command-line-basics-and-help",
+          "id": "linux-03",
+          "title": "Command Line Basics and Getting Help",
+          "summary": "The anatomy of a shell command, variables, quoting, and the several ways to find help for any command you meet.",
+          "tier": "free",
+          "stage": ""
+        },
+        {
+          "n": 4,
+          "slug": "04-directories-listing-and-file-manipulation",
+          "id": "linux-04",
+          "title": "Directories, Listing Files and Creating, Moving and Deleting Files",
+          "summary": "Navigate the filesystem with ls and cd, then create, rename, move, copy and delete files and directories with confidence.",
+          "tier": "free",
+          "stage": ""
+        },
+        {
+          "n": 5,
+          "slug": "05-archiving-and-searching-data",
+          "id": "linux-05",
+          "title": "Archiving Files and Searching and Extracting Data",
+          "summary": "Compress, archive and unzip data, then redirect and pipe command output and search files with grep and regular expressions.",
+          "tier": "free",
+          "stage": ""
+        },
+        {
+          "n": 6,
+          "slug": "06-scripts-and-choosing-an-operating-system",
+          "id": "linux-06",
+          "title": "Turning Commands into Scripts and Choosing an Operating System",
+          "summary": "Turn command lines into executable shell scripts with arguments and exit codes, then weigh the operating system choices available to you.",
+          "tier": "free",
+          "stage": ""
+        },
+        {
+          "n": 7,
+          "slug": "07-hardware-and-where-data-is-stored",
+          "id": "linux-07",
+          "title": "Understanding Computer Hardware and Where Data Is Stored",
+          "summary": "Power supplies, motherboards, memory, processors and storage devices, plus the Linux kernel, device files, processes and system logging.",
+          "tier": "free",
+          "stage": ""
+        },
+        {
+          "n": 8,
+          "slug": "08-networking-and-basic-security",
+          "id": "linux-08",
+          "title": "Your Computer on the Network and Basic Security",
+          "summary": "IPv4, IPv6, DNS and sockets on the wire, then the account types and privilege model that keep a Linux system safe.",
+          "tier": "free",
+          "stage": ""
+        },
+        {
+          "n": 9,
+          "slug": "09-users-groups-and-file-permissions",
+          "id": "linux-09",
+          "title": "Creating Users and Groups, and Managing Permissions and Ownership",
+          "summary": "Create and manage accounts and groups with the passwd family of tools, and control access with symbolic and numeric file permission modes.",
+          "tier": "free",
+          "stage": ""
+        },
+        {
+          "n": 10,
+          "slug": "10-special-directories-and-files",
+          "id": "linux-10",
+          "title": "Special Directories and Files",
+          "summary": "Temporary directories, hidden files, hard links and symbolic links: the special places a Linux filesystem uses to keep itself tidy.",
+          "tier": "free",
+          "stage": ""
+        }
+      ]
+    }
+  ]
+}

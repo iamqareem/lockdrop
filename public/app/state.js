@@ -10,6 +10,8 @@ export const state = {
   walletAddress: "",
   connecting: false,
   walletError: "",
+  /** The connected wallet, offered as the default payout address. */
+  sellerWallet: "",
 
   isDarkMode: localStorage.getItem("lockdrop_dark_mode") === "true",
 
@@ -17,24 +19,6 @@ export const state = {
   tursoReady: false,
   /** True when the escrow gateway (Pages Functions) is reachable. */
   escrowReady: false,
-
-  /* wizard */
-  wizardStep: 1,
-  categoryModalOpen: false,
-  title: "",
-  categoryId: "",
-  url: "",
-  summary: "",
-  report: null,
-  verifying: false,
-  unlockMode: "paid_ad",
-  tokenAddress: "0x0000000000000000000000000000000000000000",
-  tokenSymbol: "POL",
-  tokenDecimals: 18,
-  price: "5",
-  sellerWallet: "",
-  creating: false,
-  lastCreated: null,
 };
 
 const listeners = new Set();

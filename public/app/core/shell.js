@@ -17,6 +17,38 @@ import { escapeHtml, shortAddress } from "../util.js";
 import { parseHash, render } from "./router.js";
 import { bus } from "./bus.js";
 
+/**
+ * Asks for the search. The shell knows only the bus and the route — never
+ * which composer exists or where the query lives.
+ */
+function openSearch() {
+  bus.emit("search:open");
+  if (parseHash().view !== "feed") {
+    location.hash = "#/";
+    return;
+  }
+  bus.emit("search:focus");
+}
+
+// Bind the two triggers after each shell render, and the shortcut only once.
+function wireSearchTriggers() {
+  for (const id of ["searchOpenBtn", "searchTrigger"]) {
+    document.getElementById(id)?.addEventListener("click", openSearch);
+  }
+}
+
+document.addEventListener("keydown", (e) => {
+  const target = e.target;
+  const typing =
+    target instanceof HTMLElement &&
+    (target.matches("input, textarea, select") || target.isContentEditable);
+  if (typing) return;
+  if (e.key === "/" || ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k")) {
+    e.preventDefault();
+    openSearch();
+  }
+});
+
 export function navItems() {
   return [
     { id: "create", href: "#/lock", label: "Lock", icon: "lock" },
@@ -43,7 +75,12 @@ function topbarHtml(activeView) {
             )
             .join("")}
         </nav>
+        <div id="topSearchSlot" class="topsearch"></div>
         <div class="topbar-actions topbar-tools">
+          <button type="button" id="searchTrigger" class="search-trigger"
+            aria-label="Search the drops" title="Search ( / )">
+            ${icon("search", "", 15)}<span>Search</span><kbd>/</kbd>
+          </button>
           <button type="button" class="icon-btn" data-theme-toggle aria-label="Toggle theme">
             ${state.isDarkMode ? icon("sun", "", 16) : icon("moon", "", 16)}
           </button>
@@ -117,20 +154,6 @@ function walletIconHtml() {
     </button>`;
 }
 
-function footerHtml() {
-  const config = getConfig();
-  return `
-    <footer class="footer">
-      <div style="display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap">
-        <a href="#/" class="hover:underline">Polygon PoS Escrow</a>
-        <span>·</span>
-        <span>${config.features?.ai ? "AI verified" : "Locally verified"}</span>
-        <span>·</span>
-        <a href="#/admin" class="hover:underline">Admin</a>
-      </div>
-    </footer>`;
-}
-
 export function renderShell(activeView, mainHtml) {
   const root = document.getElementById("root");
   root.innerHTML = `
@@ -146,20 +169,10 @@ export function renderShell(activeView, mainHtml) {
         }
         ${mainHtml}
       </main>
-      ${footerHtml()}
       ${bottomNavHtml(activeView)}
     </div>`;
 
-  document.getElementById("searchOpenBtn")?.addEventListener("click", () => {
-    // The search service listens for this; the shell only knows that the
-    // button was pressed, not what a query is or where the list lives.
-    bus.emit("search:open");
-    if (parseHash().view !== "feed") {
-      location.hash = "#/";
-      return;
-    }
-    document.getElementById("feedSearch")?.focus();
-  });
+  wireSearchTriggers();
 
   document.querySelectorAll("[data-theme-toggle]").forEach((btn) => {
     btn.addEventListener("click", () => {

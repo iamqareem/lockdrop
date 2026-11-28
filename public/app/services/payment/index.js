@@ -11,6 +11,7 @@
 import { getDrop } from "../../drops.js";
 import { api } from "../../api.js";
 import { renderShell } from "../../core/shell.js";
+import { bus } from "../../core/bus.js";
 import { defineService } from "../../core/service.js";
 import { brandMark, icon } from "../../icons.js";
 import { CATEGORY_BY_ID } from "../../categories.js";
@@ -224,6 +225,8 @@ async function renderDropView(dropId) {
     document.getElementById("unlockedUrlInput").value = url;
     document.getElementById("unlockedAnchor").href = url;
     document.getElementById("unlockedBox").classList.remove("hidden");
+    // The roadmap service advances the learner's path from this one event.
+    bus.emit("drop:unlocked", drop);
   }
 
   async function releaseByTask(taskId) {

@@ -20,6 +20,15 @@ const onRequestPost = async ({ request, env }) => {
   const title = (body?.title || "").trim();
   const targetUrl = (body?.url || "").trim();
   const categoryId = (body?.categoryId || "download").trim();
+  const roadmapSlug = (body?.roadmapSlug || "").trim();
+  const stepSlug = (body?.stepSlug || "").trim();
+  if (
+    roadmapSlug.length > 80 || stepSlug.length > 120 ||
+    (roadmapSlug && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(roadmapSlug)) ||
+    (stepSlug && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(stepSlug))
+  ) {
+    return fail("Invalid roadmap placement.");
+  }
   if (title.length < 3 || title.length > 120) {
     return fail("Give the drop a title between 3 and 120 characters.");
   }
@@ -40,8 +49,8 @@ const onRequestPost = async ({ request, env }) => {
          id, title, summary, category_id, category, seller_wallet,
          token_address, token_symbol, token_decimals, price, unlock_mode, verdict,
          verdict_reason, verdict_score, verdict_source, is_admin_ad,
-         status, created_at
-       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 'active', ?)`,
+         status, created_at, roadmap_slug, step_slug
+       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 'active', ?, ?, ?)`,
       [
         id,
         title,
@@ -58,7 +67,9 @@ const onRequestPost = async ({ request, env }) => {
         reason,
         0,
         "platform",
-        createdAt
+        createdAt,
+        roadmapSlug,
+        stepSlug
       ]
     );
     await execute(
@@ -87,7 +98,9 @@ const onRequestPost = async ({ request, env }) => {
     verdict_source: "platform",
     is_admin_ad: 1,
     status: "active",
-    created_at: createdAt
+    created_at: createdAt,
+    roadmap_slug: roadmapSlug,
+    step_slug: stepSlug
   };
   return json({ drop: toPublicDrop(row) }, 201);
 };

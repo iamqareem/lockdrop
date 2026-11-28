@@ -1,15 +1,19 @@
 /**
- * The escrow contract source.
+ * The escrow contract service.
  *
  * Served from the backend so there is a single source of truth: the .sol file
  * in the repository is compiled into the function bundle at deploy time.
  */
-import { api } from "../api.js";
-import { renderShell } from "../core/shell.js";
-import { escapeHtml, copyText } from "../util.js";
+import { api } from "../../api.js";
+import { defineService } from "../../core/service.js";
+import { renderShell } from "../../core/shell.js";
+import { escapeHtml, copyText } from "../../util.js";
 
-export async function renderContractView() {
-  renderShell("contract", `<div class="narrow"><div class="panel empty">Loading source…</div></div>`);
+async function renderContractView() {
+  renderShell(
+    "contract",
+    `<div class="narrow"><div class="panel empty">Loading source…</div></div>`
+  );
 
   let source = "";
   try {
@@ -46,3 +50,5 @@ export async function renderContractView() {
     }, 1400);
   });
 }
+
+defineService({ id: "contract", render: renderContractView });

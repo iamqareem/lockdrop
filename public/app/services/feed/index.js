@@ -9,14 +9,13 @@
  * place. Only the list is re-rendered, never the whole shell, so the input
  * keeps its focus and the caret keeps its position while the user types.
  *
- * This service owns its state (`./state.js`). Nothing outside reaches into
- * it — the shell emits `search:open` on the bus and this service decides
- * what that means for its composer.
+ * This service owns the drop list, the category picker and the count; the
+ * search service (`./search`) owns the query and the composer. Feed imports
+ * search — never the other way around.
  */
-import { listDrops, searchDrops, countByCategory } from "../../drops.js";
-import { renderShell } from "../../core/shell.js";
-import { bus } from "../../core/bus.js";
+import { listDrops, countByCategory } from "../../drops.js";
 import { defineService } from "../../core/service.js";
+import { renderShell } from "../../core/shell.js";
 import { brandMark, icon } from "../../icons.js";
 import { CATEGORIES } from "../../categories.js";
 import {
@@ -28,10 +27,29 @@ import {
   verdictSlug,
   copyText,
 } from "../../util.js";
+import { bus } from "../../core/bus.js";
+import { parseHash, render } from "../../core/router.js";
+import {
+  composerHtml,
+  setListSize,
+  runSearch,
+  bind,
+  paintComposers,
+  mountTopSearch,
+  focusComposer,
+} from "../search/index.js";
+import { searchState } from "../search/state.js";
+import {
+  loadManifest,
+  roadmaps,
+  activeRoadmap,
+  selectRoadmap,
+  setEnabled,
+  joinSteps,
+  pathRailHtml,
+  stepBadgeHtml,
+} from "../roadmap/index.js";
 import { feedState } from "./state.js";
-
-/** Fast enough that the page feels like it is answering you. */
-const SEARCH_DEBOUNCE = 110;
 
 /** Guards against a slow response landing on top of a newer one. */
 let requestId = 0;
@@ -39,14 +57,27 @@ let requestId = 0;
 /** The query currently in flight, so the next one can cancel it. */
 let inFlight = null;
 
-/** The debounce timer for the composer. */
-let searchTimer = null;
+/** The bottom composer's binding, removed on unmount. */
+let unbindSearch = null;
+
+/** The top composer's binding, removed on unmount. */
+let unbindTopSearch = null;
 
 /** The document-level Escape handler, re-bound on every render. */
 let escapeHandler = null;
 
-/** The bus subscription returned by mount, removed on unmount. */
-let onSearchOpen = null;
+// The search service owns the inputs; it emits these instead of calling the
+// feed directly. Listen once at module load so both composers drive the same
+// query no matter which one is visible at this breakpoint.
+bus.on("search:changed", () => {
+  if (parseHash().view === "feed") void loadFeed();
+});
+bus.on("search:paint", () => {
+  if (parseHash().view === "feed") paintComposer();
+});
+bus.on("roadmap:changed", () => {
+  if (parseHash().view === "feed") render();
+});
 
 function cardHtml(drop) {
   const score = Math.max(0, Math.min(100, drop.verdictScore ?? 0));
@@ -63,6 +94,7 @@ function cardHtml(drop) {
       <div class="card-head">
         <span class="card-brand">${brandMark(drop.categoryId, "card-brand", 14)}</span>
         <span class="card-category">${escapeHtml(drop.category || drop.categoryId)}</span>
+        ${stepBadgeHtml(drop)}
         <span class="${verdictClass(drop.verdict)} card-verdict">
           <span class="verdict-dot"></span>${escapeHtml(drop.verdict || "Checked")}
         </span>
@@ -100,6 +132,29 @@ function cardHtml(drop) {
  * The theme and the wallet live in the top nav panel from tablet upwards,
  * and in the bottom bar on a phone. Either way they are never here.
  */
+function modeHtml() {
+  const paths = roadmaps();
+  if (!paths.length) return "";
+  const current = activeRoadmap();
+  const pathButton = `<button type="button" class="feed-tool${feedState.mode === "path" ? " is-active" : ""}"
+    data-feed-mode="path">Path</button>`;
+  const feedButton = `<button type="button" class="feed-tool${feedState.mode === "feed" ? " is-active" : ""}"
+    data-feed-mode="feed">Drops</button>`;
+  const selector = current
+    ? `<select id="roadmapSelect" class="select roadmap-select" aria-label="Learning path">
+        ${paths
+          .map(
+            (r) =>
+              `<option value="${escapeHtml(r.slug)}"${
+                r.slug === current.slug ? " selected" : ""
+              }>${escapeHtml(r.title)}</option>`
+          )
+          .join("")}
+       </select>`
+    : "";
+  return `<div class="feed-mode">${feedButton}${pathButton}${selector}</div>`;
+}
+
 function toolbarHtml() {
   const active = CATEGORIES.find((c) => c.id === feedState.feedCategory);
   return `
@@ -111,44 +166,8 @@ function toolbarHtml() {
           active ? active.label : "Categories"
         )}</span>
       </button>
+      ${modeHtml()}
       <a href="#/lock" class="btn btn-secondary feed-tool-cta">Lock a link</a>
-    </div>`;
-}
-
-/**
- * The status line inside the composer.
- *
- * It carries the count the old subtitle used to carry, in the one place
- * where a count belongs — next to the thing that produced it.
- */
-function statusText() {
-  if (feedState.searchStatus === "searching") return "searching";
-  if (feedState.searchStatus === "error") return "unavailable";
-  if (feedState.searchStatus === "ready") {
-    const n = feedState.searchCount;
-    return `${n} ${n === 1 ? "result" : "results"}`;
-  }
-  if (feedState.feedBusy) return "loading";
-  const n = feedState.drops.length;
-  return `${n} ${n === 1 ? "drop" : "drops"}`;
-}
-
-/**
- * The composer — the one vivid thing on the page.
- */
-function composerHtml() {
-  return `
-    <div class="composer${feedState.searchQuery ? " has-text" : ""}" role="search">
-      <span class="composer-icon">${icon("search", "", 16)}</span>
-      <input id="feedSearch" type="search" class="composer-input"
-        placeholder="Search the drops" aria-label="Search the drops"
-        autocomplete="off" spellcheck="false"
-        value="${escapeHtml(feedState.searchQuery)}" />
-      <span class="composer-status" id="composerStatus">${escapeHtml(
-        statusText()
-      )}</span>
-      <button type="button" class="composer-clear" id="searchClearBtn"
-        aria-label="Clear the search">${icon("close", "", 13)}</button>
     </div>`;
 }
 
@@ -163,34 +182,41 @@ function categoryModalHtml() {
   const counts = feedState.categoryCounts ?? {};
   const total = Object.values(counts).reduce((sum, n) => sum + n, 0);
 
-  const option = (id, label, hint) => `
-    <button type="button" class="category-option ${
-      feedState.feedCategory === id ? "is-active" : ""
-    }" data-feed-category="${escapeHtml(id)}">
-      ${brandMark(id || "all", "brand-mark", 16)}
-      <span class="category-option-text">
-        <span class="category-option-name">${escapeHtml(label)}</span>
-        <span class="category-option-hint">${escapeHtml(hint)}</span>
-      </span>
-      <span class="category-count" data-count-for="${escapeHtml(id)}">${
-        id ? (counts[id] ?? 0) : total
-      }</span>
-    </button>`;
+  const option = (id, label, hint) => {
+    const active = feedState.feedCategory === id;
+    return `
+      <button type="button" class="category-option ${active ? "is-active" : ""}" data-feed-category="${escapeHtml(id)}">
+        <span class="category-option-icon">
+          ${brandMark(id || "all", "brand-mark", 18)}
+        </span>
+        <span class="category-option-text">
+          <span class="category-option-name">${escapeHtml(label)}</span>
+          <span class="category-option-hint">${escapeHtml(hint)}</span>
+        </span>
+        <span class="category-option-right">
+          <span class="category-count" data-count-for="${escapeHtml(id)}">${
+            id ? (counts[id] ?? 0) : total
+          }</span>
+          ${active ? `<span class="category-check" aria-hidden="true">${icon("check", "", 14)}</span>` : ""}
+        </span>
+      </button>`;
+  };
 
   return `
-    <div class="modal-backdrop" id="feedCategoryBackdrop">
-      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="feedCategoryTitle">
+    <div class="modal-backdrop modal-backdrop--sheet" id="feedCategoryBackdrop">
+      <div class="modal modal--sheet" role="dialog" aria-modal="true" aria-labelledby="feedCategoryTitle">
+        <div class="sheet-handle" aria-hidden="true"></div>
         <div class="modal-head">
           <div>
-            <h2 class="modal-title" id="feedCategoryTitle">Browse by category</h2>
-            <p class="modal-subtitle">Everything that is locked, grouped by where it lives.</p>
+            <h2 class="modal-title" id="feedCategoryTitle">Category</h2>
+            <p class="modal-subtitle">Filter drops by where they live</p>
           </div>
           <button id="closeFeedCategory" type="button" class="icon-btn" aria-label="Close">
             ${icon("close", "", 14)}
           </button>
         </div>
-        <div class="category-grid">
-          ${option("", "Everything", "all drops")}
+        <div class="category-list">
+          ${option("", "Everything", "All locked drops")}
           ${CATEGORIES.map((cat) => option(cat.id, cat.label, cat.hint)).join("")}
         </div>
       </div>
@@ -203,21 +229,41 @@ function categoryModalHtml() {
  * Only this is repainted while the user types, which is why the composer
  * keeps its focus.
  */
+function skeletonsHtml() {
+  return `<div class="feed">${Array.from({ length: 6 })
+    .map(() => `<div class="skeleton" style="height:170px;margin-bottom:16px"></div>`)
+    .join("")}</div>`;
+}
+
 function listHtml() {
-  if (feedState.feedLoading && !feedState.feedLoaded) {
-    return `<div class="feed">${Array.from({ length: 6 })
+  if (feedState.mode === "path") {
+    const roadmap = activeRoadmap();
+    if (!roadmap) return `<div class="panel empty">No learning paths available yet.</div>`;
+    const steps = joinSteps(roadmap, feedState.drops).filter((s) => s.drop);
+    const rail = pathRailHtml(roadmap, steps);
+    if (feedState.feedLoading && !feedState.feedLoaded) return rail + skeletonsHtml();
+    if (!steps.length) {
+      return `${rail}<div class="panel empty">No pieces of this path have been published yet.</div>`;
+    }
+    return `${rail}<div class="feed path-feed">${steps
       .map(
-        () => `<div class="skeleton" style="height:170px;margin-bottom:16px"></div>`
+        (s) => `<div class="path-step${s.done ? " is-done" : ""}">
+          <span class="path-step-no mono">${s.n}</span>${cardHtml(s.drop)}
+        </div>`
       )
       .join("")}</div>`;
+  }
+
+  if (feedState.feedLoading && !feedState.feedLoaded) {
+    return skeletonsHtml();
   }
 
   if (feedState.drops.length === 0) {
     const category = CATEGORIES.find((c) => c.id === feedState.feedCategory);
     const where = category ? ` in ${category.label}` : "";
     let message;
-    if (feedState.searchQuery) {
-      message = `Nothing matches “${escapeHtml(feedState.searchQuery)}”${where}.`;
+    if (searchState.searchQuery) {
+      message = `Nothing matches “${escapeHtml(searchState.searchQuery)}”${where}.`;
     } else if (category) {
       message = `Nothing in ${escapeHtml(category.label)} yet.`;
     } else {
@@ -242,7 +288,7 @@ function paintFeed() {
   slot.innerHTML = listHtml();
   slot.classList.toggle(
     "is-busy",
-    feedState.searchStatus === "searching" || feedState.feedBusy
+    searchState.searchStatus === "searching" || feedState.feedBusy
   );
   document.getElementById("loadMoreBtn")?.addEventListener("click", loadMore);
 }
@@ -256,27 +302,10 @@ function paintFeed() {
  * caret never moves.
  */
 function paintComposer() {
-  const composer = document.querySelector(".composer");
-  if (!composer) return;
-  composer.classList.toggle("has-text", Boolean(feedState.searchQuery));
-  composer.classList.toggle(
-    "is-busy",
-    feedState.searchStatus === "searching" || feedState.feedBusy
-  );
-
-  const input = document.getElementById("feedSearch");
-  if (input && input.value !== feedState.searchQuery) {
-    input.value = feedState.searchQuery;
-    const end = feedState.searchQuery.length;
-    input.setSelectionRange(end, end);
-  }
-
-  const status = document.getElementById("composerStatus");
-  if (status) status.textContent = statusText();
-
+  paintComposers(feedState.drops.length, feedState.feedBusy);
   // The shell is rebuilt on every route change, so the composing flag has
   // to be carried across rather than remembered.
-  setComposing(feedState.searchOpen);
+  setComposing(searchState.searchOpen);
 }
 
 function paintToolbar() {
@@ -310,9 +339,8 @@ async function loadFeed() {
   const controller = new AbortController();
   inFlight = controller;
 
-  const term = (feedState.searchQuery || "").trim();
-  const searching = Boolean(term);
-  feedState.searchStatus = searching ? "searching" : "idle";
+  const term = searchState.searchQuery;
+  const searching = Boolean(term.trim());
   feedState.feedBusy = true;
   // The skeleton is only for the very first paint. Afterwards the old cards
   // stay on screen, dimmed, until the new ones arrive.
@@ -321,28 +349,34 @@ async function loadFeed() {
   paintComposer();
 
   try {
-    const data = searching
-      ? await searchDrops({
-          term,
-          category: feedState.feedCategory,
-          limit: 40,
-          signal: controller.signal,
-        })
-      : await listDrops({ limit: 40, category: feedState.feedCategory });
+    let drops;
+    if (searching) {
+      drops = await runSearch(term, {
+        category: feedState.feedCategory,
+        limit: 40,
+        signal: controller.signal,
+      });
+    } else {
+      const data = await listDrops({
+        limit: 40,
+        category: feedState.feedCategory,
+        signal: controller.signal,
+      });
+      drops = data.drops ?? [];
+      feedState.feedCursor = data.nextCursor ?? null;
+      feedState.feedHasMore = Boolean(data.hasMore);
+      setListSize(drops.length);
+    }
 
     if (id !== requestId) return;
-    feedState.drops = data.drops ?? [];
-    feedState.feedCursor = data.nextCursor ?? null;
-    feedState.feedHasMore = Boolean(data.hasMore);
-    feedState.searchCount = feedState.drops.length;
-    feedState.searchStatus = searching ? "ready" : "idle";
+    feedState.drops = drops;
     feedState.feedLoaded = true;
   } catch (err) {
     if (id !== requestId) return;
     if (err && err.name === "AbortError") return;
     feedState.drops = [];
     feedState.feedHasMore = false;
-    feedState.searchStatus = "error";
+    setListSize(0);
     feedState.feedLoaded = true;
   } finally {
     if (id !== requestId) return;
@@ -352,15 +386,6 @@ async function loadFeed() {
     paintFeed();
     paintComposer();
   }
-}
-
-/** Debounced so a fast typist makes one query, not one per keystroke. */
-function scheduleSearch() {
-  if (searchTimer) clearTimeout(searchTimer);
-  searchTimer = setTimeout(() => {
-    searchTimer = null;
-    loadFeed();
-  }, SEARCH_DEBOUNCE);
 }
 
 async function loadMore() {
@@ -438,45 +463,22 @@ function wireModal() {
  * alone on the bottom edge.
  */
 function setComposing(on) {
-  feedState.searchOpen = on;
   document.querySelector(".shell")?.classList.toggle("is-composing", on);
 }
 
 function wireFeed() {
-  const input = document.getElementById("feedSearch");
-  if (input) {
-    input.addEventListener("focus", () => setComposing(true));
-    input.addEventListener("blur", () => setComposing(false));
-    input.addEventListener("input", (e) => {
-      feedState.searchQuery = e.target.value;
-      paintComposer();
-      scheduleSearch();
-    });
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && feedState.searchQuery) {
-        e.preventDefault();
-        feedState.searchQuery = "";
-        paintComposer();
-        loadFeed();
-        input.focus();
-        return;
-      }
-      if (e.key === "Enter") {
-        e.preventDefault();
-        if (searchTimer) {
-          clearTimeout(searchTimer);
-          searchTimer = null;
-        }
-        loadFeed();
-      }
-    });
-  }
+  // The search service binds the composer input and emits search:changed;
+  // the feed only answers by reloading the list.
 
-  document.getElementById("searchClearBtn")?.addEventListener("click", () => {
-    feedState.searchQuery = "";
-    paintComposer();
-    document.getElementById("feedSearch")?.focus();
-    loadFeed();
+  document.querySelectorAll("[data-feed-mode]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      feedState.mode = btn.getAttribute("data-feed-mode") || "feed";
+      render();
+    });
+  });
+
+  document.getElementById("roadmapSelect")?.addEventListener("change", (e) => {
+    selectRoadmap(e.target.value);
   });
 
   document.getElementById("categoryBtn")?.addEventListener("click", () => {
@@ -530,14 +532,21 @@ function feedBodyHtml() {
 }
 
 async function renderFeed() {
+  await loadManifest();
   renderShell("feed", feedBodyHtml());
   wireFeed();
+  // One binding for the mobile dock, one for the desktop top-bar pill. Both
+  // share the search service's query state and emit the same events.
+  unbindSearch = bind(document.getElementById("feedSearch"), {
+    onCompose: setComposing,
+  });
+  unbindTopSearch = mountTopSearch();
 
   // The search icon on another view asks for the search, so the composer
   // comes up focused once the feed is on screen.
-  if (feedState.searchOpen) {
-    feedState.searchOpen = false;
-    document.getElementById("feedSearch")?.focus();
+  if (searchState.searchOpen) {
+    searchState.searchOpen = false;
+    focusComposer();
   }
 
   await loadFeed();
@@ -550,25 +559,16 @@ async function renderFeed() {
 }
 
 function mount() {
-  // The shell's search button emits this instead of touching feed state
-  // directly; the feed service decides what "open the search" means.
-  onSearchOpen = bus.on("search:open", () => {
-    feedState.searchOpen = true;
-    if (window.location.hash !== "#/" && window.location.hash !== "") {
-      location.hash = "#/";
-    }
-  });
+  /* Nothing to do on first activation — search binds per render. */
 }
 
 function unmount() {
-  onSearchOpen?.();
-  onSearchOpen = null;
+  unbindSearch?.();
+  unbindSearch = null;
+  unbindTopSearch?.();
+  unbindTopSearch = null;
   document.removeEventListener("keydown", escapeHandler);
   escapeHandler = null;
-  if (searchTimer) {
-    clearTimeout(searchTimer);
-    searchTimer = null;
-  }
   if (inFlight) {
     inFlight.abort();
     inFlight = null;
